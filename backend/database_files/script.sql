@@ -1,4 +1,8 @@
-CREATE DATABASE project;
+CREATE OR REPLACE USER 'dev'@'localhost' IDENTIFIED BY 'pass';
+DROP DATABASE IF EXISTS `project`;
+CREATE DATABASE IF NOT EXISTS `project` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
+USE `project`;
+GRANT ALL ON project.* TO 'dev'@'localhost';
 
 CREATE TABLE user (
 	username VARCHAR(20),
@@ -65,39 +69,42 @@ CREATE TABLE review(
 
 INSERT INTO user (username, firstname, lastname, usertype, accesskey) VALUES
 ('user1', 'John', 'Doe', 1, 'ABCD1234'),
-('user2', 'Jane', 'Smith', 2, 'EFGH5678'),
+('user2', 'Jane', 'Smith', 1, 'EFGH5678'),
 ('user3', 'Alice', 'Johnson', 1, 'IJKL9101'),
-('user4', 'Bob', 'Brown', 2, 'MNOP1121'),
+('user4', 'Bob', 'Brown', 1, 'MNOP1121'),
 ('user5', 'Charlie', 'Davis', 1, 'QRST3141'),
-('user6', 'Diana', 'Miller', 2, 'UVWX5161'),
+('user6', 'Diana', 'Miller', 1, 'UVWX5161'),
 ('user7', 'Edward', 'Wilson', 1, 'YZAB7181'),
-('user8', 'Fiona', 'Taylor', 2, 'CDEF9202'),
+('user8', 'Fiona', 'Taylor', 1, 'CDEF9202'),
 ('user9', 'George', 'Anderson', 1, 'GHIJ1223'),
-('user10', 'Hannah', 'Thomas', 2, 'KLMN3243');
+('user10', 'Hannah', 'Thomas', 1, 'KLMN3243'),
+('manager1', 'Eljohn', 'Evangelista', 2, '00000000'),
+('manager2', 'Cazhia', 'Lleva', 2, '00000001'),
+('admin1', 'Dave', 'Elcarte', 2, '11111111');
 
 INSERT INTO food_establishment (businessid, name, type, averageRating, street, barangay, city, province, username) VALUES
-(1, 'Deli Delight', 'Deli', 4.5678, 'Main St', 'Barangay 1', 'City A', 'Province X', 'user1'),
-(2, 'Pizza Place', 'Pizza', 4.3456, '1st Ave', 'Barangay 2', 'City B', 'Province Y', 'user2'),
-(3, 'Burger Bonanza', 'Burger', 4.1234, '2nd St', 'Barangay 3', 'City C', 'Province Z', 'user3'),
-(4, 'Sushi Spot', 'Sushi', 4.5678, '3rd Ave', 'Barangay 4', 'City D', 'Province X', 'user4'),
-(5, 'Taco Town', 'Mexican', 4.3456, '4th St', 'Barangay 5', 'City E', 'Province Y', 'user5'),
-(6, 'Curry Corner', 'Indian', 4.1234, '5th Ave', 'Barangay 6', 'City F', 'Province Z', 'user6'),
-(7, 'Noodle Nest', 'Chinese', 4.5678, '6th St', 'Barangay 7', 'City G', 'Province X', 'user7'),
-(8, 'Grill Galore', 'BBQ', 4.3456, '7th Ave', 'Barangay 8', 'City H', 'Province Y', 'user8'),
-(9, 'Pasta Paradise', 'Italian', 4.1234, '8th St', 'Barangay 9', 'City I', 'Province Z', 'user9'),
-(10, 'Salad Stop', 'Healthy', 4.5678, '9th Ave', 'Barangay 10', 'City J', 'Province X', 'user10');
+(1, 'Deli Delight', 'Deli', 4.5678, 'Main St', 'Barangay 1', 'City A', 'Province X', 'manager1'),
+(2, 'Pizza Place', 'Pizza', 4.3456, '1st Ave', 'Barangay 2', 'City B', 'Province Y', 'manager1'),
+(3, 'Burger Bonanza', 'Burger', 4.1234, '2nd St', 'Barangay 3', 'City C', 'Province Z', 'manager1'),
+(4, 'Sushi Spot', 'Sushi', 4.5678, '3rd Ave', 'Barangay 4', 'City D', 'Province X', 'manager1'),
+(5, 'Taco Town', 'Mexican', 4.3456, '4th St', 'Barangay 5', 'City E', 'Province Y', 'manager1'),
+(6, 'Curry Corner', 'Indian', 4.1234, '5th Ave', 'Barangay 6', 'City F', 'Province Z', 'manager1'),
+(7, 'Noodle Nest', 'Chinese', 4.5678, '6th St', 'Barangay 7', 'City G', 'Province X', 'manager1'),
+(8, 'Grill Galore', 'BBQ', 4.3456, '7th Ave', 'Barangay 8', 'City H', 'Province Y', 'manager1'),
+(9, 'Pasta Paradise', 'Italian', 4.1234, '8th St', 'Barangay 9', 'City I', 'Province Z', 'manager1'),
+(10, 'Salad Stop', 'Healthy', 4.5678, '9th Ave', 'Barangay 10', 'City J', 'Province X', 'manager1');
 
 INSERT INTO food (foodcode, name, price, isspecialty, isbestseller, averageRating, username, businessid) VALUES
-(1, 'Ham Sandwich', 5.50, TRUE, FALSE, 4.5, 'user1', 1),
-(2, 'Pepperoni Pizza', 8.99, FALSE, TRUE, 4.3, 'user2', 2),
-(3, 'Cheeseburger', 7.25, TRUE, FALSE, 4.1, 'user3', 3),
-(4, 'California Roll', 12.00, FALSE, TRUE, 4.6, 'user4', 4),
-(5, 'Taco', 3.75, TRUE, FALSE, 4.3, 'user5', 5),
-(6, 'Chicken Curry', 9.50, FALSE, TRUE, 4.1, 'user6', 6),
-(7, 'Beef Noodles', 8.00, TRUE, FALSE, 4.6, 'user7', 7),
-(8, 'BBQ Ribs', 15.00, FALSE, TRUE, 4.3, 'user8', 8),
-(9, 'Spaghetti', 7.50, TRUE, FALSE, 4.1, 'user9', 9),
-(10, 'Caesar Salad', 6.50, FALSE, TRUE, 4.6, 'user10', 10);
+(1, 'Ham Sandwich', 5.50, TRUE, FALSE, 4.5, 'manager2', 1),
+(2, 'Pepperoni Pizza', 8.99, FALSE, TRUE, 4.3, 'manager2', 2),
+(3, 'Cheeseburger', 7.25, TRUE, FALSE, 4.1, 'manager2', 3),
+(4, 'California Roll', 12.00, FALSE, TRUE, 4.6, 'manager2', 4),
+(5, 'Taco', 3.75, TRUE, FALSE, 4.3, 'manager2', 5),
+(6, 'Chicken Curry', 9.50, FALSE, TRUE, 4.1, 'manager2', 6),
+(7, 'Beef Noodles', 8.00, TRUE, FALSE, 4.6, 'manager2', 7),
+(8, 'BBQ Ribs', 15.00, FALSE, TRUE, 4.3, 'manager2', 8),
+(9, 'Spaghetti', 7.50, TRUE, FALSE, 4.1, 'manager2', 9),
+(10, 'Caesar Salad', 6.50, FALSE, TRUE, 4.6, 'manager2', 10);
 
 INSERT INTO food_type (foodcode, foodtype) VALUES
 (1, 'Sandwich'),
