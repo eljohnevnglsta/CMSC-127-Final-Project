@@ -12,8 +12,6 @@ export const checkUserType = (requiredUserType) => {
     try {
       const [rows] = await pool.query(SQLQuery, [username]);
 
-      console.log("Query result:", rows.usertype); // Add this line to debug
-
       if (rows.length === 0) {
         return res.status(404).json({ message: "User not found" });
       }
