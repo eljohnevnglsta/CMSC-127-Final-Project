@@ -45,11 +45,11 @@ const router = (app) => {
 
   //Reviews
   app.post("/review/add", checkUserType(1), addFoodReview);
-  app.post("/review/update", updateFoodReview);
-  app.post("/review/delete", deleteFoodReview);
+  app.post("/review/update", checkUserType(1), updateFoodReview);
+  app.post("/review/delete", checkUserType(1), deleteFoodReview);
 
   //Food Establishment
-  app.post("/establishment/add", addFoodEstablishment);
+  app.post("/establishment/add", checkUserType(2), addFoodEstablishment);
   //   app.post("establishment/delete");
   //   app.post("establishment/update");
 };
