@@ -10,12 +10,17 @@ import {
   searchFoodItemsByPrice,
 } from "./controllers/reports.js";
 import {
-  addFoodReview,
-  updateFoodReview,
-  deleteFoodReview,
+  addReview,
+  updateReview,
+  deleteReview,
   addFoodEstablishment,
   updateFoodEstablishment,
   deleteFoodEstablishment,
+  addFoodItem,
+  updateFoodItem,
+  deleteFoodItem,
+  searchFoodItem,
+  searchFoodEstablishment,
 } from "./controllers/features.js";
 import { checkUserType } from "./controllers/middleware.js";
 
@@ -46,15 +51,22 @@ const router = (app) => {
   /**************FEATURES*********************** */
   //checkUserType(1) - meaning userType 1 (users) lang pwede makaaccess. Magfforbidden kapag ibang user
   //Reviews
-  app.post("/review/add", checkUserType(1), addFoodReview);
-  app.post("/review/update", checkUserType(1), updateFoodReview);
-  app.post("/review/delete", checkUserType(1), deleteFoodReview);
+  app.post("/review/add", checkUserType(1), addReview);
+  app.post("/review/update", checkUserType(1), updateReview);
+  app.post("/review/delete", checkUserType(1), deleteReview);
 
-  //checkUserType(2) - meaning userType 2 lang pwede makaaccess. Magfforbidden kapag ibang user
+  //checkUserType(2) - meaning userType 2 lang pwede makaaccess. Magfforbidden kapag ibang usertype
   //Food Establishment
   app.post("/establishment/add", checkUserType(2), addFoodEstablishment);
-  app.post("establishment/delete", checkUserType(2), deleteFoodEstablishment);
-  app.post("establishment/update", checkUserType(2), updateFoodEstablishment);
+  app.post("/establishment/delete", checkUserType(2), deleteFoodEstablishment);
+  app.post("/establishment/update", checkUserType(2), updateFoodEstablishment);
+  app.post("/establishment/search", searchFoodEstablishment); //since anyone can search
+
+  // Food Items
+  app.post("/food-item/add", checkUserType(2), addFoodItem);
+  app.post("/food-item/update", checkUserType(2), updateFoodItem);
+  app.post("/food-item/delete", checkUserType(2), deleteFoodItem);
+  app.post("/food-item/search", searchFoodItem);
 };
 
 export default router;
