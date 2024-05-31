@@ -3,7 +3,7 @@ import Root from "./pages/Root";
 import Home from "./pages/Home";
 import FoodEstablishment from "./pages/FoodEstablishment";
 import Food from "./pages/Food";
-import Search from "./Search";
+import Search from "./pages/Search";
 import { Routes, Route, Navigate } from 'react-router-dom';
 const App = () => {
   return (
