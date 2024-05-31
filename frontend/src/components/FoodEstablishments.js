@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import axios from "axios";
 
 const FoodEstablishments = () => {
@@ -20,10 +21,12 @@ const FoodEstablishments = () => {
       <h1>Food Establishments</h1>
       <ul>
         {establishments.map((establishment) => (
-          <li key={establishment.businessid}>
-            {establishment.name} - {establishment.type} -{" "}
+          
+          <div key={establishment.businessid}>
+
+            <Link to>{establishment.name}</Link> - {establishment.type} -{" "}
             {establishment.averageRating}
-          </li>
+          </div>
         ))}
       </ul>
     </div>

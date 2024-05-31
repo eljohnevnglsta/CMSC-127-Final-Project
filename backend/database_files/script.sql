@@ -119,13 +119,13 @@ INSERT INTO food_type (foodcode, foodtype) VALUES
 (10, 'Salad');
 
 INSERT INTO review (reviewid, content, reviewtype, date_added, date_updated, rating, username, businessid, foodcode) VALUES
-(1, 'Delicious ham sandwich!', 1, '2023-01-01 10:00:00', NULL, 5, 'user2', 1, 1),
-(2, 'Best pepperoni pizza ever!', 2, '2023-02-01 11:00:00', NULL, 4, 'user3', 2, 2),
-(3, 'Great cheeseburger!', 1, '2023-03-01 12:00:00', NULL, 4, 'user4', 3, 3),
-(4, 'Loved the California roll!', 2, '2023-04-01 13:00:00', NULL, 5, 'user5', 4, 4),
-(5, 'Tasty taco!', 1, '2023-05-01 14:00:00', NULL, 4, 'user6', 5, 5),
-(6, 'Amazing chicken curry!', 2, '2023-06-01 15:00:00', NULL, 5, 'user7', 6, 6),
-(7, 'Delicious beef noodles!', 1, '2023-07-01 16:00:00', NULL, 4, 'user8', 7, 7),
-(8, 'BBQ ribs were great!', 2, '2023-08-01 17:00:00', NULL, 5, 'user9', 8, 8),
-(9, 'Loved the spaghetti!', 1, '2023-09-01 18:00:00', NULL, 4, 'user10', 9, 9),
-(10, 'Caesar salad was fresh!', 2, '2023-10-01 19:00:00', NULL, 5, 'user1', 10, 10);
+(1, 'Delicious ham sandwich!', 1, '2023-01-01 10:00:00', NULL, 5, 'user2', 1, NULL),
+(2, 'Best pepperoni pizza ever!', 2, '2023-02-01 11:00:00', NULL, 4, 'user3', NULL, 2),
+(3, 'Great cheeseburger!', 1, '2023-03-01 12:00:00', NULL, 4, 'user4', 3, NULL),
+(4, 'Loved the California roll!', 2, '2023-04-01 13:00:00', NULL, 5, 'user5', NULL, 4),
+(5, 'Tasty taco!', 1, '2023-05-01 14:00:00', NULL, 4, 'user6', 5, NULL),
+(6, 'Amazing chicken curry!', 2, '2023-06-01 15:00:00', NULL, 5, 'user7', NULL, 6),
+(7, 'Delicious beef noodles!', 1, '2023-07-01 16:00:00', NULL, 4, 'user8', 7, NULL),
+(8, 'BBQ ribs were great!', 2, '2023-08-01 17:00:00', NULL, 5, 'user9', NULL, 8),
+(9, 'Loved the spaghetti!', 1, '2023-09-01 18:00:00', NULL, 4, 'user10', 9, NULL),
+(10, 'Caesar salad was fresh!', 2, '2023-10-01 19:00:00', NULL, 5, 'user1', NULL, 10);

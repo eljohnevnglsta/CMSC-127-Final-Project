@@ -10,10 +10,13 @@ export const viewAllEstablishments = async (req, res) => {
 // View all food reviews for an establishment
 // req.body: {name: "establishment name"}
 export const viewAllReviewsForEstablishment = async (req, res) => {
-    const findQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
-    const found = await pool.query(findQuery);
 
+    const findQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
+
+    const found = await pool.query(findQuery);
+   
     if (found.length == 0) {
+  
         res.status(404).send("Establishment not found");
         return;
     }
@@ -22,10 +25,11 @@ export const viewAllReviewsForEstablishment = async (req, res) => {
     const response = await pool.query(SQLQuery);
 
     if (response.length == 0) {
+ 
         res.status(404).send("No reviews found for this establishment");
         return;
     }
-
+    console.log(response)
     res.status(200).json(response);
 }
 
@@ -57,7 +61,7 @@ export const viewAllReviewsForFoodItem = async (req, res) => {
 export const viewAllFoodItemsForEstablishment = async (req, res) => {
     const findQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
     const found = await pool.query(findQuery);
-
+    console.log('hey2')
     if (found.length == 0) {
         res.status(404).send("Establishment not found");
         return;
@@ -90,12 +94,12 @@ export const viewAllFoodItemsForEstablishmentByType = async (req, res) => {
     }
 
     const SQLQuery = (
-        `SELECT f.foodcode, f.name, f.price, t.foodtype 
+        `SELECT f.foodcode, f.name, f.price, t.foodtype, f.averageRating
         FROM food f 
         JOIN food_type t 
         ON f.foodcode = t.foodcode 
         WHERE f.businessid = (${findQuery}) 
-        AND t.foodtype = "${req.body.foodtype}"`
+        AND t.foodtype = "${req.body.foodtype}" ORDER BY f.price ${req.body.order}`
     );
     const response = await pool.query(SQLQuery);
 
@@ -110,11 +114,24 @@ export const viewAllFoodItemsForEstablishmentByType = async (req, res) => {
 // View all reviews made within a month for an establishment or a food item;
 // req.body: {date: "Month Year" (ex: May 2024), reviewtype: 1 (1 = establishment, 2 = food item)}
 export const viewAllReviewsForMonth = async (req, res) => {
+
+    const findQuery = (`SELECT 
+        businessid 
+        FROM food_establishment 
+        WHERE name = "${req.body.name}"`
+    );
+    const found = await pool.query(findQuery);
+
+    if (found.length == 0) {
+        res.status(404).send("Establishment not found");
+        return;
+    }
+
     const SQLQuery = (
         `SELECT * FROM review WHERE 
-        MONTH(date_added) = MONTH(STR_TO_DATE('${req.body.date}', '%M %Y')) 
-        AND YEAR(date_added) = YEAR(STR_TO_DATE('${req.body.date}', '%M %Y')) 
-        AND reviewtype = ${req.body.reviewtype};`
+        MONTH(date_added) = MONTH(STR_TO_DATE('${req.body.date}', '%Y-%m-%d')) 
+        AND YEAR(date_added) = YEAR(STR_TO_DATE('${req.body.date}', '%Y-%m-%d')) 
+        AND businessid = (${findQuery}) ;`
     );
     const response = await pool.query(SQLQuery);
     if (response.length == 0) {
@@ -125,6 +142,22 @@ export const viewAllReviewsForMonth = async (req, res) => {
     res.status(200).json(response);
 }
 
+export const viewAllReviewsForFoodMonth= async (req, res) => {
+
+    const SQLQuery = (
+        `SELECT * FROM review WHERE 
+        MONTH(date_added) = MONTH(STR_TO_DATE('${req.body.date}', '%Y-%m-%d')) 
+        AND YEAR(date_added) = YEAR(STR_TO_DATE('${req.body.date}', '%Y-%m-%d')) 
+        AND foodcode = (${req.body.foodcode}) ;`
+    );
+    const response = await pool.query(SQLQuery);
+    if (response.length == 0) {
+        res.status(404).send(`No reviews found for this month`);
+        return;
+    }
+
+    res.status(200).json(response);
+}
 //View all establishments with a high average rating (rating>=4). (ratings from 1-5; highest is 5);
 export const viewHighlyRatedEstablishments = async (req, res) => {
     const SQLQuery = `SELECT * FROM food_establishment WHERE averageRating >= 4 ORDER BY averageRating DESC;`;
@@ -142,14 +175,13 @@ export const viewHighlyRatedEstablishments = async (req, res) => {
 export const viewAllFoodItemsForEstablishmentByPrice = async (req, res) => {
     const findQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
     const found = await pool.query(findQuery);
-
     if (found.length == 0) {
         res.status(404).send("Establishment not found");
         return;
     }
 
     const SQLQuery = (
-        `SELECT * FROM food WHERE businessid = (${findQuery}) ORDER BY price ASC;`
+        `SELECT * FROM food WHERE businessid = (${findQuery}) ORDER BY price ${req.body.order};`
     );
 
     const response = await pool.query(SQLQuery);
@@ -178,5 +210,40 @@ export const searchFoodItemsByPrice = async (req, res) => {
         return;
     }
 
+    res.status(200).json(response);
+}
+
+
+export const selectType = async (req, res) => {
+    const SQLQuery = "SELECT foodtype FROM food_type;"
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}
+
+export const selectBusinessOfFood = async(req, res) =>{
+    const findQuery = `SELECT businessid FROM food WHERE foodcode = "${req.body.foodcode}"`;
+    const found = await pool.query(findQuery);
+    if (found.length == 0) {
+        res.status(404).send("Establishment not found");
+        return;
+    }
+
+    const SQLQuery = (
+        `SELECT * FROM food_establishment WHERE businessid = (${findQuery});`
+    );
+
+    const response = await pool.query(SQLQuery);
+    if (response.length == 0) {
+        res.status(404).send("No food items found for this establishment");
+        return;
+    }
+
+    res.status(200).json(response);
+}
+
+
+export const selectOneFood = async (req, res) => {
+    const SQLQuery = `SELECT x.*, t.foodtype FROM food_type t JOIN (SELECT f.*,b.name AS est FROM food f JOIN food_establishment b ON f.businessid = b.businessid)x ON t.foodcode = x.foodcode WHERE x.foodcode = ${req.body.foodcode}`;
+    const response = await pool.query(SQLQuery);
     res.status(200).json(response);
 }
