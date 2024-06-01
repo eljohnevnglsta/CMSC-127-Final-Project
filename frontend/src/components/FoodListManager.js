@@ -116,7 +116,7 @@ function FoodListManager (props){
                             <p>{food.price}</p>
                             
                             
-                            <p>Average Rating: {food.averageRating}</p>
+                            {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
                             {food.isspecialty === 1? <p>Specialty!</p> : null}
                             {food.isbestseller === 1? <p>Best Seller!</p>: null}
                             <button onClick={()=> handleDelete(food.foodcode)}>Delete Food </button>

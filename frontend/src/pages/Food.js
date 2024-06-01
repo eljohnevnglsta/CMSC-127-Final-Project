@@ -144,20 +144,25 @@ function Food() {
     // setPassDate(formattedDate);
   };
 
-  return (
-    <div className="food-container">
-      {fooddata.map((food) => {
-        return (
-          <div className="food-details">
-            <h1>{food.name}</h1>
-            <h3>From: {food.est}</h3>
-            <h3>Type: {food.foodtype}</h3>
-            <p> Average Rating: {food.averageRating} </p>
-            {food.isspecialty === 1 ? <p>Specialty!</p> : null}
-            {food.isbestseller === 1 ? <p>Best Seller!</p> : null}
-          </div>
-        );
-      })}
+
+    return(
+        <div className="food-container">
+
+        {
+            fooddata.map((food) =>{
+                return(
+                    <div className="food-details">
+                        <h1>{food.name}</h1>
+                        <h3>From: {food.est}</h3>
+                        <h3>Type: {food.foodtype}</h3>
+                        {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
+                        {food.isspecialty === 1? <p>Specialty!</p> : null}
+                        {food.isbestseller === 1? <p>Best Seller!</p>: null}
+                        <Link to={`/write/?reviewType=food&establishment=${food.est}&food=${food.name}`}><button>Write a review</button></Link>
+                    </div>
+                )
+            })
+        }
 
       <h1>Reviews</h1>
       <div className="reviews-container">

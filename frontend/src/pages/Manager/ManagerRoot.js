@@ -9,6 +9,17 @@ function ManagerRoot (){
                 <ul>
                     <li><Link to={'/manager'}>Home</Link></li>
                     <li><Link to={'/manager/add-establishment'}>Register an Establishment</Link></li>
+                    <li
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            localStorage.removeItem("admin");
+            localStorage.removeItem("manager");
+            localStorage.removeItem("user");
+            window.location.replace("/");
+          }}
+        >
+          Log Out
+        </li>
                 </ul>
             </nav>  
             <Outlet context={username}/>

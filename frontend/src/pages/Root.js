@@ -10,6 +10,9 @@ function Root() {
         <li>
           <Link to="/search">Search</Link>
         </li>
+        <li>
+          <Link to="/write">Write a review</Link>
+        </li>
         <li
           style={{ cursor: "pointer" }}
           onClick={() => {

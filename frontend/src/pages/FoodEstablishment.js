@@ -21,12 +21,10 @@ function FoodEstablishment() {
   return (
     <div className="food-establishment-container">
       <h1>{name}</h1>
-      <p>Average Rating: {businessDetails.averageRating}</p>
-      <p>Type: {businessDetails.type}</p>
-      <p>
-        Address: {businessDetails.street}, {businessDetails.barangay},{" "}
-        {businessDetails.city}, {businessDetails.province}
-      </p>
+            <p>Average Rating: {businessDetails.averageRating}</p>
+            <p>Type: {businessDetails.type}</p>
+            <p>Address: {businessDetails.street}, {businessDetails.barangay}, {businessDetails.city}, {businessDetails.province}</p>
+            <Link to={`/write/?reviewType=establishment&establishment=${name}`}><button>Write a review</button></Link>
       <button
         onClick={() => {
           setShowReview(false);

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const getAllEstablishments = async () => {
     try {
@@ -34,7 +36,7 @@ const getFoodsByEstablishment = async (establishment) => {
 // app.post("/get-foodcode", checkUserType(1), getFoodCode);
 
 
-const handleSubmit = async (e, reviewType) => {
+const handleSubmit = async (e, reviewType, navigate) => {
     // { content, reviewtype, rating, username, businessid, foodcode }
     e.preventDefault();
 
@@ -45,7 +47,7 @@ const handleSubmit = async (e, reviewType) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name: e.target.businessid.value})
+            body: JSON.stringify({name: e.target.businessid.value, searchCriteria: 'name'})
         });
         const data = await response.json();
         console.log(data);
@@ -62,7 +64,7 @@ const handleSubmit = async (e, reviewType) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({name: e.target.foodcode.value, businessid: businessid})
+                body: JSON.stringify({name: e.target.foodcode.value, businessid: businessid, searchCriteria: 'name'})
             });
             const data = await response.json();
             console.log(data);
@@ -90,6 +92,7 @@ const handleSubmit = async (e, reviewType) => {
             body: JSON.stringify(data)
         });
         console.log('Review added:', response);
+        navigate('/')
     } catch (error) {
         console.error('Error adding review:', error);
     }
@@ -100,6 +103,7 @@ export default function AddReview() {
     const [reviewType, setReviewType] = useState('establishment');
     const [selectedEstablishment, setSelectedEstablishment] = useState('');
     const [foods, setFoods] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fetch establishment names when the component mounts
@@ -121,6 +125,23 @@ export default function AddReview() {
             }
         };
         fetchFoods();
+
+        
+        const params = new URLSearchParams(window.location.search);
+        const reviewTypeParam = params.get('reviewType');
+        const establishmentParam = params.get('establishment');
+        const foodParam = params.get('food');
+
+        if (reviewTypeParam) {
+            setReviewType(reviewTypeParam);
+        }
+        if (establishmentParam) {
+            setSelectedEstablishment(establishmentParam);
+        }
+        if (foodParam && reviewTypeParam === 'food') {
+            setFoods([foodParam]);
+        }
+
     }, [selectedEstablishment, reviewType]);
 
     const handleReviewTypeChange = (e) => {
@@ -134,7 +155,7 @@ export default function AddReview() {
     return (
         <div>
             <h1>Add a Review</h1>
-            <form onSubmit={(e) => handleSubmit(e, reviewType)}>
+            <form onSubmit={(e) => handleSubmit(e, reviewType, navigate)}>
                 <label>Review Type:</label>
                 <input
                     type="radio"

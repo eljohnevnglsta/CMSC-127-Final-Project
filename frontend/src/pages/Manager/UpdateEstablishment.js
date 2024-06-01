@@ -8,7 +8,7 @@ function UpdateEstablishment (props) {
     const [street, setStreet] = useState('');
     const [barangay, setBarangay] = useState('');
     const [city, setCity] = useState('');
-    const [province, setProvince] = useState('');
+    const [province, setProvince] = useState(''); 
     const navigate = useNavigate();
     useEffect(()=>{
         let url = `http://localhost:3001/select-establishment-details/${name}`

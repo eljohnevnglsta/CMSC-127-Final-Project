@@ -12,6 +12,7 @@ import ManagerFood from "./pages/Manager/ManagerFood";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import UpdateEstablishment from "./pages/Manager/UpdateEstablishment";
 import LoginPage from "./pages/LoginPage";
+import AddReview from "./pages/AddReview";
 
 const isAdmin = !!localStorage.getItem("admin");
 const isManager = !!localStorage.getItem("manager");
@@ -32,6 +33,9 @@ return (
           />
           <Route path="/food/:code" element={<Food />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/write" element={<AddReview />} />
+
+          
         </Route>
       )}
       {isAdmin && (

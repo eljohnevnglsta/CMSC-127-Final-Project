@@ -28,7 +28,7 @@ function ManagerHome (){
                             <Link to={`/manager/food-establishment/${business.name}`}>
                             <h1>{business.name}</h1> </Link>
                             <h5>Type: {business.type}</h5>
-                            <h5>Rating: {business.averageRating}</h5>
+                            {business.averageRating ? <h5>Rating: {business.averageRating}</h5>: <p>Newly added establishment!</p> }
                         </div>
                         
                         )
