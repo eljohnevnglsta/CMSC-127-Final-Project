@@ -64,7 +64,7 @@ const router = (app) => {
   //Reviews
   app.post("/review/add", checkUserType(1), addReview);
   app.post("/review/update", checkUserType(1), updateReview);
-  app.post("/review/delete", checkUserType(1), deleteReview);
+  app.post("/review/delete", deleteReview);
 
   //checkUserType(2) - meaning userType 2 lang pwede makaaccess. Magfforbidden kapag ibang usertype
   //Food Establishment

@@ -10,16 +10,15 @@ export const addReview = async (req, res) => {
   const { content, reviewtype, rating, username, businessid, foodcode } =
     req.body;
   const SQLQuery = `INSERT INTO review (content, reviewtype, date_added, rating, username, businessid, foodcode) VALUES (?, ?, curdate(), ?, ?, ?, ?)`;
-  var fcode = (reviewtype == 1 ? null : foodcode)
-  var bID = (reviewtype == 2 ? null : businessid)
+
   try {
     const response = await pool.query(SQLQuery, [
       content,
       reviewtype,
       rating,
       username,
-      bID,
-      fcode
+      businessid,
+      foodcode,
     ]);
     //kada add ng review, dapat nasset na yung averageRating nung food/establishment na ginawan ng review
     if (reviewtype == 2) {
@@ -86,6 +85,8 @@ export const deleteReview = async (req, res) => {
     const found = await pool.query(reviewtypeQuery, [reviewid, username]);
 
     if (found.length === 0) {
+      console.log(reviewid);
+      console.log(username);
       return res
         .status(404)
         .send(
@@ -110,8 +111,10 @@ export const deleteReview = async (req, res) => {
     }
 
     res.status(200).json(response);
+    console.log("success");
   } catch (error) {
     res.status(500).send(error.message);
+    console.log(error.message);
   }
 };
 
@@ -213,7 +216,7 @@ export const searchFoodEstablishment = async (req, res) => {
 /*******************FOOD ITEMS************/
 // Add a food item
 export const addFoodItem = async (req, res) => {
-  const { name, price, businessid, username } = req.body;
+  const { name, price, businessid, username, foodtype } = req.body;
   const SQLQuery = `INSERT INTO food (name, price, businessid, username) VALUES (?, ?, ?, ?)`;
 
   try {
@@ -223,6 +226,17 @@ export const addFoodItem = async (req, res) => {
       businessid,
       username,
     ]);
+    const foodcode = Number(response.insertId);
+    console.log("Inserted foodcode:", foodcode);
+
+    //insert new foodtype
+    if (foodtype.length != 0) {
+      const insertFoodTypeQuery = `INSERT INTO food_type (foodcode, foodtype) VALUES (?, ?)`;
+      for (const type in foodtype) {
+        await pool.query(insertFoodTypeQuery, [foodcode, foodtype[type]]);
+      }
+    }
+
     res.status(201).json(response);
   } catch (error) {
     res.status(500).send(error.message);
@@ -231,11 +245,28 @@ export const addFoodItem = async (req, res) => {
 
 // Update a food item
 export const updateFoodItem = async (req, res) => {
-  const { name, price, foodcode } = req.body;
-  const SQLQuery = `UPDATE food SET name = ?,  price = ? WHERE foodcode = ?`;
+  const { name, price, foodcode, foodtype, username } = req.body;
+  const SQLQuery = `UPDATE food SET name = ?,  price = ? WHERE foodcode = ? and username = ?`;
 
   try {
-    const response = await pool.query(SQLQuery, [name, price, foodcode]);
+    const response = await pool.query(SQLQuery, [
+      name,
+      price,
+      foodcode,
+      username,
+    ]);
+    //delete old food type
+    const deleteFoodType = `DELETE from food_type where foodcode = ?`;
+    await pool.query(deleteFoodType, [foodcode]);
+
+    //insert new foodtype
+    if (foodtype.length != 0) {
+      const insertFoodTypeQuery = `INSERT INTO food_type (foodcode, foodtype) VALUES (?, ?)`;
+      for (const type in foodtype) {
+        await pool.query(insertFoodTypeQuery, [foodcode, foodtype[type]]);
+      }
+    }
+
     res.status(200).json(response);
   } catch (error) {
     res.status(500).send(error.message);
@@ -251,6 +282,10 @@ export const deleteFoodItem = async (req, res) => {
     //Delete reviews associated with the food first
     const deleteReviewQuery = `DELETE FROM review WHERE foodcode=?`;
     const deletedReview = await pool.query(deleteReviewQuery, [foodcode]);
+
+    //Delete associated foodtypes
+    const deleteFoodType = `DELETE from food_type where foodcode = ?`;
+    await pool.query(deleteFoodType, [foodcode]);
 
     const response = await pool.query(SQLQuery, [foodcode]);
     res.status(200).json(response);

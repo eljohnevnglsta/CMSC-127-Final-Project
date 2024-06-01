@@ -7,7 +7,6 @@ function FoodEstablishment() {
 
   const [showReview, setShowReview] = useState(false);
 
-  const isAdmin = !!localStorage.getItem("admin");
   return (
     <div className="food-establishment-container">
       <h1>{name}</h1>
