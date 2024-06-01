@@ -17,6 +17,8 @@ import {
   viewAllReviews,
   getReview,
   searchFoodItemsByType,
+  viewAllEstablishmentsForManager,
+  selectEstablishmentDetails,
 } from "./controllers/reports.js";
 
 import {
@@ -62,6 +64,13 @@ const router = (app) => {
   app.post("/select-food-business", selectBusinessOfFood);
   app.post("/select-food", selectOneFood);
   app.post("/select-food-review-month", viewAllReviewsForFoodMonth);
+  app.get('/select-type', selectType);
+  app.post('/view-establishment-review',viewAllReviewsForEstablishment);
+  app.post('/select-food-business', selectBusinessOfFood)
+  app.post('/select-food', selectOneFood)
+  app.post('/select-food-review-month', viewAllReviewsForFoodMonth)
+  app.get('/view-all-establishment-manager/:username', viewAllEstablishmentsForManager)
+  app.get('/select-establishment-details/:name', selectEstablishmentDetails)
   /**************FEATURES*********************** */
   //checkUserType(1) - meaning userType 1 (users) lang pwede makaaccess. Magfforbidden kapag ibang user
   //Reviews

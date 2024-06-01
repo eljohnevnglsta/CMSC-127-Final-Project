@@ -318,3 +318,15 @@ export const getReview = async (req, res) => {
     }
     res.status(200).json(response);
 }
+
+export const viewAllEstablishmentsForManager = async (req, res) => {
+    const SQLQuery = `SELECT * FROM food_establishment WHERE username = "${req.params.username}";`
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}
+
+export const selectEstablishmentDetails= async (req, res) => {
+    const SQLQuery = `SELECT * FROM food_establishment WHERE name = "${req.params.name}";`
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}

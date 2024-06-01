@@ -88,18 +88,18 @@ INSERT INTO food_establishment (businessid, name, type, averageRating, street, b
 (3, 'Burger Bonanza', 'Burger', 4.1234, '2nd St', 'Barangay 3', 'City C', 'Province Z', 'manager1'),
 (4, 'Sushi Spot', 'Sushi', 4.5678, '3rd Ave', 'Barangay 4', 'City D', 'Province X', 'manager1'),
 (5, 'Taco Town', 'Mexican', 4.3456, '4th St', 'Barangay 5', 'City E', 'Province Y', 'manager1'),
-(6, 'Curry Corner', 'Indian', 4.1234, '5th Ave', 'Barangay 6', 'City F', 'Province Z', 'manager1'),
-(7, 'Noodle Nest', 'Chinese', 4.5678, '6th St', 'Barangay 7', 'City G', 'Province X', 'manager1'),
-(8, 'Grill Galore', 'BBQ', 4.3456, '7th Ave', 'Barangay 8', 'City H', 'Province Y', 'manager1'),
-(9, 'Pasta Paradise', 'Italian', 4.1234, '8th St', 'Barangay 9', 'City I', 'Province Z', 'manager1'),
-(10, 'Salad Stop', 'Healthy', 4.5678, '9th Ave', 'Barangay 10', 'City J', 'Province X', 'manager1');
+(6, 'Curry Corner', 'Indian', 4.1234, '5th Ave', 'Barangay 6', 'City F', 'Province Z', 'manager2'),
+(7, 'Noodle Nest', 'Chinese', 4.5678, '6th St', 'Barangay 7', 'City G', 'Province X', 'manager2'),
+(8, 'Grill Galore', 'BBQ', 4.3456, '7th Ave', 'Barangay 8', 'City H', 'Province Y', 'manager2'),
+(9, 'Pasta Paradise', 'Italian', 4.1234, '8th St', 'Barangay 9', 'City I', 'Province Z', 'manager2'),
+(10, 'Salad Stop', 'Healthy', 4.5678, '9th Ave', 'Barangay 10', 'City J', 'Province X', 'manager2');
 
 INSERT INTO food (foodcode, name, price, isspecialty, isbestseller, averageRating, username, businessid) VALUES
-(1, 'Ham Sandwich', 5.50, TRUE, FALSE, 4.5, 'manager2', 1),
-(2, 'Pepperoni Pizza', 8.99, FALSE, TRUE, 4.3, 'manager2', 2),
-(3, 'Cheeseburger', 7.25, TRUE, FALSE, 4.1, 'manager2', 3),
-(4, 'California Roll', 12.00, FALSE, TRUE, 4.6, 'manager2', 4),
-(5, 'Taco', 3.75, TRUE, FALSE, 4.3, 'manager2', 5),
+(1, 'Ham Sandwich', 5.50, TRUE, FALSE, 4.5, 'manager1', 1),
+(2, 'Pepperoni Pizza', 8.99, FALSE, TRUE, 4.3, 'manager1', 2),
+(3, 'Cheeseburger', 7.25, TRUE, FALSE, 4.1, 'manager1', 3),
+(4, 'California Roll', 12.00, FALSE, TRUE, 4.6, 'manager1', 4),
+(5, 'Taco', 3.75, TRUE, FALSE, 4.3, 'manager1', 5),
 (6, 'Chicken Curry', 9.50, FALSE, TRUE, 4.1, 'manager2', 6),
 (7, 'Beef Noodles', 8.00, TRUE, FALSE, 4.6, 'manager2', 7),
 (8, 'BBQ Ribs', 15.00, FALSE, TRUE, 4.3, 'manager2', 8),
