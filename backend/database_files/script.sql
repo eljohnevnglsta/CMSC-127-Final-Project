@@ -141,3 +141,32 @@ INSERT INTO review (reviewid, content, reviewtype, date_added, date_updated, rat
 (18, 'Great', 1, '2023-08-01 17:00:00', NULL, 5, 'user9', 8, NULL),
 (19, 'Love it', 1, '2023-09-01 18:00:00', NULL, 4, 'user10', 9, NULL),
 (20, 'Relaxing', 1, '2023-10-01 19:00:00', NULL, 5, 'user1', 10, NULL);
+
+UPDATE food f JOIN (
+	SELECT 
+        foodcode, 
+        AVG(rating) AS avg_rating
+    FROM 
+        review
+    WHERE 
+        foodcode IS NOT NULL
+    GROUP BY 
+        foodcode
+) r ON f.foodcode = r.foodcode
+SET 
+    f.averageRating = r.avg_rating;
+
+UPDATE food_establishment fe
+JOIN (
+    SELECT 
+        businessid, 
+        AVG(rating) AS avg_rating
+    FROM 
+        review
+    WHERE 
+        businessid IS NOT NULL
+    GROUP BY 
+        businessid
+) r ON fe.businessid = r.businessid
+SET 
+    fe.averageRating = r.avg_rating;
