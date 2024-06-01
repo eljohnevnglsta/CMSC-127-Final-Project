@@ -9,7 +9,6 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
-      {/* <EditReview /> */}
     </BrowserRouter>
   </React.StrictMode>
 );

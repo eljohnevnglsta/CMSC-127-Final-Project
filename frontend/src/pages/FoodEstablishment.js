@@ -1,28 +1,37 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import FoodList from '../components/FoodList';
-import EstablishmentReview from '../components/EstablishmentReview';
-function FoodEstablishment () {
-    let {name} = useParams();
-   
-    const [showReview, setShowReview] = useState(false)
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import FoodList from "../components/FoodList";
+import EstablishmentReview from "../components/EstablishmentReview";
+function FoodEstablishment() {
+  let { name } = useParams();
 
-    
-    return(
-        
-        <div className='food-establishment-container'>
-            <h1>{name}</h1>
-            <button onClick={() =>{
-                setShowReview(false)
-            }}>Foods</button>
-            <button onClick={() => {
-                setShowReview(true)
-            }}>Reviews</button>
-            {
-                showReview ? <EstablishmentReview name={name} /> : <FoodList name={name} />
-            }
-        </div>
-    )
+  const [showReview, setShowReview] = useState(false);
+
+  const isAdmin = !!localStorage.getItem("admin");
+  return (
+    <div className="food-establishment-container">
+      <h1>{name}</h1>
+      <button
+        onClick={() => {
+          setShowReview(false);
+        }}
+      >
+        Foods
+      </button>
+      <button
+        onClick={() => {
+          setShowReview(true);
+        }}
+      >
+        Reviews
+      </button>
+      {showReview ? (
+        <EstablishmentReview name={name} />
+      ) : (
+        <FoodList name={name} />
+      )}
+    </div>
+  );
 }
 
-export default FoodEstablishment
+export default FoodEstablishment;
