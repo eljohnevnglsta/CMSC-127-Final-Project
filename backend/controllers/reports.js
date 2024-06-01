@@ -14,7 +14,6 @@ export const viewAllReviewsForEstablishment = async (req, res) => {
     const findQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
 
     const found = await pool.query(findQuery);
-   
     if (found.length == 0) {
   
         res.status(404).send("Establishment not found");
@@ -61,7 +60,6 @@ export const viewAllReviewsForFoodItem = async (req, res) => {
 export const viewAllFoodItemsForEstablishment = async (req, res) => {
     const findQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
     const found = await pool.query(findQuery);
-    console.log('hey2')
     if (found.length == 0) {
         res.status(404).send("Establishment not found");
         return;
@@ -244,6 +242,36 @@ export const selectBusinessOfFood = async(req, res) =>{
 
 export const selectOneFood = async (req, res) => {
     const SQLQuery = `SELECT x.*, t.foodtype FROM food_type t JOIN (SELECT f.*,b.name AS est FROM food f JOIN food_establishment b ON f.businessid = b.businessid)x ON t.foodcode = x.foodcode WHERE x.foodcode = ${req.body.foodcode}`;
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}
+
+export const getBusinessId = async (req, res) => {
+    const SQLQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
+    const response = await pool.query(SQLQuery);
+
+    if (response.length == 0) {
+        res.status(404).send("Establishment not found");
+        return;
+    }
+
+    res.status(200).json(response);
+}
+
+export const getFoodCode = async (req, res) => {
+    const SQLQuery = `SELECT foodcode FROM food WHERE name = "${req.body.name}" and businessid = ${req.body.businessid}`;
+    const response = await pool.query(SQLQuery);
+
+    if (response.length == 0) {
+        res.status(404).send("Food item not found");
+        return;
+    }
+
+    res.status(200).json(response);
+}
+
+export const viewAllReviews = async (req, res) => {
+    const SQLQuery = `SELECT * FROM review;`;
     const response = await pool.query(SQLQuery);
     res.status(200).json(response);
 }
