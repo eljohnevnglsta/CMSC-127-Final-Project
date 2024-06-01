@@ -192,19 +192,36 @@ export const viewAllFoodItemsForEstablishmentByPrice = async (req, res) => {
 }
 
 // Search food items from any establishment based on a given price range and/or food type.
-// req.body: {foodtype: "food type", minprice: 0, maxprice: 100}
+// req.body: {minprice: 0, maxprice: 100}
 export const searchFoodItemsByPrice = async (req, res) => {
     const SQLQuery = (
         `SELECT f.* FROM food f 
         JOIN food_type t 
         ON f.foodcode = t.foodcode 
-        WHERE (f.price BETWEEN ${req.body.minprice} AND ${req.body.maxprice}) 
-        AND t.foodtype= "${req.body.foodtype}";`
+        WHERE (f.price BETWEEN ${req.body.minprice} AND ${req.body.maxprice});`
     );
 
     const response = await pool.query(SQLQuery);
     if (response.length == 0) {
         res.status(404).send("No food items found for this category in this price range");
+        return;
+    }
+
+    res.status(200).json(response);
+}
+
+// Search food items from any establishment based on food type. 
+// req.body: {foodtype: "food type"}
+export const searchFoodItemsByType = async (req, res) => {
+    const SQLQuery = (
+        `SELECT f.*
+        FROM food f
+        JOIN food_type ft ON f.foodcode = ft.foodcode
+        WHERE ft.foodtype = '${req.body.foodtype}}';`
+    );
+    const response = await pool.query(SQLQuery);
+    if (response.length == 0) {
+        res.status(404).send("No food items found for this category");
         return;
     }
 

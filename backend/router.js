@@ -16,6 +16,7 @@ import {
   getFoodCode,
   viewAllReviews,
   getReview,
+  searchFoodItemsByType,
 } from "./controllers/reports.js";
 
 import {
@@ -55,6 +56,7 @@ const router = (app) => {
     viewAllFoodItemsForEstablishmentByPrice
   );
   app.post("/search-food-items-by-price", searchFoodItemsByPrice);
+  app.get("/search-food-items-by-type", searchFoodItemsByType);
   app.get("/select-type", selectType);
   app.post("/view-establishment-review", viewAllReviewsForEstablishment);
   app.post("/select-food-business", selectBusinessOfFood);
