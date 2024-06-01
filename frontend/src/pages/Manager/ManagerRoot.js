@@ -1,7 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 
 function ManagerRoot (){
-    const username = 'manager1'
+    const username = localStorage.getItem("manager");
 
     return(
         <div className='manager-root'>
