@@ -40,7 +40,7 @@ const handleSubmit = async (e, reviewType) => {
 
     var businessid = '';
     try {
-        const response = await fetch('http://localhost:3001/get-businessid', {
+        const response = await fetch('http://localhost:3001/get-business', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const handleSubmit = async (e, reviewType) => {
     var foodcode = null;
     if (reviewType === 'food') {
         try {
-            const response = await fetch('http://localhost:3001/get-foodcode', {
+            const response = await fetch('http://localhost:3001/get-food', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const handleSubmit = async (e, reviewType) => {
         content: e.target.content.value,
         rating: e.target.rating.value,
         reviewtype: (reviewType === 'food' ? 2 : 1),
-        username: "user1",
+        username: localStorage.getItem('user'),
         businessid: businessid,
         foodcode: foodcode
     };
