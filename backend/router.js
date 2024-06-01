@@ -12,7 +12,11 @@ import {
   selectBusinessOfFood,
   selectOneFood,
   viewAllReviewsForFoodMonth,
+  getBusinessId,
+  getFoodCode,
+  viewAllReviews,
 } from "./controllers/reports.js";
+
 import {
   addReview,
   updateReview,
@@ -26,6 +30,7 @@ import {
   searchFoodItem,
   searchFoodEstablishment,
 } from "./controllers/features.js";
+
 import { checkUserType } from "./controllers/middleware.js";
 
 const router = (app) => {
@@ -72,6 +77,10 @@ const router = (app) => {
   app.post("/food-item/update", checkUserType(2), updateFoodItem);
   app.post("/food-item/delete", checkUserType(2), deleteFoodItem);
   app.post("/food-item/search", searchFoodItem);
+
+  //get primary keys
+  app.post("/get-businessid", getBusinessId);
+  app.post("/get-foodcode", getFoodCode);
 };
 
 export default router;
