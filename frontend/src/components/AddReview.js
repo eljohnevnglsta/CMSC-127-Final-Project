@@ -45,7 +45,7 @@ const handleSubmit = async (e, reviewType) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name: e.target.businessid.value})
+            body: JSON.stringify({name: e.target.businessid.value, searchCriteria: 'name'})
         });
         const data = await response.json();
         console.log(data);
@@ -62,7 +62,7 @@ const handleSubmit = async (e, reviewType) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({name: e.target.foodcode.value, businessid: businessid})
+                body: JSON.stringify({name: e.target.foodcode.value, businessid: businessid, searchCriteria: 'name'})
             });
             const data = await response.json();
             console.log(data);
