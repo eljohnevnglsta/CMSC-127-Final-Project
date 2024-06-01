@@ -15,6 +15,7 @@ import {
   getBusinessId,
   getFoodCode,
   viewAllReviews,
+  getReview,
 } from "./controllers/reports.js";
 
 import {
@@ -81,6 +82,11 @@ const router = (app) => {
 
   //authentication
   app.post("/login", logIn);
+
+  //getters
+  app.post("/get-business", getBusinessId);
+  app.post("/get-food", getFoodCode);
+  app.post("/get-review", getReview);
 };
 
 export default router;
