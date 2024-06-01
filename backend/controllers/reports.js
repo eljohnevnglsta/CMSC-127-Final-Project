@@ -192,19 +192,36 @@ export const viewAllFoodItemsForEstablishmentByPrice = async (req, res) => {
 }
 
 // Search food items from any establishment based on a given price range and/or food type.
-// req.body: {foodtype: "food type", minprice: 0, maxprice: 100}
+// req.body: {minprice: 0, maxprice: 100}
 export const searchFoodItemsByPrice = async (req, res) => {
     const SQLQuery = (
         `SELECT f.* FROM food f 
         JOIN food_type t 
         ON f.foodcode = t.foodcode 
-        WHERE (f.price BETWEEN ${req.body.minprice} AND ${req.body.maxprice}) 
-        AND t.foodtype= "${req.body.foodtype}";`
+        WHERE (f.price BETWEEN ${req.body.minprice} AND ${req.body.maxprice});`
     );
 
     const response = await pool.query(SQLQuery);
     if (response.length == 0) {
         res.status(404).send("No food items found for this category in this price range");
+        return;
+    }
+
+    res.status(200).json(response);
+}
+
+// Search food items from any establishment based on food type. 
+// req.body: {foodtype: "food type"}
+export const searchFoodItemsByType = async (req, res) => {
+    const SQLQuery = (
+        `SELECT f.*
+        FROM food f
+        JOIN food_type ft ON f.foodcode = ft.foodcode
+        WHERE ft.foodtype = '${req.body.foodtype}}';`
+    );
+    const response = await pool.query(SQLQuery);
+    if (response.length == 0) {
+        res.status(404).send("No food items found for this category");
         return;
     }
 
@@ -247,7 +264,13 @@ export const selectOneFood = async (req, res) => {
 }
 
 export const getBusinessId = async (req, res) => {
-    const SQLQuery = `SELECT businessid FROM food_establishment WHERE name = "${req.body.name}"`;
+    var SQLQuery = ``;
+    if (req.body.searchCriteria == "name") {
+        SQLQuery = `SELECT * FROM food_establishment WHERE name = "${req.body.name}"`;
+    } else {
+        SQLQuery = `SELECT * FROM food_establishment WHERE businessid = ${req.body.businessid}`;
+    }
+
     const response = await pool.query(SQLQuery);
 
     if (response.length == 0) {
@@ -258,8 +281,18 @@ export const getBusinessId = async (req, res) => {
     res.status(200).json(response);
 }
 
+// Find food item by name or food code;
+// req.body: {name: "food name", businessid: XXXXX, searchCriteria: "name"}
+// req.body: {foodcode: "food code", searchCriteria: "foodcode"}
 export const getFoodCode = async (req, res) => {
-    const SQLQuery = `SELECT foodcode FROM food WHERE name = "${req.body.name}" and businessid = ${req.body.businessid}`;
+    var SQLQuery = ``;
+
+    if (req.body.searchCriteria == "name") {
+        SQLQuery = `SELECT * FROM food WHERE name = "${req.body.name}" and businessid = ${req.body.businessid}`;
+    } else {
+        SQLQuery = `SELECT * FROM food WHERE foodcode = "${req.body.foodcode}"`;
+    }
+
     const response = await pool.query(SQLQuery);
 
     if (response.length == 0) {
@@ -272,6 +305,28 @@ export const getFoodCode = async (req, res) => {
 
 export const viewAllReviews = async (req, res) => {
     const SQLQuery = `SELECT * FROM review;`;
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}
+
+export const getReview = async (req, res) => {
+    const SQLQuery = `SELECT * FROM review WHERE reviewid = ${req.body.reviewid};`;
+    const response = await pool.query(SQLQuery);
+    if (response.length == 0) {
+        res.status(404).send("Review not found");
+        return;
+    }
+    res.status(200).json(response);
+}
+
+export const viewAllEstablishmentsForManager = async (req, res) => {
+    const SQLQuery = `SELECT * FROM food_establishment WHERE username = "${req.params.username}";`
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}
+
+export const selectEstablishmentDetails= async (req, res) => {
+    const SQLQuery = `SELECT * FROM food_establishment WHERE name = "${req.params.name}";`
     const response = await pool.query(SQLQuery);
     res.status(200).json(response);
 }

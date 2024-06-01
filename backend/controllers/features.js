@@ -158,7 +158,7 @@ export const updateFoodEstablishment = async (req, res) => {
     const response = await pool.query(SQLQuery, [
       name,
       type,
-      averageRating,
+      businessid,
       street,
       barangay,
       city,

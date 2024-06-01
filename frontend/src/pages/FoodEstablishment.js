@@ -6,10 +6,27 @@ function FoodEstablishment() {
   let { name } = useParams();
 
   const [showReview, setShowReview] = useState(false);
+  const [businessDetails, setBusinessDetails] = useState({});
 
+  useEffect(() => {
+    let url = `http://localhost:3001/select-establishment-details/${name}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((body) => {
+        console.log(body[0]);
+        setBusinessDetails(body[0]);
+      });
+  }, []);
+  const isAdmin = !!localStorage.getItem("admin");
   return (
     <div className="food-establishment-container">
       <h1>{name}</h1>
+      <p>Average Rating: {businessDetails.averageRating}</p>
+      <p>Type: {businessDetails.type}</p>
+      <p>
+        Address: {businessDetails.street}, {businessDetails.barangay},{" "}
+        {businessDetails.city}, {businessDetails.province}
+      </p>
       <button
         onClick={() => {
           setShowReview(false);

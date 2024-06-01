@@ -76,6 +76,7 @@ function Search () {
                 }
                 </> : 
                 <>
+                
                 {
                     results.length > 0 ? <> {results.map((food)=>{
                         return(
