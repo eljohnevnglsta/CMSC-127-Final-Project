@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* <App /> */}
-      <EditReview reviewid={10}/>
+      <App />
+      {/* <EditReview reviewid={10}/> */}
       {/* <AddReview /> */}
     </BrowserRouter>
   </React.StrictMode>

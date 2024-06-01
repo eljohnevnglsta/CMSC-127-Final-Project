@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 
-function Food () {
+function ManagerFood (){
     let {code} = useParams();
     const [fooddata, setFoodData] = useState([])
     const [review, setReviews] = useState([])
@@ -139,4 +139,4 @@ function Food () {
     )
 }
 
-export default Food
+export default ManagerFood
