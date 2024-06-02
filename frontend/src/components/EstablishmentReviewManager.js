@@ -74,6 +74,10 @@ function EstablishmentReviewManager (props){
     
         return <span title={tooltipText}>{shortMonth}</span>;
       };
+
+    const DateConverter = (date) => {
+
+    }
     return(
         <div className="reviews-container">
     
@@ -106,14 +110,15 @@ function EstablishmentReviewManager (props){
                 return (
                   <div className="max-w-sm rounded overflow-hidden px-8 py-6 shadow-lg hover:shadow">
                     <div className="flex mb-2">
-                    <img class="w-10 h-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Rounded avatar"></img>
-                    <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>
+                      <img class="w-10 h-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Rounded avatar"></img>
+                      <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>  
                     </div>
                     <h3 className="text-xl"> <strong>Rating:</strong> {rev.rating} </h3>
-                    <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800">
-                    <p className="text-base italic">{rev.content}</p>
+                    <p className="text-base">{"Published: " + (new Date(new Date(rev.date_added).getTime() + (8 * 60 * 60 * 1000)).toLocaleString('en-US', { timeZone: 'Asia/Manila', month: 'long', day: '2-digit', year: 'numeric'}))}</p>
+                    {(rev.date_updated) && <p className="text-base">{"Edited: " + (new Date(new Date(rev.date_updated).getTime() + (8 * 60 * 60 * 1000)).toLocaleString('en-US', { timeZone: 'Asia/Manila', month: 'long', day: '2-digit', year: 'numeric'}))}</p>}
+                    <div className="p-4 my-4 border-s-4 border-gray-300 rounded-lg dark:border-gray-500 dark:bg-gray-800">
+                      <p className="text-base italic text-white">{rev.content}</p>
                     </div>
-                    
                     {/* format date dapat */}
                   </div>
                 );
