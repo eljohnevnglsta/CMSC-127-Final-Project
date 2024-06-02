@@ -225,18 +225,21 @@ function Food() {
                         {food.isspecialty === 1? <p  className='text-lg font-semibold'>Specialty!</p> : null}
                         {food.isbestseller === 1? <p  className='text-lg font-semibold'>Best Seller!</p>: null}
                       </div>
-                        <Link to={`/write/?reviewType=food&establishment=${food.est}&food=${food.name}`}><button
-                        className='bg-sky-950 py-3 px-6 ml-4 mr-12 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150'
-                        >Write a review
-                        <svg className="inline-block stroke-white ml-2 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 6L12 18" strokeWidth="2" strokeLinecap="round"/>
-                        <path d="M18 12L6 12" strokeWidth="2" strokeLinecap="round"/>
-                        </svg>
-                        </button></Link>
+
+                        {userRole === "user" && (
+                          <Link to={`/write/?reviewType=food&establishment=${food.est}&food=${food.name}`}><button
+                          className='bg-sky-950 py-3 px-6 ml-4 mr-12 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150'
+                          >Write a review
+                          <svg className="inline-block stroke-white ml-2 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 6L12 18" strokeWidth="2" strokeLinecap="round"/>
+                          <path d="M18 12L6 12" strokeWidth="2" strokeLinecap="round"/>
+                          </svg>
+                          </button></Link>
+                        )}
 
                         {userRole === "admin" && (
                           <div>
-                            <button onClick={() => handleDeleteFood(food)}>
+                            <button className='bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDeleteFood(food)}>
                               Delete This Food
                             </button>
                           </div>
@@ -278,11 +281,11 @@ function Food() {
                 <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>
                 </div>
                 <h3 className="text-xl"> <strong>Rating:</strong> {rev.rating} </h3>
-                <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800">
-                <p className="text-base italic">{rev.content}</p>
+                <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800 rounded-lg">
+                <p className="text-base italic text-white">{rev.content}</p>
                 </div>
                 {(userRole == "admin" || username == rev.username) && (
-                  <button className='bg-sky-950 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(rev)}>Delete</button>
+                  <button className='bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(rev)}>Delete</button>
                 )}
 
                   { username == rev.username && (

@@ -180,8 +180,8 @@ function FoodList(props) {
                 {food.averageRating ? <h5 className="text-base"> <strong>Rating: </strong> {food.averageRating}</h5>: <p className="text-sm">Newly added food!</p> }
                 {food.isspecialty === 1 ? <p className="text-sm" >Specialty!</p> : null}
                 {food.isbestseller === 1 ? <p className="text-sm"> Best Seller!</p> : null}
-                {(userRole == "admin" || username == food.username) && (
-                  <button onClick={() => handleDelete(food)}>Delete</button>
+                {(userRole == "admin" || username == food.username) && (  
+                  <button className='bg-red-500 py-3 px-4 my-3 rounded-lg text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(food)}>Delete</button>
                 )}
               </div>
               </div>

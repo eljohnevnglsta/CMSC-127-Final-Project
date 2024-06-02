@@ -181,11 +181,11 @@ function EstablishmentReview(props) {
                 <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>
                 </div>
                 <h3 className="text-xl"> <strong>Rating:</strong> {rev.rating} </h3>
-                <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800">
-                <p className="text-base italic">{rev.content}</p>
+                <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800 rounded-lg">
+                <p className="text-base italic text-white">{rev.content}</p>
                 </div>
                 {(userRole == "admin" || username == rev.username) && (
-                  <button className='bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(rev)}>Delete</button>
+                  <button className='bg-red-500 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(rev)}>Delete</button>
                 )}
 
                   { username == rev.username && (
