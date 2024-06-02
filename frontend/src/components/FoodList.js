@@ -8,6 +8,25 @@ function FoodList(props) {
   const [selectedOption, setSelectedOption] = useState("");
   const [error, setError] = useState(false);
   const [order, setOrder] = useState("ASC");
+  const admin = localStorage.getItem("admin");
+  const user = localStorage.getItem("user");
+  const manager = localStorage.getItem("manager");
+  const [userRole, setUserRole] = useState(null);
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    if (admin) {
+      setUserRole("admin");
+      setUsername(admin);
+    } else if (user) {
+      setUserRole("user");
+      setUsername(user);
+    } else if (manager) {
+      setUserRole("manager");
+      setUsername(manager);
+    }
+  }, []);
+
   useEffect(() => {
     let url = "http://localhost:3001/select-type";
     fetch(url)
@@ -51,6 +70,43 @@ function FoodList(props) {
       })
       .catch((error) => {
         setError(true);
+      });
+  }
+
+  function handleDelete(food) {
+    const userToDelete = userRole === "admin" ? food.username : username;
+    fetch("http://localhost:3001/food-item/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        foodcode: food.foodcode,
+        username: userToDelete,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response);
+          throw new Error(response.statusText);
+        }
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        if (data.affectedRows > 0) {
+          setFoodList((prevfoods) =>
+            prevfoods.filter((est) => est.foodcode !== food.foodcode)
+          );
+          alert("Food deleted!");
+          window.scrollTo({ top: 0 });
+        } else {
+          console.error("Error deleting food:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting food:", error);
       });
   }
 
@@ -124,6 +180,9 @@ function FoodList(props) {
                 {food.averageRating ? <h5 className="text-base"> <strong>Rating: </strong> {food.averageRating}</h5>: <p className="text-sm">Newly added food!</p> }
                 {food.isspecialty === 1 ? <p className="text-sm" >Specialty!</p> : null}
                 {food.isbestseller === 1 ? <p className="text-sm"> Best Seller!</p> : null}
+                {(userRole == "admin" || username == food.username) && (
+                  <button onClick={() => handleDelete(food)}>Delete</button>
+                )}
               </div>
               </div>
 

@@ -1,7 +1,7 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link } from "react-router-dom";
 
-function ManagerRoot (){
-    const username = localStorage.getItem("manager");
+function ManagerRoot() {
+  const username = localStorage.getItem("manager");
 
     return(
       <div className= 'font-Roboto'>
@@ -10,7 +10,7 @@ function ManagerRoot (){
       <nav className="bg-sky-950">
       <img className = "w-60" src={'./images'}></img>
         <ul className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <li  className="text-gray-50 text-lg"><Link to={'/manager'}>Home</Link></li>
+                    <li  className="text-gray-50 text-lg"><Link to={'/'}>Home</Link></li>
                     <li className="text-gray-50 text-lg"><Link to={'/manager/add-establishment'}>Register an Establishment</Link></li>
                     <li
                     className="text-gray-50 text-lg"
@@ -32,4 +32,4 @@ function ManagerRoot (){
     )
 }
 
-export default ManagerRoot
+export default ManagerRoot;

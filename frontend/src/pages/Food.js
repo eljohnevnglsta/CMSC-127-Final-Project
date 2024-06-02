@@ -5,6 +5,7 @@ import EditReview from "../components/EditReview";
 import 'react-datepicker/dist/react-datepicker.css';
 function Food() {
   let { code } = useParams();
+  const [foodList, setFoodList] = useState([]);
   const [fooddata, setFoodData] = useState([]);
   const [review, setReviews] = useState([]);
   const [error, setError] = useState(false);
@@ -89,6 +90,40 @@ function Food() {
       });
   }
 
+  function handleDeleteFood(food) {
+    const userToDelete = userRole === "admin" ? food.username : username;
+    fetch("http://localhost:3001/food-item/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        foodcode: food.foodcode,
+        username: userToDelete,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response);
+          throw new Error(response.statusText);
+        }
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        if (data.affectedRows > 0) {
+          alert("Food deleted!");
+          window.history.back();
+        } else {
+          console.error("Error deleting food:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting food:", error);
+      });
+  }
+
   function getFoodReviews() {
     fetch("http://localhost:3001/view-all-reviews-for-food-item", {
       method: "POST",
@@ -136,8 +171,8 @@ function Food() {
   };
 
   const handleCloseEdit = () => {
-      setActiveEdit(null);
-  }
+    setActiveEdit(null);
+  };
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -173,6 +208,7 @@ function Food() {
                 return(
                   <>
                         <h1 className='font-bold text-4xl  text-sky-950'>{food.name}</h1>
+                        <h3  className='text-lg py-2' > <strong>Price: </strong>PhP {food.price}</h3>
                         <div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
                       <div className="w-9/12 px-4">
                         <h3  className='text-lg'> <strong>From: </strong>{food.est}</h3>
@@ -197,6 +233,14 @@ function Food() {
                         <path d="M18 12L6 12" strokeWidth="2" strokeLinecap="round"/>
                         </svg>
                         </button></Link>
+
+                        {userRole === "admin" && (
+                          <div>
+                            <button onClick={() => handleDeleteFood(food)}>
+                              Delete This Food
+                            </button>
+                          </div>
+                        )}
                     </div>
                     </>
                 )

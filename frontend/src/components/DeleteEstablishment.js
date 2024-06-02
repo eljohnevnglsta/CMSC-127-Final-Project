@@ -21,7 +21,7 @@ function DeleteEstablishment (props) {
         })
         .then(response => response.json())  // Parse JSON response
         .then( () => {
-            navigate('/manager') // Update state with the parsed data
+            navigate('/') // Update state with the parsed data
         });
     } 
 
@@ -45,4 +45,4 @@ function DeleteEstablishment (props) {
         </div>
     )
 }
-export default DeleteEstablishment
+export default DeleteEstablishment;

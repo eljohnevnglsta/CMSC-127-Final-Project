@@ -49,7 +49,7 @@ function ManagerEstablishment (){
                     </svg>
             </button>
             </div>
-            </div>
+            </div> 
             {
                 updateWindow? <UpdateEstablishment show = {setUpdateWindow} name={name} /> : null
             }

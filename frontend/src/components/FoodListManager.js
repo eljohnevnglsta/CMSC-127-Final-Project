@@ -75,7 +75,10 @@ function FoodListManager (props){
             setError(false);
             setFoodList(data); // Update state with the parsed data
           })
-          .catch((error) => console.error("Error fetching data:", error));
+          .catch((error) => {
+            setError(true)
+            setFoodList([])
+          });
       } 
     
     

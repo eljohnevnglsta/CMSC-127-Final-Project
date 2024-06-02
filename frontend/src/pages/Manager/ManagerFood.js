@@ -119,6 +119,7 @@ function ManagerFood (){
                     
                     <div className="food-details">
                         <h1 className='font-bold text-4xl  text-sky-950'>{food.name}</h1>
+                        <h3  className='text-lg py-2'> <strong>Price: </strong>PhP {food.price}</h3>
                         <div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
                       <div className="w-9/12 px-4">
                         <h3  className='text-lg'> <strong>From: </strong>{food.est}</h3>
@@ -195,6 +196,7 @@ function ManagerFood (){
                 <img class="w-10 h-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Rounded avatar"></img>
                 <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>
                 </div>
+                
                 <h3 className="text-xl"> <strong>Rating:</strong> {rev.rating} </h3>
                 <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800">
                 <p className="text-base italic">{rev.content}</p>

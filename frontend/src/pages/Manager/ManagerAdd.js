@@ -35,7 +35,7 @@ function ManagerAdd (){
             setStreet('')
             setBarangay('')
             setProvince('')
-            navigate(`/manager/`) // Update state with the parsed data
+            navigate(`/`) // Update state with the parsed data
         });
     }
     return(
@@ -81,7 +81,7 @@ function ManagerAdd (){
                 <br/>
 
                 <button  className='bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' type='submit'>Confirm</button>
-                <Link to={`/manager`}><button className='bg-red-800 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-red-950 ease-out duration-150'>Cancel</button></Link>
+                <Link to={`/`}><button className='bg-red-800 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-red-950 ease-out duration-150'>Cancel</button></Link>
             </form>
             </div>
         </div>
