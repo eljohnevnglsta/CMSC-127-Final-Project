@@ -199,7 +199,7 @@ export const searchFoodItemsByPrice = async (req, res) => {
 // Search food items from any establishment based on food type.
 // req.body: {foodtype: "food type"}
 export const searchFoodItemsByType = async (req, res) => {
-  const SQLQuery = `SELECT f.*
+  const SQLQuery = (`SELECT f.*
         FROM food f
         JOIN food_type ft ON f.foodcode = ft.foodcode
         WHERE ft.foodtype = '${req.body.foodtype}';`
