@@ -122,9 +122,9 @@ function FoodEstablishment() {
             </Link>
           )}
         </div>
-
+        <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 my-7 pl-8">
         <button
-        className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6'
+        className="inline-block p-4 border-b-2 border-transparent rounded-t-lg font-semibold hover:text-gray-600 hover:border-b-sky-950 text-sky-950 px-6"
           onClick={() => {
             setShowReview(false);
           }}
@@ -132,13 +132,14 @@ function FoodEstablishment() {
           Foods
         </button>
         <button
-          className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6'
+          className="inline-block p-4 border-b-2 border-transparent font-semibold rounded-t-lg hover:text-gray-600 hover:border-b-sky-950 text-sky-950 px-6"
           onClick={() => {
             setShowReview(true);
           }}
         >
           Reviews
         </button>
+        </div>
         {showReview ? (
           <EstablishmentReview name={name} />
         ) : (
