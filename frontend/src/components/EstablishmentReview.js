@@ -181,6 +181,8 @@ function EstablishmentReview(props) {
                 <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>
                 </div>
                 <h3 className="text-xl"> <strong>Rating:</strong> {rev.rating} </h3>
+                <p className="text-base">{"Published: " + (new Date(new Date(rev.date_added).getTime() + (8 * 60 * 60 * 1000)).toLocaleString('en-US', { timeZone: 'Asia/Manila', month: 'long', day: '2-digit', year: 'numeric'}))}</p>
+                {(rev.date_updated) && <p className="text-base">{"Edited: " + (new Date(new Date(rev.date_updated).getTime() + (8 * 60 * 60 * 1000)).toLocaleString('en-US', { timeZone: 'Asia/Manila', month: 'long', day: '2-digit', year: 'numeric'}))}</p>}
                 <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800 rounded-lg">
                 <p className="text-base italic text-white">{rev.content}</p>
                 </div>
@@ -200,7 +202,9 @@ function EstablishmentReview(props) {
                       closeEdit = {handleCloseEdit}
                       resetEstablishment = {getReviews}
                       reviewid = {rev.reviewid}/>
-
+                      
+                      
+                      
                     )
                   }
                 {/* <p>{rev.date_added}</p> */}
