@@ -62,7 +62,11 @@ function AddFood (props) {
     }
 
     return (
-        <div>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div className="bg-orange-50 rounded-lg p-6 w-full max-h-xl max-w-3xl">
+            <div className="flex justify-between items-center mb-4">
+            <div className='w-full'>
+            <h1 className='font-bold text-xl mb-2 text-sky-950'>Add a Food </h1>
         <form onSubmit={handleSubmit}>
             <div>
                 <label>Name:</label>
@@ -95,8 +99,12 @@ function AddFood (props) {
                 ))}
             </div>
             <button type="submit">Confirm</button>
+            <button onClick={handleCancel}>Cancel</button>
         </form>
-        <button onClick={handleCancel}>Cancel</button>
+        
+        </div>
+        </div>
+        </div>
         </div>
     );
 }

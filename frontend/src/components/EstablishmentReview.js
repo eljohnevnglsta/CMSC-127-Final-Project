@@ -30,8 +30,6 @@ function EstablishmentReview(props) {
     } else if (user) {
       setUserRole("user");
       setUsername(user);
-    } else {
-      setUserRole("guest");
     }
   }, []);
   console.log(userRole);

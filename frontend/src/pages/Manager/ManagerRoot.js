@@ -1,15 +1,19 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link } from "react-router-dom";
 
-function ManagerRoot (){
-    const username = localStorage.getItem("manager");
+function ManagerRoot() {
+  const username = localStorage.getItem("manager");
 
     return(
-        <div className='manager-root'>
-            <nav className='manager-header'>
-                <ul>
-                    <li><Link to={'/manager'}>Home</Link></li>
-                    <li><Link to={'/manager/add-establishment'}>Register an Establishment</Link></li>
+      <div className= 'font-Roboto'>
+      <div className="root-container bg-orange-50  min-h-screen" >
+        
+      <nav className="bg-sky-950">
+      <img className = "w-60" src={'./images'}></img>
+        <ul className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                    <li  className="text-gray-50 text-lg"><Link to={'/'}>Home</Link></li>
+                    <li className="text-gray-50 text-lg"><Link to={'/manager/add-establishment'}>Register an Establishment</Link></li>
                     <li
+                    className="text-gray-50 text-lg"
           style={{ cursor: "pointer" }}
           onClick={() => {
             localStorage.removeItem("admin");
@@ -24,7 +28,8 @@ function ManagerRoot (){
             </nav>  
             <Outlet context={username}/>
         </div>
+        </div>
     )
 }
 
-export default ManagerRoot
+export default ManagerRoot;

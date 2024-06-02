@@ -23,7 +23,7 @@ function DeleteFood (props) {
         })
         .then(response => response.json())  // Parse JSON response
         .then( () => {
-            setShow() // Update state with the parsed data
+            setShow() 
 
             if (refresh && order) {
             refresh(order)} else 

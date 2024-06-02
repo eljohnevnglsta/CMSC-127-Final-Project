@@ -174,13 +174,16 @@ export const updateFoodEstablishment = async (req, res) => {
 
 //delete food establishment
 export const deleteFoodEstablishment = async (req, res) => {
-  const { businessid } = req.body;
-  const SQLQuery = `DELETE FROM food_establishment WHERE businessid = ?`;
+  const { businessid} = req.body;
+  const SQLQuery = `DELETE FROM food_establishment WHERE businessid = ? `;
 
   try {
     //delete reviews associated with the food first
     const deleteReviewQuery = `DELETE FROM review WHERE foodcode IN (SELECT foodcode from food where businessid=?)`;
     const deletedReview = await pool.query(deleteReviewQuery, [businessid]);
+
+    const deleteFoodTypeQuery = `DELETE FROM food_type WHERE foodcode IN (SELECT foodcode from food where businessid=?)`;
+    const deletedFoodType = await pool.query(deleteFoodTypeQuery, [businessid]);
 
     //delete food
     const deleteFoodQuery = `DELETE FROM food WHERE businessid = ?`;
@@ -190,7 +193,7 @@ export const deleteFoodEstablishment = async (req, res) => {
     const deleteEstQuery = `DELETE FROM review WHERE businessid=?`;
     const deletedEstReview = await pool.query(deleteEstQuery, [businessid]);
 
-    const response = await pool.query(SQLQuery, [businessid]);
+    const response = await pool.query(SQLQuery, [businessid, username]);
     res.status(200).json(response);
   } catch (error) {
     res.status(500).send(error.message);
