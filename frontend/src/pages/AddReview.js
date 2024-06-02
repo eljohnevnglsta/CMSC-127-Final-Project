@@ -42,7 +42,10 @@ const getFoodsByEstablishment = async (establishment) => {
 const handleSubmit = async (e, reviewType, navigate) => {
   // { content, reviewtype, rating, username, businessid, foodcode }
   e.preventDefault();
-
+  if (e.target.businessid.value == "") {
+    alert("Select an establishment first!");
+    return;
+  }
   var businessid = "";
   try {
     const response = await fetch("http://localhost:3001/get-business", {
@@ -102,7 +105,7 @@ const handleSubmit = async (e, reviewType, navigate) => {
       body: JSON.stringify(data),
     });
     console.log("Review added:", response);
-    window.history.back();
+    // window.history.back();
   } catch (error) {
     console.error("Error adding review:", error);
   }
