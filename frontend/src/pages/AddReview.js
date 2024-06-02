@@ -74,6 +74,7 @@ const handleSubmit = async (e, reviewType, navigate) => {
         }
     }
 
+
     const data = {
         content: e.target.content.value,
         rating: e.target.rating.value,
@@ -231,7 +232,7 @@ export default function AddReview() {
                 <br />
                 <div className=' text-xl pb-4' >
                 <label className='font-bold' htmlFor="review">Content:</label>
-                <textarea className="w-full h-48 p-4 border  border-sky-950 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-950 focus:border-transparent text-base" id="review" name="review" placeholder={'Write review here...'}></textarea>
+                <textarea className="w-full h-48 p-4 border  border-sky-950 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-950 focus:border-transparent text-base"  id="content" name="content" placeholder={'Write review here...'}></textarea>
                 <br />
                 </div>
                 <button className='bg-sky-950 font-bold text-xl py-3 px-10 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' type="submit">Submit</button>

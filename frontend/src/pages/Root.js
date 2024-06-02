@@ -15,7 +15,10 @@ function Root() {
           <Link to="/search">Search</Link>
         </li>
         <li  className="text-gray-50 text-lg">
-          <Link to="/write">Write a review</Link>
+          <Link to="/write">Write a review <svg className="inline-block stroke-white ml-2 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 6L12 18" strokeWidth="2" strokeLinecap="round"/>
+                        <path d="M18 12L6 12" strokeWidth="2" strokeLinecap="round"/>
+                        </svg></Link>
         </li>
         <li
          className="text-gray-50 text-lg"
