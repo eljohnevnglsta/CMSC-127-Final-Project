@@ -140,7 +140,7 @@ function Home() {
                   <p>No reviews yet!</p>
                 )}
                 {(userRole == "admin" || username == business.username) && (
-                  <button onClick={() => handleDelete(business)}>Delete</button>
+                  <button className='bg-red-500 py-3 px-4 my-3 rounded-lg text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(business)}>Delete</button>
                 )}
               </div>
             </div>

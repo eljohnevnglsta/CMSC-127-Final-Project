@@ -100,7 +100,7 @@ function FoodEstablishment() {
             </p>
           </div>
           {admin && (
-            <button onClick={() => handleDelete(businessDetails)}>
+            <button className='bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(businessDetails)}>
               Delete This Establishment
             </button>
           )}
