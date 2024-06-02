@@ -92,7 +92,7 @@ const handleSubmit = async (e, reviewType, navigate) => {
             body: JSON.stringify(data)
         });
         console.log('Review added:', response);
-        navigate('/')
+        window.history.back();
     } catch (error) {
         console.error('Error adding review:', error);
     }
