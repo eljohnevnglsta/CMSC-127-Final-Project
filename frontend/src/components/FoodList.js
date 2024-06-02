@@ -135,7 +135,7 @@ function FoodList(props) {
   return (
     <div className="food-list">
       <div className="border-sky-950 border-b mb-8 flex items-center pb-2">
-      <div className='flex justify-end items-center w-full px-4 '>
+      <div className='flex justify-end items-center w-full mx-2 px-4 '>
       <button  className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full ' onClick={() => showAllFood(order)}>Show All Food</button>
       
       <select
