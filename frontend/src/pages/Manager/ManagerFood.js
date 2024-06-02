@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useOutletContext } from 'react-router-dom';
 import DatePicker from "react-datepicker";
+import DeleteFood from "../../components/DeleteFood";
+import UpdateFood from "../../components/UpdateFood";
 
 function ManagerFood (){
     let {code} = useParams();
+    const username = useOutletContext(); 
     const [fooddata, setFoodData] = useState([])
     const [review, setReviews] = useState([])
     const [error, setError] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
+    const [activeDelete, setActiveDelete] = useState(null);
+    const [showUpdate, setShowUpdate] = useState(false)
     useEffect(()=>{
         fetch('http://localhost:3001/select-food', {
             method: 'POST',
@@ -23,7 +28,7 @@ function ManagerFood (){
         .then(data => {
             // setError(false)
             console.log(data)
-            setFoodData(data);  // Update state with the parsed data
+            setFoodData([data]);  // Update state with the parsed data
         });
     }, [])
 
@@ -88,7 +93,13 @@ function ManagerFood (){
         // setPassDate(formattedDate);
     };
 
+    const handleDelete = (productId) => {
+        setActiveDelete(productId);
+    };
 
+    const handleCloseDelete = () => {
+        setActiveDelete(null);
+    }
     return(
         <div className="food-container">
 
@@ -98,10 +109,37 @@ function ManagerFood (){
                     <div className="food-details">
                         <h1>{food.name}</h1>
                         <h3>From: {food.est}</h3>
-                        <h3>Type: {food.foodtype}</h3>
+                        <h3>Price: {food.price}</h3>
+                        <h3>Type: </h3>
+                        {food.foodtype.map((element, index) => (
+                            <h3 key={index}>{element}</h3>
+                        ))}
                         {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
                         {food.isspecialty === 1? <p>Specialty!</p> : null}
                         {food.isbestseller === 1? <p>Best Seller!</p>: null}
+                        <button onClick={()=> handleDelete(food.foodcode)}>Delete Food </button>
+                        <button onClick={()=> setShowUpdate(true)}>Update details</button>
+                            {
+                                activeDelete === food.foodcode && (
+                                    <DeleteFood 
+                                        setShow = {handleCloseDelete}
+                                        foodcode = {food.foodcode}
+                                        // refresh = {showAllFood}
+                                        // order = {order}
+                                        username = {username}
+                                        name = {food.est}
+                                    />
+                                )
+                            }
+
+                            { showUpdate&& (
+                                <UpdateFood 
+                                    show = {setShowUpdate}
+                                    username = {username}
+                                    food = {food}
+                                />
+                            )}
+                        
                     </div>
                 )
             })

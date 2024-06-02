@@ -25,8 +25,8 @@ function DeleteFood (props) {
         .then( () => {
             setShow() // Update state with the parsed data
 
-            console.log(name)
-            refresh(order)
+            if (refresh && order) {
+            refresh(order)} else 
             navigate(`/manager/food-establishment/${name}`)
         });
     } 

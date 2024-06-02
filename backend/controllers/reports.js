@@ -217,20 +217,22 @@ export const searchFoodItemsByType = async (req, res) => {
         `SELECT f.*
         FROM food f
         JOIN food_type ft ON f.foodcode = ft.foodcode
-        WHERE ft.foodtype = '${req.body.foodtype}}';`
+        WHERE ft.foodtype = '${req.body.foodtype}';`
     );
+    console.log(SQLQuery)
     const response = await pool.query(SQLQuery);
+    console.log(response)
     if (response.length == 0) {
         res.status(404).send("No food items found for this category");
         return;
     }
-
+    
     res.status(200).json(response);
 }
 
 
 export const selectType = async (req, res) => {
-    const SQLQuery = "SELECT foodtype FROM food_type;"
+    const SQLQuery = "SELECT DISTINCT foodtype FROM food_type;"
     const response = await pool.query(SQLQuery);
     res.status(200).json(response);
 }
@@ -257,11 +259,44 @@ export const selectBusinessOfFood = async(req, res) =>{
 }
 
 
+// export const selectOneFood = async (req, res) => {
+//     const SQLQuery = `SELECT x.*, t.foodtype FROM food_type t JOIN (SELECT f.*,b.name AS est FROM food f JOIN food_establishment b ON f.businessid = b.businessid)x ON t.foodcode = x.foodcode WHERE x.foodcode = ${req.body.foodcode}`;
+//     const response = await pool.query(SQLQuery);
+//     res.status(200).json(response);
+// }
+
 export const selectOneFood = async (req, res) => {
-    const SQLQuery = `SELECT x.*, t.foodtype FROM food_type t JOIN (SELECT f.*,b.name AS est FROM food f JOIN food_establishment b ON f.businessid = b.businessid)x ON t.foodcode = x.foodcode WHERE x.foodcode = ${req.body.foodcode}`;
-    const response = await pool.query(SQLQuery);
-    res.status(200).json(response);
-}
+    const foodcode = req.body.foodcode;
+    const SQLQuery = `
+        SELECT x.*, t.foodtype 
+        FROM food_type t 
+        JOIN (
+            SELECT f.*, b.name AS est 
+            FROM food f 
+            JOIN food_establishment b 
+            ON f.businessid = b.businessid
+        ) x 
+        ON t.foodcode = x.foodcode 
+        WHERE x.foodcode = ${foodcode}
+    `;
+    try {
+        const response = await pool.query(SQLQuery);
+        console.log(response)
+        // Transform the result to aggregate foodtype into an array
+        if (response.length > 0) {
+            const result = {
+                ...response[0],
+                foodtype: response.map(row => row.foodtype)
+            };
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ message: "Food not found" });
+        }
+    } catch (error) {
+        console.error('Error fetching food:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 export const getBusinessId = async (req, res) => {
     var SQLQuery = ``;
@@ -327,6 +362,12 @@ export const viewAllEstablishmentsForManager = async (req, res) => {
 
 export const selectEstablishmentDetails= async (req, res) => {
     const SQLQuery = `SELECT * FROM food_establishment WHERE name = "${req.params.name}";`
+    const response = await pool.query(SQLQuery);
+    res.status(200).json(response);
+}
+
+export const selectAllFood= async (req, res) => {
+    const SQLQuery = "SELECT * FROM food";
     const response = await pool.query(SQLQuery);
     res.status(200).json(response);
 }

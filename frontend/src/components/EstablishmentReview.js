@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
+import EditReview from "../components/EditReview";
 function EstablishmentReview(props) {
   const name = props.name;
   const [review, setReviews] = useState([]);
@@ -7,6 +8,7 @@ function EstablishmentReview(props) {
   const [startDate, setStartDate] = useState(new Date());
   const [userRole, setUserRole] = useState(null);
   const [username, setUsername] = useState(null);
+  const [activeEdit, setActiveEdit] = useState(null);
   // const [passDate, setPassDate] = useState([]);
   useEffect(() => {
     getReviews();
@@ -124,6 +126,14 @@ function EstablishmentReview(props) {
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };
+
+  const handleEdit = (productId) => {
+    setActiveEdit(productId);
+  };
+
+  const handleCloseEdit = () => {
+      setActiveEdit(null);
+  }
   return (
     <div className="reviews-container">
       <button onClick={() => getReviews()}> Show all reviews</button>
@@ -145,6 +155,19 @@ function EstablishmentReview(props) {
                 {(userRole == "admin" || username == rev.username) && (
                   <button onClick={() => handleDelete(rev)}>Delete</button>
                 )}
+
+                  { username == rev.username && (
+                    <button onClick={() => handleEdit(rev.reviewid)}>Edit</button>
+                  )}
+                  
+                  { 
+                    activeEdit === rev.reviewid && (
+                      <EditReview 
+                      closeEdit = {handleCloseEdit}
+                      resetEstablishment = {getReviews}
+                      reviewid = {rev.reviewid}/>
+                    )
+                  }
                 {/* <p>{rev.date_added}</p> */}
                 {/* format date dapat */}
               </div>

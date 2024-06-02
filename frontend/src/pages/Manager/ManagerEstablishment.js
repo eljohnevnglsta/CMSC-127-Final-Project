@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link, useParams, useOutletContext, useNavigate } from 'react-router-dom';
 import FoodListManager from '../../components/FoodListManager';
 import EstablishmentReviewManager from '../../components/EstablishmentReviewManager';
-import UpdateEstablishment from './UpdateEstablishment';
-import DeleteEstablishment from '../../components/DeleteEstablishment';
 
+import DeleteEstablishment from '../../components/DeleteEstablishment';
+import AddFood from '../../components/AddFood';
 function ManagerEstablishment (){
     let {name} = useParams();
     const username = useOutletContext();
     const [showReview, setShowReview] = useState(false)
-    const [showUpdate, setShowUpdate] = useState(false)
+  
     const [showDelete, setShowDelete] = useState(false)
     const [businessId, setBusinessid] = useState(0)
+    const [addWindow, setAddWindow] = useState(false)
     const navigate = useNavigate();
     const [businessDetails, setBusinessDetails] = useState({});
     useEffect(()=>{
@@ -33,6 +34,11 @@ function ManagerEstablishment (){
             <p>Address: {businessDetails.street}, {businessDetails.barangay}, {businessDetails.city}, {businessDetails.province}</p>
             <button onClick={()=> navigate(`/manager/update-establishment/${name}`)}>Update This Establishment </button>
             <button onClick={()=>setShowDelete(true)}>Delete This Establishment </button>
+            <button onClick={()=> setAddWindow(true)}> Add a Food</button>
+
+            {
+                addWindow? <AddFood show={setAddWindow} businessid={businessId} username={username} /> : null
+            }
 
             {
                 showDelete? <DeleteEstablishment show = {setShowDelete} businessid = {businessId} username = {username} /> : null

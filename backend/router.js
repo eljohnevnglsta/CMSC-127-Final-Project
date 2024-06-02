@@ -19,6 +19,7 @@ import {
   searchFoodItemsByType,
   viewAllEstablishmentsForManager,
   selectEstablishmentDetails,
+  selectAllFood,
 } from "./controllers/reports.js";
 
 import {
@@ -58,8 +59,8 @@ const router = (app) => {
     viewAllFoodItemsForEstablishmentByPrice
   );
   app.post("/search-food-items-by-price", searchFoodItemsByPrice);
-  app.get("/search-food-items-by-type", searchFoodItemsByType);
-  app.get("/select-type", selectType);
+  app.post("/search-food-items-by-type", searchFoodItemsByType);
+  
   app.post("/view-establishment-review", viewAllReviewsForEstablishment);
   app.post("/select-food-business", selectBusinessOfFood);
   app.post("/select-food", selectOneFood);
@@ -67,10 +68,10 @@ const router = (app) => {
   app.get('/select-type', selectType);
   app.post('/view-establishment-review',viewAllReviewsForEstablishment);
   app.post('/select-food-business', selectBusinessOfFood)
-  app.post('/select-food', selectOneFood)
-  app.post('/select-food-review-month', viewAllReviewsForFoodMonth)
+  
   app.get('/view-all-establishment-manager/:username', viewAllEstablishmentsForManager)
   app.get('/select-establishment-details/:name', selectEstablishmentDetails)
+  app.get('/select-all-food', selectAllFood)
   /**************FEATURES*********************** */
   //checkUserType(1) - meaning userType 1 (users) lang pwede makaaccess. Magfforbidden kapag ibang user
   //Reviews

@@ -13,7 +13,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import UpdateEstablishment from "./pages/Manager/UpdateEstablishment";
 import LoginPage from "./pages/LoginPage";
 import AddReview from "./pages/AddReview";
-
+import './index.css'
 const isAdmin = !!localStorage.getItem("admin");
 const isManager = !!localStorage.getItem("manager");
 const isUser = !!localStorage.getItem("user");
@@ -50,15 +50,15 @@ return (
         </Route>
       )}
       {isManager && (
-        <>
+        
           <Route path='/manager' element={<ManagerRoot />}>
           <Route path='/manager' element={<ManagerHome />}/>
           <Route path='/manager/food-establishment/:name' element={<ManagerEstablishment />}/>
           <Route path='/manager/food/:code' element={<ManagerFood />}/>
           <Route path='/manager/add-establishment' element={<ManagerAdd />}/>
           <Route path='/manager/update-establishment/:name' element={<UpdateEstablishment />}/>
-      </Route>
-        </>
+          </Route>
+        
       )}
       {!isUser && !isAdmin && !isManager && (
         <Route path="*" element={<LoginPage />} />

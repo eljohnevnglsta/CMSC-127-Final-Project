@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
-
+import EditReview from "../components/EditReview";
 function Food() {
   let { code } = useParams();
   const [fooddata, setFoodData] = useState([]);
@@ -10,6 +10,8 @@ function Food() {
   const [startDate, setStartDate] = useState(new Date());
   const [userRole, setUserRole] = useState(null);
   const [username, setUsername] = useState(null);
+  // const [showUpdate, setShowUpdate] = useState(false)
+  const [activeEdit, setActiveEdit] = useState(null);
   useEffect(() => {
     fetch("http://localhost:3001/select-food", {
       method: "POST",
@@ -24,7 +26,7 @@ function Food() {
       .then((data) => {
         // setError(false)
         console.log(data);
-        setFoodData(data); // Update state with the parsed data
+        setFoodData([data]); // Update state with the parsed data
       });
   }, []);
 
@@ -127,6 +129,15 @@ function Food() {
         // setReviews([])
       });
   }
+
+  const handleEdit = (productId) => {
+    setActiveEdit(productId);
+  };
+
+  const handleCloseEdit = () => {
+      setActiveEdit(null);
+  }
+
   const handleDateChange = (date) => {
     setStartDate(date);
     console.log(date);
@@ -145,6 +156,7 @@ function Food() {
   };
 
 
+
     return(
         <div className="food-container">
 
@@ -155,6 +167,9 @@ function Food() {
                         <h1>{food.name}</h1>
                         <h3>From: {food.est}</h3>
                         <h3>Type: {food.foodtype}</h3>
+                        {food.foodtype.map((element, index) => (
+                            <h3 key={index}>{element}</h3>
+                        ))}
                         {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
                         {food.isspecialty === 1? <p>Specialty!</p> : null}
                         {food.isbestseller === 1? <p>Best Seller!</p>: null}
@@ -185,6 +200,19 @@ function Food() {
                   {(userRole == "admin" || username == rev.username) && (
                     <button onClick={() => handleDelete(rev)}>Delete</button>
                   )}
+
+                  { username == rev.username && (
+                    <button onClick={() => handleEdit(rev.reviewid)}>Edit</button>
+                  )}
+                  
+                  {
+                    activeEdit === rev.reviewid && (
+                      <EditReview 
+                      closeEdit = {handleCloseEdit}
+                      resetFood = {getFoodReviews}
+                      reviewid = {rev.reviewid}/>
+                    )
+                  }
                   {/* <p>{rev.date_added}</p> */}
                   {/* format date dapat */}
                 </div>

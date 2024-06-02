@@ -50,7 +50,7 @@ const getFood = async (foodcode) => {
     }
 }
 
-const handleSubmit = async (e, review) => {
+const handleSubmit = async (e, review, closeEdit) => {
     e.preventDefault();
 
     const data = {
@@ -69,12 +69,14 @@ const handleSubmit = async (e, review) => {
             body: JSON.stringify(data)
         });
         console.log('Review edited:', response);
+        closeEdit();
+        window.location.reload(); //hindi tama toh pero di ko alam kung pano tatawagin yung call kasi galing sya sa magkaibang render
     } catch (error) {
         console.error('Error editing review:', error);
     }
 }
 
-export default function EditReview({ reviewid }) {
+export default function EditReview({ reviewid, closeEdit }) {
     const [review, setReview] = useState(null);
     const [establishment, setEstablishment] = useState(null);
     const [food, setFood] = useState(null);
@@ -95,6 +97,7 @@ export default function EditReview({ reviewid }) {
             }
         };
         fetchData();
+        
     }, [reviewid]);
 
     if (!review) {
@@ -108,7 +111,7 @@ export default function EditReview({ reviewid }) {
         <div>
             <h1>Editing {reviewTypeText} Review</h1>
             <p>Review for {reviewForText}</p>
-            <form onSubmit={(e) => handleSubmit(e, review)}>
+            <form onSubmit={(e) => handleSubmit(e, review, closeEdit)}>
                 <label htmlFor="rating">Rating:</label>
                 <select id="rating" name="rating" defaultValue={review.rating}>
                     <option value="" disabled>Select a rating</option>

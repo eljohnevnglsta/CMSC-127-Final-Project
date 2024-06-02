@@ -121,7 +121,7 @@ function FoodListManager (props){
                             {food.isbestseller === 1? <p>Best Seller!</p>: null}
                             <button onClick={()=> handleDelete(food.foodcode)}>Delete Food </button>
 
-                            {
+                            { 
                                 activeDelete === food.foodcode && (
                                     <DeleteFood 
                                         setShow = {handleCloseDelete}
