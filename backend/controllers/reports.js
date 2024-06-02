@@ -202,17 +202,56 @@ export const searchFoodItemsByType = async (req, res) => {
   const SQLQuery = `SELECT f.*
         FROM food f
         JOIN food_type ft ON f.foodcode = ft.foodcode
-        WHERE ft.foodtype = '${req.body.foodtype}';`;
-  console.log(SQLQuery);
-  const response = await pool.query(SQLQuery);
-  console.log(response);
-  if (response.length == 0) {
-    res.status(404).send("No food items found for this category");
-    return;
-  }
+        WHERE ft.foodtype = '${req.body.foodtype}';`
+    );
+    console.log(SQLQuery)
+    const response = await pool.query(SQLQuery);
+    console.log(response)
+    if (response.length == 0) {
+        res.status(404).send("No food items found for this category");
+        return;
+    }
+    
+    res.status(200).json(response);
+}
 
-  res.status(200).json(response);
+export const searchFoodItemsByFilters = async (req, res) => {
+    const { minprice, maxprice, foodtype } = req.body;
+
+    let SQLQuery = `SELECT f.* FROM food f JOIN food_type ft ON f.foodcode = ft.foodcode WHERE `;
+    let queryParams = [];
+
+    if (foodtype) {
+        SQLQuery += `ft.foodtype = ?`;
+        queryParams.push(foodtype);
+    }
+
+    if (minprice != null && maxprice != null) {
+        if (foodtype) {
+            SQLQuery += ` AND `;
+        }
+        SQLQuery += `(f.price BETWEEN ? AND ?)`;
+        queryParams.push(minprice, maxprice);
+    }
+
+    if (!foodtype && (minprice == null || maxprice == null)) {
+        res.status(400).send("Either foodtype or both minprice and maxprice must be provided");
+        return;
+    }
+
+    try {
+        const response = await pool.query(SQLQuery, queryParams);
+        if (response.length == 0) {
+            res.status(404).send("No food items found for this category in this price range");
+            return;
+        }
+        res.status(200).json(response);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
 };
+
 
 export const selectType = async (req, res) => {
   const SQLQuery = "SELECT DISTINCT foodtype FROM food_type;";
