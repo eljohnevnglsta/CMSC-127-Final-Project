@@ -39,18 +39,18 @@ const LoginPage = () => {
   return (
     <div className="login-background">
       <div className="area">
-        <ul className="circles">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+        <div className="shapes">
+          <img src="./spoon.png" alt="Spoon" className="shape shape1" />
+          <img src="./fork.png" alt="Fork" className="shape shape2" />
+          <img src="./spoon.png" alt="Spoon" className="shape shape3" />
+          <img src="./fork.png" alt="Fork" className="shape shape4" />
+          <img src="./spoon.png" alt="Spoon" className="shape shape5" />
+          <img src="./fork.png" alt="Fork" className="shape shape6" />
+          <img src="./spoon.png" alt="Spoon" className="shape shape7" />
+          <img src="./fork.png" alt="Fork" className="shape shape8" />
+          <img src="./spoon.png" alt="Spoon" className="shape shape9" />
+          <img src="./fork.png" alt="Fork" className="shape shape10" />
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="w-full max-w-md bg-sky-950 rounded-lg shadow-md p-6">
