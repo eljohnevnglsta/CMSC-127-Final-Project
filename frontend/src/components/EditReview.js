@@ -80,7 +80,7 @@ export default function EditReview({ reviewid, closeEdit }) {
     const [review, setReview] = useState(null);
     const [establishment, setEstablishment] = useState(null);
     const [food, setFood] = useState(null);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             const reviewData = await getReview(reviewid);
@@ -104,16 +104,20 @@ export default function EditReview({ reviewid, closeEdit }) {
         return <div>Loading...</div>;
     }
 
+    
     const reviewTypeText = review.reviewtype === 1 ? "Establishment" : "Food";
     const reviewForText = review.reviewtype === 1 ? establishment?.name : `${establishment?.name}'s ${food?.name}`;
 
     return (
-        <div>
-            <h1>Editing {reviewTypeText} Review</h1>
-            <p>Review for {reviewForText}</p>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div className="bg-orange-50 rounded-lg p-6 w-full max-h-xl max-w-3xl">
+            <div className="flex justify-between items-center mb-4">
+            <div className='w-full'>
+            <h1 className='font-bold text-xl mb-2 text-sky-950'>Editing {reviewTypeText} Review</h1>
+            <p className='font-semibold text-lg mb-2 text-sky-950'>Review for {reviewForText}</p>
             <form onSubmit={(e) => handleSubmit(e, review, closeEdit)}>
-                <label htmlFor="rating">Rating:</label>
-                <select id="rating" name="rating" defaultValue={review.rating}>
+                <label className='font-semibold text-base mb-2 text-sky-950' htmlFor="rating">Rating:</label>
+                <select  className='border mr-1 ml-4 mb-2 py-1border-sky-950 rounded-full ' id="rating" name="rating" defaultValue={review.rating}>
                     <option value="" disabled>Select a rating</option>
                     {[1, 2, 3, 4, 5].map((rating) => (
                         <option key={rating} value={rating}>
@@ -122,11 +126,15 @@ export default function EditReview({ reviewid, closeEdit }) {
                     ))}
                 </select>
                 <br />
-                <label htmlFor="review">Content:</label>
-                <textarea id="review" name="review" defaultValue={review.content}></textarea>
+                <label className='font-semibold text-base mb-2 text-sky-950' htmlFor="review">Content:</label>
+                <textarea className="w-full h-48 p-4 border mb-2 border-sky-950 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-950 focus:border-transparent text-base" id="review" name="review" defaultValue={review.content}></textarea>
                 <br />
-                <button type="submit">Submit</button>
+                <button className='bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' type="submit">Submit</button>
+                <button className='bg-red-800 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-red-950 ease-out duration-150' onClick={() => closeEdit()}>Cancel</button>
             </form>
+            </div>
+        </div>
+        </div>
         </div>
     )
 }

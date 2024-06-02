@@ -19,12 +19,12 @@ function FoodEstablishment() {
   }, []);
   const isAdmin = !!localStorage.getItem("admin");
   return (
-    <div className="my-10 overflow-hidden mx-20  round shadow-lg h-full">
+    <div className="my-10 overflow-hidden mx-20 min-h-screen round shadow-lg ">
        <img className="h-60 w-full" src="https://t4.ftcdn.net/jpg/03/39/43/29/360_F_339432932_UvTfQZoi68BfndE1mPI8nkRo60jNNHCh.jpg" alt="Sunset in the mountains"></img>
         <div className="py-10 px-20 ">
       <h1 className='font-bold text-4xl  text-sky-950'>{name}</h1>
             
-            <div className="flex ml-8 shadow-md py-7 px-7 w-11/12 round">
+            <div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
             <div className="w-9/12 px-4">
             <p className='text-lg' > <strong>Average Rating:</strong> {businessDetails.averageRating}</p>
             <p className='text-lg'><strong>Type:</strong> {businessDetails.type}</p>
@@ -37,21 +37,26 @@ function FoodEstablishment() {
                     </svg>
             </button></Link>
             </div>
-            
-      <button
+
+       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 my-7 pl-8">
+            <div className="flex flex-wrap -mb-px"> 
+      <button className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6'
         onClick={() => {
           setShowReview(false);
         }}
       >
         Foods
       </button>
-      <button
+      <button className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6'
         onClick={() => {
           setShowReview(true);
         }}
       >
         Reviews
       </button>
+
+      </div>
+      </div>
       {showReview ? (
         <EstablishmentReview name={name} />
       ) : (

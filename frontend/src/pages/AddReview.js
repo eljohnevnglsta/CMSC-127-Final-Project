@@ -153,11 +153,15 @@ export default function AddReview() {
     };
 
     return (
-        <div>
-            <h1>Add a Review</h1>
-            <form onSubmit={(e) => handleSubmit(e, reviewType, navigate)}>
-                <label>Review Type:</label>
+        <div className="my-10 overflow-hidden mx-20 min-h-screen round shadow-lg ">
+             <div className="py-10 px-20 ">
+            <h1 className='font-bold text-4xl  text-sky-950'>Add a Review</h1>
+            <div className="flex mt-4 ml-8  py-7 px-7 w-11/12 round">
+            <form  className= 'w-full' onSubmit={(e) => handleSubmit(e, reviewType, navigate)}>
+                <div className='pb-4' >
+                <label className='text-xl  font-bold mr-4' >Review Type:</label>
                 <input
+                    className='border-sky-950 h-4 w-4 text-sky-950'
                     type="radio"
                     id="establishment"
                     name="reviewtype"
@@ -165,8 +169,9 @@ export default function AddReview() {
                     checked={reviewType === 'establishment'}
                     onChange={handleReviewTypeChange}
                 />
-                <label htmlFor="establishment">Establishment</label>
+                <label className='text-xl  font-semibold mr-4' htmlFor="establishment">Establishment</label>
                 <input
+                className='border-sky-950 h-4 w-4 text-sky-950'
                     type="radio"
                     id="food"
                     name="reviewtype"
@@ -174,13 +179,17 @@ export default function AddReview() {
                     checked={reviewType === 'food'}
                     onChange={handleReviewTypeChange}
                 />
-                <label htmlFor="food">Food</label>
+                <label className='text-xl  font-semibold mr-4'  htmlFor="food">Food</label>
                 <br />
-                <label>Establishment Name:</label>
+                </div>
+
+                <div className=' text-xl pb-4' >
+                <label className='font-bold mr-4'>Establishment Name:</label>
                 <select
                     id="businessid"
                     name="businessid"
                     value={selectedEstablishment}
+                    className='border py-1 border-sky-950 rounded-full ' 
                     onChange={handleEstablishmentChange}
                 >
                     <option value="" disabled>Select an establishment</option>
@@ -190,11 +199,13 @@ export default function AddReview() {
                         </option>
                     ))}
                 </select>
+                </div>
                 <br />
+                <div className=' text-xl pb-4' >
                 {reviewType === 'food' && selectedEstablishment && (
                     <>
-                        <label>Food:</label>
-                        <select id="foodcode" name="foodcode">
+                        <label className='font-bold mr-4'>Food:</label>
+                        <select  className='border  py-1 border-sky-950 rounded-full '  id="foodcode" name="foodcode">
                             <option value="" disabled>Select a food</option>
                             {foods.map((food, index) => (
                                 <option key={index} value={food}>
@@ -205,8 +216,10 @@ export default function AddReview() {
                         <br />
                     </>
                 )}
-                <label>Rating:</label>
-                <select id="rating" name="rating">
+                </div>
+                <div className=' text-xl pb-4' >
+                <label className='font-bold mr-4'>Rating:</label>
+                <select id="rating" className='border  py-1 border-sky-950 rounded-full '  name="rating">
                     <option value="" disabled>Select a rating</option>
                     {[1, 2, 3, 4, 5].map((rating) => (
                         <option key={rating} value={rating}>
@@ -214,12 +227,18 @@ export default function AddReview() {
                         </option>
                     ))}
                 </select>
+                </div>
                 <br />
-                <label>Content:</label>
-                <textarea id="content" name="content" rows="4" cols="50"></textarea>
+                <div className=' text-xl pb-4' >
+                <label className='font-bold' htmlFor="review">Content:</label>
+                <textarea className="w-full h-48 p-4 border  border-sky-950 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-950 focus:border-transparent text-base" id="review" name="review" placeholder={'Write review here...'}></textarea>
                 <br />
-                <button type="submit">Submit</button>
+                </div>
+                <button className='bg-sky-950 font-bold text-xl py-3 px-10 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' type="submit">Submit</button>
+               
             </form>
+            </div>
+            </div>
         </div>
     );
 }

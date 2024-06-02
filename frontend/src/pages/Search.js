@@ -10,7 +10,7 @@ function Search () {
     const [error, setError] = useState(false);
     const [selectedOption, setSelectedOption] = useState("");
     const [foodList, setFoodList] = useState([])
-
+     const [establishment, setEstablishment] = useState([]);
     useEffect(() => {
         let url = "http://localhost:3001/select-type";
         fetch(url)
@@ -26,8 +26,11 @@ function Search () {
     useEffect (() =>{
         if (foodSearch) {
            allFood()
+        }else{
+            handleAll()
         }
     },[foodSearch])
+
 
 
     useEffect(() =>{
@@ -123,6 +126,15 @@ function Search () {
     }
 
 
+    function handleAll(){
+        let url = "http://localhost:3001/view-all-establishments"
+        fetch(url)
+          .then(response => response.json())
+          .then(body => {
+            setEstablishment(body)
+        })
+    }
+
     return(
         <div className="search-container" >
             <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 my-7 pl-8">
@@ -160,6 +172,7 @@ function Search () {
             {
                 !foodSearch ? 
                 <>
+                { search.length > 0 ?
                 <div className="rounded pt-5 px-8 pb-20 flex justify-center">
                 <div className="w-2/4 shadow-lg">
                 {
@@ -171,8 +184,34 @@ function Search () {
                     }) } </> : null
                 }
                 </div>
-                </div>
-                </> : 
+                </div> : 
+                    <>
+                    <div className="my-10 overflow-hidden px-8 mx-10 min-h-screen round shadow-lg ">
+                    <h1 className='font-bold text-4xl my-2 text-sky-950 mb-4'>Registered Establishments</h1>
+                    <div className='grid lg:grid-cols-4 md:grid-cols-2 pb-32 gap-6 mx-32'>
+                   {
+                    establishment.map((business) =>{
+                        return(
+                            <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow">
+                                <img class="w-full" src="https://t4.ftcdn.net/jpg/03/39/43/29/360_F_339432932_UvTfQZoi68BfndE1mPI8nkRo60jNNHCh.jpg" alt="Sunset in the mountains"></img>
+                        <div className='px-8 py-6 '>
+                            <Link to={`/food-establishment/${business.name}`}>
+                            <h1 className='font-bold text-xl mb-2 text-sky-950'>{business.name}</h1> </Link>
+                            <h5><strong className='text-base'>Type:</strong> {business.type}</h5>
+                            {business.averageRating ? <h5> <strong className='text-base'> Rating: </strong> {business.averageRating}</h5>: <p>No reviews yet!</p> }
+                        </div>
+                        </div>
+                        
+                        )
+                    })
+                }
+                    </div>
+                    </div>
+                   </>
+                }
+                </> 
+                
+                : 
                 <>
                 
                 {
@@ -194,11 +233,14 @@ function Search () {
                         
                         :
                     
-                    <div>
-                        <h1>Foods</h1>
-                        <button onClick={() => allFood()}>Show All Food</button>
+                    <div  className="my-10 overflow-hidden px-8 mx-10 min-h-screen round shadow-lg ">
+                        <h1 className='font-bold text-4xl my-2 text-sky-950'>Foods</h1>
+                        <div className="border-sky-950 border-b mb-8 flex items-center pb-2">
+                        <div className='flex justify-end items-center w-full px-4 '>
+                        <button  className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full ' onClick={() => allFood()}>Show All Food</button>
                             <label>Select By Type: </label>
                             <select
+                                className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full '
                                 value={selectedOption}
                                 onChange={(e) => {
                                 setSelectedOption(e.target.value);
@@ -211,24 +253,34 @@ function Search () {
                                 return <option value={type.foodtype}>{type.foodtype}</option>;
                                 })}
                             </select>
+                        </div>
+                        </div>
 
                         {
                             !error?
-                        <>
-                        {foodList.map((food, index) => {
-                            return (
-                            <div key={index} className="food-card">
-                                <Link to={`/food/${food.foodcode}`}>
-                                <h3>{food.name}</h3>
-                                </Link>
-                                <p>{food.price}</p>
-
-                                {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
-                                {food.isspecialty === 1 ? <p>Specialty!</p> : null}
-                                {food.isbestseller === 1 ? <p>Best Seller!</p> : null}
-                            </div>
-                            );
-                        })}</> :<p>No food of this type. Sorry!</p> }
+                            <>
+                            <div className='grid lg:grid-cols-4 md:grid-cols-2  pb-32 gap-6 mx-32'>
+                             {foodList.map((food, index) => {
+                               return (
+                                 <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow">
+                                 <img class="w-full" src="https://t4.ftcdn.net/jpg/03/39/43/29/360_F_339432932_UvTfQZoi68BfndE1mPI8nkRo60jNNHCh.jpg" alt="Sunset in the mountains"></img>
+                                <div className='px-8 py-6 '>
+                                 
+                                   <Link to={`/food/${food.foodcode}`}>
+                                     <h3  className='font-bold text-xl mb-2 text-sky-950'>{food.name}</h3>
+                                   </Link>
+                                   <p  className="text-base" > &#8369; {food.price}</p>
+                   
+                                   {food.averageRating ? <h5 className="text-base"> <strong>Rating: </strong> {food.averageRating}</h5>: <p className="text-sm">Newly added food!</p> }
+                                   {food.isspecialty === 1 ? <p className="text-sm" >Specialty!</p> : null}
+                                   {food.isbestseller === 1 ? <p className="text-sm"> Best Seller!</p> : null}
+                                 </div>
+                                 </div>
+                   
+                               );
+                             })}{" "}
+                             </div>
+                           </> :<p>No food of this type. Sorry!</p> }
                     </div> 
                 }
                 </>

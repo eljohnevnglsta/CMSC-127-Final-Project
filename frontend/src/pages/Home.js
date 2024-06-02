@@ -34,7 +34,7 @@ function Home () {
             <button className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6'onClick={()=>{handleFilter()}}>Show Highly Rated Places!</button>
             </div>
             </div>
-            <h1 className='font-bold text-xl ml-9 my-6 text-sky-950'>Share your experience with these establishments. </h1>
+            <h1 className='font-bold text-4xl ml-9 my-6 text-sky-950'>Share your experience with these establishments. </h1>
             <div className='grid lg:grid-cols-4 md:grid-cols-2 pb-32 gap-6 mx-32'>
                 {
                     establishment.map((business) =>{
