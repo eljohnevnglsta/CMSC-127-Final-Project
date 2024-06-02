@@ -8,7 +8,7 @@ function UpdateFood(props) {
   const [typeSelection, setFoodTypeSelection] = useState([]);
   const [bestSeller, setIsBestSeller] = useState(0);
   const [specialty, setIsSpecialty] = useState(0);
-
+  const [others, setOthers] = useState('')
   useEffect(() => {
     let url = "http://localhost:3001/select-type";
     fetch(url)
@@ -33,9 +33,25 @@ function UpdateFood(props) {
         : [...prevFoodType, value]
     );
   };
+  const checkIfExists = (foodTypeToCheck) => {
+    return Object.values(typeSelection).some(foodObj => foodObj.foodtype.toLowerCase() === foodTypeToCheck.toLowerCase());
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const exists = checkIfExists(others);
+    if (exists){
+      
+      alert("The food type you're entering is already in the system. Please select the appropriate checkbox.")
+      setOthers('')
+      return;
+    }
+
+    if(others.length !== 0){
+      foodtype.push(others) 
+      console.log(foodtype)
+    }
     if (foodtype.length === 0) {
       alert("Please select at least one food type.");
       return;
@@ -153,6 +169,16 @@ function UpdateFood(props) {
                         </label>
                       </div>
                     ))}
+
+                      <div className="flex flex-row">
+                    <input
+                        className="border-slate-300 rounded-lg border w-30 pl-4 py-2 h-8 focus:shadow-md border-sky-950 text-base text-sky-950"
+                        type="text"
+                        placeholder="Insert other type here"
+                        value={others}
+                        onChange={(e) => setOthers(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
