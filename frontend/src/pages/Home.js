@@ -36,7 +36,7 @@ function Home () {
             </div>
             <h1 className='font-bold text-4xl ml-9 my-6 text-sky-950'>Share your experience with these establishments. </h1>
             <div className='grid lg:grid-cols-4 md:grid-cols-2 pb-32 gap-6 mx-32'>
-                {
+                { 
                     establishment.map((business) =>{
                         return(
                             <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow">

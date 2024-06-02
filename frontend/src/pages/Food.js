@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import EditReview from "../components/EditReview";
-
 import 'react-datepicker/dist/react-datepicker.css';
 function Food() {
   let { code } = useParams();
@@ -175,7 +174,7 @@ function Food() {
                   <>
                         <h1 className='font-bold text-4xl  text-sky-950'>{food.name}</h1>
                         <div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
-                     <div className="w-9/12 px-4">
+                      <div className="w-9/12 px-4">
                         <h3  className='text-lg'> <strong>From: </strong>{food.est}</h3>
                         <div className="flex">
                         <h3  className='text-lg'><strong>Type: </strong></h3> 
@@ -202,7 +201,7 @@ function Food() {
                     </>
                 )
             })
-        }
+        } 
 
       <div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
       <div className="reviews-container w-full">

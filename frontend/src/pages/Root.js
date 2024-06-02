@@ -11,7 +11,7 @@ function Root() {
         <li className="text-gray-50 text-lg">
           <Link to="/">Home</Link>
         </li>
-        <li  className="text-gray-50 text-lg">
+        <li  className="text-gray-50 text-lg"> 
           <Link to="/search">Search</Link>
         </li>
         <li  className="text-gray-50 text-lg">

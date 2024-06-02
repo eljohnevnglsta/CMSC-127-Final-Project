@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import DeleteFood from "../../components/DeleteFood";
 import UpdateFood from "../../components/UpdateFood";
 
+import 'react-datepicker/dist/react-datepicker.css';
 function ManagerFood (){
     let {code} = useParams();
     const username = useOutletContext(); 
@@ -100,25 +101,44 @@ function ManagerFood (){
     const handleCloseDelete = () => {
         setActiveDelete(null);
     }
-    return(
-        <div className="food-container">
 
+    
+  const renderMonthContent = (month, shortMonth, longMonth, day) => {
+    const fullYear = new Date(day).getFullYear();
+    const tooltipText = `Tooltip for month: ${longMonth} ${fullYear}`;
+
+    return <span title={tooltipText}>{shortMonth}</span>;
+  };
+    return(
+        <div className="my-10 overflow-hidden mx-20 min-h-screen round shadow-lg ">
+        <img className="h-60 w-full" src="https://t4.ftcdn.net/jpg/03/39/43/29/360_F_339432932_UvTfQZoi68BfndE1mPI8nkRo60jNNHCh.jpg" alt="Sunset in the mountains"></img>
+        <div className="py-10 px-20 ">
         {
             fooddata.map((food) =>{
                 return(
+                    
                     <div className="food-details">
-                        <h1>{food.name}</h1>
-                        <h3>From: {food.est}</h3>
-                        <h3>Price: {food.price}</h3>
-                        <h3>Type: </h3>
+                        <h1 className='font-bold text-4xl  text-sky-950'>{food.name}</h1>
+                        <div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
+                      <div className="w-9/12 px-4">
+                        <h3  className='text-lg'> <strong>From: </strong>{food.est}</h3>
+                        <div className="flex">
+                        <h3  className='text-lg'><strong>Type: </strong></h3> 
                         {food.foodtype.map((element, index) => (
-                            <h3 key={index}>{element}</h3>
+                            <u><h3  className='ml-2 text-lg' key={index}> {element } 
+                            
+                            </h3></u>
                         ))}
-                        {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
-                        {food.isspecialty === 1? <p>Specialty!</p> : null}
-                        {food.isbestseller === 1? <p>Best Seller!</p>: null}
-                        <button onClick={()=> handleDelete(food.foodcode)}>Delete Food </button>
-                        <button onClick={()=> setShowUpdate(true)}>Update details</button>
+                        </div>
+                        
+                        {food.averageRating ? <h5  className='text-lg'> <strong>Rating: </strong> {food.averageRating}</h5>: <p className='text-lg'>Newly added food!</p> }
+                        {food.isspecialty === 1? <p  className='text-lg font-semibold'>Specialty!</p> : null}
+                        {food.isbestseller === 1? <p  className='text-lg font-semibold'>Best Seller!</p>: null}
+                      </div>
+                      <div className='flex flex-col w-6/12'>
+                        <button className='bg-sky-950 py-3 px-6 mb-4 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={()=> handleDelete(food.foodcode)}>Delete Food </button>
+                        <button className='bg-sky-950 py-3 px-6 mb-4 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={()=> setShowUpdate(true)}>Update details</button>
+                        </div>
                             {
                                 activeDelete === food.foodcode && (
                                     <DeleteFood 
@@ -139,41 +159,61 @@ function ManagerFood (){
                                     food = {food}
                                 />
                             )}
-                        
+                    </div> 
                     </div>
                 )
             })
         }
 
-        <h1>Reviews</h1>
-        <div className="reviews-container">
-            <button onClick={() =>getFoodReviews()}> Show all reviews</button>
-            <label>Select review from a specific month: </label>
+<div className="flex mt-4 ml-8 shadow-md py-7 px-7 w-11/12 round">
+      <div className="reviews-container w-full">
+      <h1 className='font-bold text-4xl  text-sky-950'>Reviews</h1>
+      
+      <div className="border-sky-950 border-b mb-8 flex items-center pb-2">
+      <div className='flex justify-end items-center w-full px-4 '>
+      <button className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full 'onClick={() => getFoodReviews()}> Show all reviews</button>
+      <label>Select review from a specific month: </label>
+
+     
             <DatePicker
+            className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full '
             dateFormat="MMMM yyyy"
+            renderMonthContent={renderMonthContent}
             showMonthYearPicker
             selected={startDate}
             onChange={handleDateChange}
             />
-            {
-                !error ? <>{
-                    review.map((rev) =>{
-                        return(
-                            <div className="review-card">
-                                <h2>{rev.username}</h2>
-                                <h3>Rating: {rev.rating} </h3>
-                                <p>{rev.content}</p>
-                                {/* <p>{rev.date_added}</p> */} 
-                                {/* format date dapat */}
-                            </div>
-                            
-                        )
-                    })
-                } </>: <p>No reviews found.</p>
-            }
-
+      </div>
+      </div>
+        {!error ? (
+          <>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2  pb-32 gap-6 mx-32'>
+          {review.map((rev) => {
+            return (
+              <div className="max-w-sm rounded overflow-hidden px-8 py-6 shadow-lg hover:shadow">
+                <div className="flex mb-2">
+                <img class="w-10 h-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Rounded avatar"></img>
+                <h2 className='font-bold text-xl pl-2 mb-2 text-sky-950'>{rev.username} says...</h2>
+                </div>
+                <h3 className="text-xl"> <strong>Rating:</strong> {rev.rating} </h3>
+                <div className="p-4 my-4 border-s-4 border-gray-300  dark:border-gray-500 dark:bg-gray-800">
+                <p className="text-base italic">{rev.content}</p>
+                </div>
+                
+                {/* <p>{rev.date_added}</p> */}
+                {/* format date dapat */}
+              </div>
+            );
+          })}{" "}
+        </div>
+          </>
+        ) : (
+          <p>No reviews found.</p>
+        )}
         </div>
         </div>
+        </div>
+    </div>
     )
 }
 
