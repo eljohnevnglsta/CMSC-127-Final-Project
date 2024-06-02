@@ -11,6 +11,9 @@ function Search () {
     const [selectedOption, setSelectedOption] = useState("");
     const [foodList, setFoodList] = useState([])
      const [establishment, setEstablishment] = useState([]);
+     const [unfilteredResults, setUnfilteredResults] = useState([]); // New state to hold unfiltered results
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     useEffect(() => {
         let url = "http://localhost:3001/select-type";
         fetch(url)
@@ -33,18 +36,18 @@ function Search () {
 
 
 
-    useEffect(() =>{
-
-        if (search.length !==0){
-        if(!foodSearch){
-            searchFoodEstablishment(search)
-        }else{
-            searchFoods(search)
+    useEffect(() => {
+        if (search.length !== 0) {
+            if (!foodSearch) {
+                searchFoodEstablishment(search);
+            } else {
+                searchFoods(search);
+            }
+        } else {
+            setResults([]);
+            setUnfilteredResults([]); // Clear unfiltered results as well
         }
-    }else{
-        setResults([])
-    }
-    }, [search])
+    }, [search]);
 
     useEffect(() => {
         if (selectedOption) {
@@ -87,43 +90,80 @@ function Search () {
             setFoodList(body)
         })
     }
-    function searchFoodEstablishment (search) {
+    function searchFoodEstablishment(search) {
         fetch('http://localhost:3001/establishment/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 keyword: search,
-                
             })
         })
-        .then(response => response.json())  // Parse JSON response
+        .then(response => response.json())
         .then(data => {
-            // setError(false)
-            console.log(data)
-            setResults(data);  // Update state with the parsed data
-        }).catch(error => setResults([]));
+            console.log(data);
+            setResults(data);
+            setUnfilteredResults(data); // Update unfiltered results
+        }).catch(error => {
+            setResults([]);
+            setUnfilteredResults([]); // Clear unfiltered results on error
+        });
     }
 
-    function searchFoods(){
+    function searchFoods(search) {
         fetch('http://localhost:3001/food-item/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 keyword: search,
-                
             })
         })
-        .then(response => response.json())  // Parse JSON response
+        .then(response => response.json())
         .then(data => {
-            // setError(false)
-            console.log(data)
-            setResults(data);  // Update state with the parsed data
-        }).catch(error => setResults([]));
+            console.log(data);
+   
+            setResults(data);
+            // setUnfilteredResults(data); // Update unfiltered results
+        }).catch(error => {
+  
+            setResults([]);
+            // setUnfilteredResults([]); // Clear unfiltered results on error
+        });
     }
+
+    function searchFoodItemsByPrice() {
+        if (maxPrice && minPrice) {
+            fetch('http://localhost:3001/search-food-items-by-price', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    minprice: minPrice,
+                    maxprice: maxPrice,
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setFoodList(data);
+            }).catch(error => setResults([]));
+        } else {
+            setFoodList(foodList);
+        }
+    }
+
+    useEffect(() => {
+        if (foodSearch && unfilteredResults.length > 0) {
+            setResults(unfilteredResults.filter((food) => {
+                const price = parseFloat(food.price);
+                return price >= parseFloat(minPrice) && price <= parseFloat(maxPrice);
+            }));
+        }
+    }, [minPrice, maxPrice, unfilteredResults, foodSearch]);
 
 
     function handleAll(){
@@ -253,6 +293,23 @@ function Search () {
                                 return <option value={type.foodtype}>{type.foodtype}</option>;
                                 })}
                             </select>
+
+                            <input 
+                                type="number" 
+                                className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full '
+                                placeholder="₱ MIN" 
+                                value={minPrice} 
+                                onChange={(e) => setMinPrice(e.target.value)}
+                            />
+                            <input 
+                                type="number" 
+                                className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full '
+                                placeholder="₱ MAX" 
+                                value={maxPrice} 
+                                onChange={(e) => setMaxPrice(e.target.value)}
+                            />
+                            <button className='font-semibold hover:shadow round px-4' onClick={searchFoodItemsByPrice}>APPLY</button>
+                        
                         </div>
                         </div>
 
