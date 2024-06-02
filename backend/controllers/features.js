@@ -10,16 +10,20 @@ export const addReview = async (req, res) => {
   const { content, reviewtype, rating, username, businessid, foodcode } =
     req.body;
   const SQLQuery = `INSERT INTO review (content, reviewtype, date_added, rating, username, businessid, foodcode) VALUES (?, ?, curdate(), ?, ?, ?, ?)`;
-
+  
+  var fcode = (reviewtype == 1 ? null : foodcode)
+  var bID = (reviewtype == 2 ? null : businessid)
+  
   try {
     const response = await pool.query(SQLQuery, [
       content,
       reviewtype,
       rating,
       username,
-      businessid,
-      foodcode,
+      bID,
+      fcode
     ]);
+
     //kada add ng review, dapat nasset na yung averageRating nung food/establishment na ginawan ng review
     if (reviewtype == 2) {
       //for food review
