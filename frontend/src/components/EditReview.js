@@ -58,7 +58,7 @@ const handleSubmit = async (e, review, closeEdit) => {
 
   const data = {
     reviewid: review.reviewid,
-    content: e.target.review.value,
+    content: (e.target.review.value).trim(),
     rating: e.target.rating.value,
     username: localStorage.getItem("user"),
   };
