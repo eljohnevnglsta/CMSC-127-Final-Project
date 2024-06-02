@@ -80,8 +80,8 @@ const handleSubmit = async (e, reviewType, navigate) => {
         rating: e.target.rating.value,
         reviewtype: (reviewType === 'food' ? 2 : 1),
         username: localStorage.getItem('user'),
-        businessid: businessid,
-        foodcode: foodcode
+        businessid: (reviewType === 'food' ? null : businessid),
+        foodcode: (reviewType === 'food' ? foodcode : null)
     };
     
     try {
@@ -104,6 +104,7 @@ export default function AddReview() {
     const [reviewType, setReviewType] = useState('establishment');
     const [selectedEstablishment, setSelectedEstablishment] = useState('');
     const [foods, setFoods] = useState([]);
+    const [selectedFood, setSelectedFood] = useState(foods[0]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -132,6 +133,7 @@ export default function AddReview() {
         const reviewTypeParam = params.get('reviewType');
         const establishmentParam = params.get('establishment');
         const foodParam = params.get('food');
+        console.log(foodParam);
 
         if (reviewTypeParam) {
             setReviewType(reviewTypeParam);
@@ -140,7 +142,7 @@ export default function AddReview() {
             setSelectedEstablishment(establishmentParam);
         }
         if (foodParam && reviewTypeParam === 'food') {
-            setFoods([foodParam]);
+            setSelectedFood(foodParam);
         }
 
     }, [selectedEstablishment, reviewType]);
@@ -151,6 +153,10 @@ export default function AddReview() {
 
     const handleEstablishmentChange = (e) => {
         setSelectedEstablishment(e.target.value);
+    };
+
+    const handleFoodChange = (event) => {
+        setSelectedFood(event.target.value);
     };
  
     return (
@@ -206,12 +212,20 @@ export default function AddReview() {
                 {reviewType === 'food' && selectedEstablishment && (
                     <>
                         <label className='font-bold mr-4'>Food:</label>
-                        <select  className='border  py-1 border-sky-950 rounded-full '  id="foodcode" name="foodcode">
-                            <option value="" disabled>Select a food</option>
+                        <select
+                            className='border py-1 border-sky-950 rounded-full'
+                            id="foodcode"
+                            name="foodcode"
+                            value={selectedFood}
+                            onChange={handleFoodChange}
+                        >
+                            <option value="" disabled>
+                            Select a food
+                            </option>
                             {foods.map((food, index) => (
-                                <option key={index} value={food}>
-                                    {food}
-                                </option>
+                            <option key={index} value={food}>
+                                {food}
+                            </option>
                             ))}
                         </select>
                         <br />
