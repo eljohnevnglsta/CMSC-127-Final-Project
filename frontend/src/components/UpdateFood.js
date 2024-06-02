@@ -103,6 +103,7 @@ function UpdateFood(props) {
                   type="number"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
+                  required
                 />
               </div>
               <div className="grid lg:grid-cols-2 md:grid-cols-2  py-4 pl-4">
