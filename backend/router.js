@@ -20,6 +20,7 @@ import {
   viewAllEstablishmentsForManager,
   selectEstablishmentDetails,
   selectAllFood,
+  searchFoodItemsByFilters,
 } from "./controllers/reports.js";
 
 import {
@@ -67,7 +68,8 @@ const router = (app) => {
   app.post("/select-food-review-month", viewAllReviewsForFoodMonth);
   app.get('/select-type', selectType);
   app.post('/view-establishment-review',viewAllReviewsForEstablishment);
-  app.post('/select-food-business', selectBusinessOfFood)
+  app.post('/select-food-business', selectBusinessOfFood);
+  app.post('/search-by-filter', searchFoodItemsByFilters);
   
   app.get('/view-all-establishment-manager/:username', viewAllEstablishmentsForManager)
   app.get('/select-establishment-details/:name', selectEstablishmentDetails)

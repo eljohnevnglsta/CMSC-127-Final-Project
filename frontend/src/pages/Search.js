@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 
-
 function Search () {
     const [foodSearch, setFoodSearch] = useState(false)
     const [search, setSearch] = useState('')
@@ -10,10 +9,11 @@ function Search () {
     const [error, setError] = useState(false);
     const [selectedOption, setSelectedOption] = useState("");
     const [foodList, setFoodList] = useState([])
-     const [establishment, setEstablishment] = useState([]);
-     const [unfilteredResults, setUnfilteredResults] = useState([]); // New state to hold unfiltered results
+    const [establishment, setEstablishment] = useState([]);
+    const [unfilteredResults, setUnfilteredResults] = useState([]); // New state to hold unfiltered results
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
+
     useEffect(() => {
         let url = "http://localhost:3001/select-type";
         fetch(url)
@@ -25,7 +25,6 @@ function Search () {
         
       }, []);
 
-
     useEffect (() =>{
         if (foodSearch) {
            allFood()
@@ -33,8 +32,6 @@ function Search () {
             handleAll()
         }
     },[foodSearch])
-
-
 
     useEffect(() => {
         if (search.length !== 0) {
@@ -49,38 +46,6 @@ function Search () {
         }
     }, [search]);
 
-    useEffect(() => {
-        if (selectedOption) {
-          selectByType(selectedOption);
-          console.log(selectedOption)
-        }
-      }, [selectedOption]);
-
-      function selectByType(type) {
-        fetch(
-          "http://localhost:3001/search-food-items-by-type",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              foodtype: type
-
-            }),
-          }
-        )
-          .then((response) => response.json()) // Parse JSON response
-          .then((data) => {
-            setError(false);
-            setFoodList(data); // Update state with the parsed data
-          })
-          .catch((error) => {
-            console.log(error)
-            setError(true);
-          });
-      }
-
     function allFood () {
         let url = "http://localhost:3001/select-all-food"
         fetch(url)
@@ -90,6 +55,7 @@ function Search () {
             setFoodList(body)
         })
     }
+
     function searchFoodEstablishment(search) {
         fetch('http://localhost:3001/establishment/search', {
             method: 'POST',
@@ -134,27 +100,6 @@ function Search () {
         });
     }
 
-    function searchFoodItemsByPrice() {
-        if (maxPrice && minPrice) {
-            fetch('http://localhost:3001/search-food-items-by-price', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    minprice: minPrice,
-                    maxprice: maxPrice,
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setFoodList(data);
-            }).catch(error => setResults([]));
-        } else {
-            setFoodList(foodList);
-        }
-    }
 
     useEffect(() => {
         if (foodSearch && unfilteredResults.length > 0) {
@@ -165,15 +110,38 @@ function Search () {
         }
     }, [minPrice, maxPrice, unfilteredResults, foodSearch]);
 
-
     function handleAll(){
         let url = "http://localhost:3001/view-all-establishments"
         fetch(url)
           .then(response => response.json())
           .then(body => {
             setEstablishment(body)
+            setSelectedOption('');
         })
     }
+
+    function handleApplyFilters() {
+        fetch("http://localhost:3001/search-by-filter", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                foodtype: selectedOption,
+                minprice: parseFloat(minPrice),
+                maxprice: parseFloat(maxPrice),
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setFoodList(data);
+            })
+            .catch((error) => {
+                console.log(error);
+                setFoodList([]);
+            });
+        }
 
     return(
         <div className="search-container" >
@@ -206,8 +174,6 @@ function Search () {
             </div>
             </form>
             
-            
-
 
             {
                 !foodSearch ? 
@@ -278,13 +244,12 @@ function Search () {
                         <div className="border-sky-950 border-b mb-8 flex items-center pb-2">
                         <div className='flex justify-end items-center w-full px-4 '>
                         <button  className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full ' onClick={() => allFood()}>Show All Food</button>
-                            <label>Select By Type: </label>
+                            <label>Filters: </label>
                             <select
                                 className='border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full '
                                 value={selectedOption}
                                 onChange={(e) => {
                                 setSelectedOption(e.target.value);
-                                // selectByType(e.target.value, order)
                                 console.log(e.target.value);
                                 }}
                             >
@@ -308,7 +273,7 @@ function Search () {
                                 value={maxPrice} 
                                 onChange={(e) => setMaxPrice(e.target.value)}
                             />
-                            <button className='font-semibold hover:shadow round px-4' onClick={searchFoodItemsByPrice}>APPLY</button>
+                            <button className='font-semibold hover:shadow round px-4' onClick={handleApplyFilters}>APPLY</button>
                         
                         </div>
                         </div>
@@ -346,4 +311,4 @@ function Search () {
     )
 }
 
-export default Search
+export default Search;
