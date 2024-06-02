@@ -28,8 +28,6 @@ function EstablishmentReview(props) {
     } else if (user) {
       setUserRole("user");
       setUsername(user);
-    } else {
-      setUserRole("guest");
     }
   }, []);
   console.log(userRole);
@@ -132,8 +130,8 @@ function EstablishmentReview(props) {
   };
 
   const handleCloseEdit = () => {
-      setActiveEdit(null);
-  }
+    setActiveEdit(null);
+  };
   return (
     <div className="reviews-container">
       <button onClick={() => getReviews()}> Show all reviews</button>
@@ -156,18 +154,17 @@ function EstablishmentReview(props) {
                   <button onClick={() => handleDelete(rev)}>Delete</button>
                 )}
 
-                  { username == rev.username && (
-                    <button onClick={() => handleEdit(rev.reviewid)}>Edit</button>
-                  )}
-                  
-                  { 
-                    activeEdit === rev.reviewid && (
-                      <EditReview 
-                      closeEdit = {handleCloseEdit}
-                      resetEstablishment = {getReviews}
-                      reviewid = {rev.reviewid}/>
-                    )
-                  }
+                {username == rev.username && (
+                  <button onClick={() => handleEdit(rev.reviewid)}>Edit</button>
+                )}
+
+                {activeEdit === rev.reviewid && (
+                  <EditReview
+                    closeEdit={handleCloseEdit}
+                    resetEstablishment={getReviews}
+                    reviewid={rev.reviewid}
+                  />
+                )}
                 {/* <p>{rev.date_added}</p> */}
                 {/* format date dapat */}
               </div>

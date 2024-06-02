@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import EditReview from "../components/EditReview";
 function Food() {
   let { code } = useParams();
+  const [foodList, setFoodList] = useState([]);
   const [fooddata, setFoodData] = useState([]);
   const [review, setReviews] = useState([]);
   const [error, setError] = useState(false);
@@ -88,6 +89,40 @@ function Food() {
       });
   }
 
+  function handleDeleteFood(food) {
+    const userToDelete = userRole === "admin" ? food.username : username;
+    fetch("http://localhost:3001/food-item/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        foodcode: food.foodcode,
+        username: userToDelete,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response);
+          throw new Error(response.statusText);
+        }
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        if (data.affectedRows > 0) {
+          alert("Food deleted!");
+          window.history.back();
+        } else {
+          console.error("Error deleting food:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting food:", error);
+      });
+  }
+
   function getFoodReviews() {
     fetch("http://localhost:3001/view-all-reviews-for-food-item", {
       method: "POST",
@@ -135,8 +170,8 @@ function Food() {
   };
 
   const handleCloseEdit = () => {
-      setActiveEdit(null);
-  }
+    setActiveEdit(null);
+  };
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -155,29 +190,45 @@ function Food() {
     // setPassDate(formattedDate);
   };
 
-
-
-    return(
-        <div className="food-container">
-
-        {
-            fooddata.map((food) =>{
-                return(
-                    <div className="food-details">
-                        <h1>{food.name}</h1>
-                        <h3>From: {food.est}</h3>
-                        <h3>Type: {food.foodtype}</h3>
-                        {food.foodtype.map((element, index) => (
-                            <h3 key={index}>{element}</h3>
-                        ))}
-                        {food.averageRating ? <h5>Rating: {food.averageRating}</h5>: <p>Newly added food!</p> }
-                        {food.isspecialty === 1? <p>Specialty!</p> : null}
-                        {food.isbestseller === 1? <p>Best Seller!</p>: null}
-                        <Link to={`/write/?reviewType=food&establishment=${food.est}&food=${food.name}`}><button>Write a review</button></Link>
-                    </div>
-                )
-            })
-        }
+  return (
+    <div className="food-container">
+      {fooddata.map((food) => {
+        return (
+          <div className="food-details">
+            <h1>{food.name}</h1>
+            <h3>From: {food.est}</h3>
+            {food.foodtype != [] ? (
+              <>
+                <h3>Type: {food.foodtype}</h3>
+                {food.foodtype.map((element, index) => (
+                  <h3 key={index}>{element}</h3>
+                ))}
+              </>
+            ) : null}
+            {food.averageRating ? (
+              <h5>Rating: {food.averageRating}</h5>
+            ) : (
+              <p>Newly added food!</p>
+            )}
+            {food.isspecialty === 1 ? <p>Specialty!</p> : null}
+            {food.isbestseller === 1 ? <p>Best Seller!</p> : null}
+            {userRole === "user" && (
+              <Link
+                to={`/write/?reviewType=food&establishment=${food.est}&food=${food.name}`}
+              >
+                <button>Write a review</button>
+              </Link>
+            )}
+            {userRole === "admin" && (
+              <div>
+                <button onClick={() => handleDeleteFood(food)}>
+                  Delete This Food
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
 
       <h1>Reviews</h1>
       <div className="reviews-container">
@@ -201,18 +252,19 @@ function Food() {
                     <button onClick={() => handleDelete(rev)}>Delete</button>
                   )}
 
-                  { username == rev.username && (
-                    <button onClick={() => handleEdit(rev.reviewid)}>Edit</button>
+                  {username == rev.username && (
+                    <button onClick={() => handleEdit(rev.reviewid)}>
+                      Edit
+                    </button>
                   )}
-                  
-                  {
-                    activeEdit === rev.reviewid && (
-                      <EditReview 
-                      closeEdit = {handleCloseEdit}
-                      resetFood = {getFoodReviews}
-                      reviewid = {rev.reviewid}/>
-                    )
-                  }
+
+                  {activeEdit === rev.reviewid && (
+                    <EditReview
+                      closeEdit={handleCloseEdit}
+                      resetFood={getFoodReviews}
+                      reviewid={rev.reviewid}
+                    />
+                  )}
                   {/* <p>{rev.date_added}</p> */}
                   {/* format date dapat */}
                 </div>
