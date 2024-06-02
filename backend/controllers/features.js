@@ -174,7 +174,8 @@ export const updateFoodEstablishment = async (req, res) => {
 
 //delete food establishment
 export const deleteFoodEstablishment = async (req, res) => {
-  const { businessid} = req.body;
+  const { businessid } = req.body;
+  console.log(businessid);
   const SQLQuery = `DELETE FROM food_establishment WHERE businessid = ? `;
 
   try {
@@ -182,6 +183,7 @@ export const deleteFoodEstablishment = async (req, res) => {
     const deleteReviewQuery = `DELETE FROM review WHERE foodcode IN (SELECT foodcode from food where businessid=?)`;
     const deletedReview = await pool.query(deleteReviewQuery, [businessid]);
 
+    //delete food type
     const deleteFoodTypeQuery = `DELETE FROM food_type WHERE foodcode IN (SELECT foodcode from food where businessid=?)`;
     const deletedFoodType = await pool.query(deleteFoodTypeQuery, [businessid]);
 
@@ -193,7 +195,7 @@ export const deleteFoodEstablishment = async (req, res) => {
     const deleteEstQuery = `DELETE FROM review WHERE businessid=?`;
     const deletedEstReview = await pool.query(deleteEstQuery, [businessid]);
 
-    const response = await pool.query(SQLQuery, [businessid, username]);
+    const response = await pool.query(SQLQuery, [businessid]);
     res.status(200).json(response);
   } catch (error) {
     res.status(500).send(error.message);
@@ -248,9 +250,17 @@ export const addFoodItem = async (req, res) => {
 
 // Update a food item
 export const updateFoodItem = async (req, res) => {
-  const { name, price, foodcode, foodtype, username, isbestseller, isspecialty } = req.body;
+  const {
+    name,
+    price,
+    foodcode,
+    foodtype,
+    username,
+    isbestseller,
+    isspecialty,
+  } = req.body;
   const SQLQuery = `UPDATE food SET name = ?,  price = ?, isbestseller=?, isspecialty=? WHERE foodcode = ? and username = ?`;
-  console.log(isspecialty)
+  console.log(isspecialty);
   try {
     const response = await pool.query(SQLQuery, [
       name,
@@ -274,7 +284,7 @@ export const updateFoodItem = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
     res.status(500).send(error.message);
   }
 };

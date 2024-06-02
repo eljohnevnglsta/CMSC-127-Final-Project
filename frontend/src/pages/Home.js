@@ -38,6 +38,7 @@ function Home() {
   function handleDelete(establishment) {
     const userToDelete =
       userRole === "admin" ? establishment.username : username;
+    console.log("user:" + userToDelete);
     fetch("http://localhost:3001/establishment/delete", {
       method: "POST",
       headers: {
@@ -110,7 +111,10 @@ function Home() {
         </h1>
       )}
       {admin && (
-        <h1 className="font-bold text-xl ml-9 my-6 text-sky-950">Hi admin! </h1>
+        <h1 className="font-bold text-xl ml-9 my-6 text-sky-950">
+          Hi Admin! You can delete foods, reviews, and food establishments from
+          here{" "}
+        </h1>
       )}
       <div className="grid lg:grid-cols-4 md:grid-cols-2 pb-32 gap-6 mx-32">
         {establishment.map((business) => {
@@ -140,7 +144,12 @@ function Home() {
                   <p>No reviews yet!</p>
                 )}
                 {(userRole == "admin" || username == business.username) && (
-                  <button className='bg-red-500 py-3 px-4 my-3 rounded-lg text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(business)}>Delete</button>
+                  <button
+                    className="bg-red-500 py-3 px-4 my-3 rounded-lg text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
+                    onClick={() => handleDelete(business)}
+                  >
+                    Delete
+                  </button>
                 )}
               </div>
             </div>
