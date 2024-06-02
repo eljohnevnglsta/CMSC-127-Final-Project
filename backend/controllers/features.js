@@ -202,7 +202,7 @@ export const searchFoodEstablishment = async (req, res) => {
   const SQLQuery = `SELECT * FROM food_establishment WHERE name LIKE ?`;
 
   try {
-    const rows = await pool.query(SQLQuery, [`${req.body.keyword}%`]);
+    const rows = await pool.query(SQLQuery, [`%${req.body.keyword}%`]);
 
     if (rows.length === 0) {
       return res.status(404).json({ message: "No food establishments found" });
@@ -300,7 +300,7 @@ export const searchFoodItem = async (req, res) => {
   const SQLQuery = `SELECT * FROM food WHERE name LIKE ?`;
 
   try {
-    const rows = await pool.query(SQLQuery, [`${keyword}%`]);
+    const rows = await pool.query(SQLQuery, [`%${keyword}%`]);
     if (rows.length === 0) {
       return res.status(404).json({ message: "No food items found" });
     }
