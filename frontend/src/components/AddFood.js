@@ -5,7 +5,7 @@ function AddFood (props) {
     const show = props.show;
     const businessid = props.businessid
     const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState('');
     const [foodtype, setFoodType] = useState([])
     const [typeSelection, setFoodTypeSelection] = useState([])
 
@@ -66,40 +66,46 @@ function AddFood (props) {
         <div className="bg-orange-50 rounded-lg p-6 w-full max-h-xl max-w-3xl">
             <div className="flex justify-between items-center mb-4">
             <div className='w-full'>
-            <h1 className='font-bold text-xl mb-2 text-sky-950'>Add a Food </h1>
+            <h1 className='font-bold text-2xl mb-2 text-sky-950'>Add a Food </h1>
         <form onSubmit={handleSubmit}>
-            <div>
-                <label>Name:</label>
+                <div className=' text-lg pb-2' >
+                <label className='font-bold mr-4'>Name:</label>
                 <input
-                    type="text"
+                    className='border-slate-300 rounded-lg border h-10 focus:shadow-md border-sky-950 pl-2 text-lg ml-4 w-11/12 text-sky-950'
+                    type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
             </div>
-            <div>
-                <label>Price:</label>
+            <div className=' text-lg pb-2' >
+                <label className='font-bold mr-4'>Price:</label>
                 <input
+                    className='border-slate-300 rounded-lg border h-10 focus:shadow-md border-sky-950 pl-2 text-lg ml-4 w-11/12 text-sky-950'
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                 />
             </div>
-            <div>
-                <label>Food Types:</label>
+            <div className=' text-lg pb-2' >
+                <label className='font-bold mr-4'>Food Types:</label>
+                <div className="pl-8">
+                <div className='grid lg:grid-cols-3 md:grid-cols-2  pb-6 mx-4'>
                 {typeSelection.map((type, index) => (
                     <div key={index}>
                         <input
-                            type="checkbox"
+                            type="checkbox" 
                             value={type.foodtype}
                            
                             onChange={handleCheckboxChange}
                         />
-                        <label>{type.foodtype}</label>
+                        <label className='font-semibold mr-4' >{type.foodtype}</label>
                     </div>
                 ))}
+                </div>
+                </div>
             </div>
-            <button type="submit">Confirm</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button className='bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' type="submit">Confirm</button>
+            <button  className='bg-red-800 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-red-950 ease-out duration-150' onClick={handleCancel}>Cancel</button>
         </form>
         
         </div>

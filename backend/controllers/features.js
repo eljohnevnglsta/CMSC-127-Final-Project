@@ -248,13 +248,15 @@ export const addFoodItem = async (req, res) => {
 
 // Update a food item
 export const updateFoodItem = async (req, res) => {
-  const { name, price, foodcode, foodtype, username } = req.body;
-  const SQLQuery = `UPDATE food SET name = ?,  price = ? WHERE foodcode = ? and username = ?`;
-
+  const { name, price, foodcode, foodtype, username, isbestseller, isspecialty } = req.body;
+  const SQLQuery = `UPDATE food SET name = ?,  price = ?, isbestseller=?, isspecialty=? WHERE foodcode = ? and username = ?`;
+  console.log(isspecialty)
   try {
     const response = await pool.query(SQLQuery, [
       name,
       price,
+      isbestseller,
+      isspecialty,
       foodcode,
       username,
     ]);
@@ -272,6 +274,7 @@ export const updateFoodItem = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
+    console.log(error.message)
     res.status(500).send(error.message);
   }
 };

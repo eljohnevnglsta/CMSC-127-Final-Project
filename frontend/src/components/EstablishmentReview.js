@@ -200,9 +200,7 @@ function EstablishmentReview(props) {
                       closeEdit = {handleCloseEdit}
                       resetEstablishment = {getReviews}
                       reviewid = {rev.reviewid}/>
-                      
-                      
-                      
+
                     )
                   }
                 {/* <p>{rev.date_added}</p> */}

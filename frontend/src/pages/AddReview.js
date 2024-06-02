@@ -240,6 +240,6 @@ export default function AddReview() {
             </form>
             </div>
             </div>
-        </div>
+        </div> 
     );
 }

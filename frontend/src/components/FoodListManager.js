@@ -135,7 +135,7 @@ function FoodListManager (props){
                     </Link>
                     <p  className="text-base" > &#8369; {food.price}</p>
     
-                    {food.averageRating ? <h5 className="text-base"> <strong>Rating: </strong> {food.averageRating}</h5>: <p className="text-sm mb-6">Newly added food!</p> }
+                    {food.averageRating ? <h5 className="text-base"> <strong>Rating: </strong> {food.averageRating}</h5>: <p className="text-sm mb-6" >Newly added food!</p> }
                     {food.isspecialty === 1 ? <p className="text-sm" >Specialty!</p> : null}
                     {food.isbestseller === 1 ? <p className="text-sm"> Best Seller!</p> : null}
                   </div>
