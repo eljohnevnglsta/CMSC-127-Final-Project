@@ -74,14 +74,13 @@ const handleSubmit = async (e, reviewType, navigate) => {
         }
     }
 
-
     const data = {
         content: e.target.content.value,
         rating: e.target.rating.value,
         reviewtype: (reviewType === 'food' ? 2 : 1),
         username: localStorage.getItem('user'),
-        businessid: (reviewType === 'food' ? null : businessid),
-        foodcode: (reviewType === 'food' ? foodcode : null)
+        businessid: businessid,
+        foodcode: foodcode
     };
     
     try {
