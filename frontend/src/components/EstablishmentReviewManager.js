@@ -149,8 +149,8 @@ function EstablishmentReviewManager(props) {
                     </p>
                   )}
                   {rev.content ? (
-                    <div className="p-4 my-4 border-s-4 border-gray-300 rounded-lg dark:border-gray-500 dark:bg-gray-800">
-                      <p className="text-base italic text-white">
+                    <div className="p-4 my-4 border-s-4 border-gray-600  ">
+                      <p className="text-base italic text-sky-950">
                         {rev.content}
                       </p>
                     </div>

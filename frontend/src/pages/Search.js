@@ -147,13 +147,13 @@ function Search () {
         <div className="search-container" >
             <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 my-7 pl-8">
             <div className="flex flex-wrap -mb-px">
-            <button className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6' onClick={() => 
+            <button className="inline-block p-4 font-semibold border-b-2 border-transparent rounded-t-lg hover:border-b-sky-950 hover:text-gray-600 text-sky-950 px-6" onClick={() => 
                 {setFoodSearch(false)
                     setResults([])
                     setError(false)
                     setSearch('')
                 }}>Search a Food Establishment</button>
-            <button  className='inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 px-6' onClick={()=>{setFoodSearch(true)
+            <button  className="inline-block p-4 font-semibold border-b-2 border-transparent rounded-t-lg hover:border-b-sky-950 hover:text-gray-600 text-sky-950 px-6" onClick={()=>{setFoodSearch(true)
                 setError(false)
                 setResults([])
                 setSearch('')
@@ -167,7 +167,7 @@ function Search () {
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
             </div>
-            <input type="text" className='block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Search food item or establishment...'
+            <input type="text" className='block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500' placeholder='Search food item or establishment...'
              onChange={e => 
                 {
              setSearch(e.target.value)}} value={search}></input>
