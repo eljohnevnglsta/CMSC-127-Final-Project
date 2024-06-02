@@ -88,7 +88,7 @@ const handleSubmit = async (e, reviewType, navigate) => {
   }
 
   const data = {
-    content: e.target.content.value,
+    content: (e.target.content.value).trim(),
     rating: e.target.rating.value,
     reviewtype: reviewType === "food" ? 2 : 1,
     username: localStorage.getItem("user"),
