@@ -89,8 +89,7 @@ export const deleteReview = async (req, res) => {
     const found = await pool.query(reviewtypeQuery, [reviewid, username]);
 
     if (found.length === 0) {
-      console.log(reviewid);
-      console.log(username);
+ 
       return res
         .status(404)
         .send(
@@ -179,7 +178,7 @@ export const updateFoodEstablishment = async (req, res) => {
 //delete food establishment
 export const deleteFoodEstablishment = async (req, res) => {
   const { businessid } = req.body;
-  console.log(businessid);
+
   const SQLQuery = `DELETE FROM food_establishment WHERE businessid = ? `;
 
   try {
@@ -264,7 +263,7 @@ export const updateFoodItem = async (req, res) => {
     isspecialty,
   } = req.body;
   const SQLQuery = `UPDATE food SET name = ?,  price = ?, isbestseller=?, isspecialty=? WHERE foodcode = ? and username = ?`;
-  console.log(isspecialty);
+  
   try {
     const response = await pool.query(SQLQuery, [
       name,

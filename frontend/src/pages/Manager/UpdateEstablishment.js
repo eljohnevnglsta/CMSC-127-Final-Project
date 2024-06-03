@@ -16,7 +16,7 @@ function UpdateEstablishment (props) {
         fetch(url)
           .then(response => response.json())
           .then(body => {
-            console.log(body[0])
+          
             setBusinessDetails(body[0])
             setCity(body[0].city)
             setStreet(body[0].street)

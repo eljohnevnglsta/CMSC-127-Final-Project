@@ -32,8 +32,7 @@ function EstablishmentReview(props) {
       setUsername(user);
     }
   }, []);
-  console.log(userRole);
-  console.log(username);
+
   function getReviews() {
     fetch("http://localhost:3001/view-establishment-review", {
       method: "POST",
@@ -112,7 +111,7 @@ function EstablishmentReview(props) {
 
   const handleDateChange = (date) => {
     setStartDate(date);
-    console.log(date);
+    
 
     // Adjusting the date to Philippine Standard Time (UTC+8)
     const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
@@ -122,7 +121,7 @@ function EstablishmentReview(props) {
       .toISOString()
       .slice(0, 10)
       .replace("T", " ");
-    console.log(formattedDate);
+    
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };

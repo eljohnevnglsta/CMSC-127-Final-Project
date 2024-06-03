@@ -15,7 +15,7 @@ function AddFood(props) {
       .then((response) => response.json())
       .then((body) => {
         setFoodTypeSelection(body);
-        console.log(body);
+       
       });
   }, []);
 
@@ -49,7 +49,7 @@ function AddFood(props) {
 
     if(others.length !== 0){
       foodtype.push(others) 
-      console.log(foodtype)
+      
     }
 
     if (foodtype.length === 0) {

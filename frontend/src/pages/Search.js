@@ -20,7 +20,7 @@ function Search () {
           .then((response) => response.json())
           .then((body) => {
             setFoodTypes(body);
-            // console.log(body)
+       
           });
         
       }, []);

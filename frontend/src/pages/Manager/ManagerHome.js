@@ -7,7 +7,7 @@ function ManagerHome (){
     const [businessList, setBusinessList] = useState([]);
 
     useEffect(()=>{
-        console.log(username)
+       
         let url = `http://localhost:3001/view-all-establishment-manager/${username}`
         fetch(url)
           .then(response => response.json())

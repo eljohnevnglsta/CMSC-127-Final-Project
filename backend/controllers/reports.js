@@ -25,7 +25,7 @@ export const viewAllReviewsForEstablishment = async (req, res) => {
     res.status(404).send("No reviews found for this establishment");
     return;
   }
-  console.log(response);
+
   res.status(200).json(response);
 };
 
@@ -203,9 +203,9 @@ export const searchFoodItemsByType = async (req, res) => {
         FROM food f
         JOIN food_type ft ON f.foodcode = ft.foodcode
         WHERE ft.foodtype = '${req.body.foodtype}';`;
-  console.log(SQLQuery);
+
   const response = await pool.query(SQLQuery);
-  console.log(response);
+
   if (response.length == 0) {
     res.status(404).send("No food items found for this category");
     return;
@@ -302,7 +302,7 @@ export const selectOneFood = async (req, res) => {
     `;
   try {
     const response = await pool.query(SQLQuery);
-    console.log(response);
+
     // Transform the result to aggregate foodtype into an array
     if (response.length > 0) {
       const result = {

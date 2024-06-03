@@ -15,7 +15,7 @@ function UpdateFood(props) {
       .then((response) => response.json())
       .then((body) => {
         setFoodTypeSelection(body);
-        console.log(body);
+       
       });
 
     setName(foodDetails.name);
@@ -58,13 +58,13 @@ function UpdateFood(props) {
 
     if(others.length !== 0){
       foodtype.push(others) 
-      console.log(foodtype)
+      
     }
     if (foodtype.length === 0) {
       alert("Please select at least one food type.");
       return;
     }
-    console.log(specialty);
+    
     fetch("http://localhost:3001/food-item/update", {
       method: "POST",
       headers: {

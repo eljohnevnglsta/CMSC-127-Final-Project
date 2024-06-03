@@ -16,7 +16,7 @@ function FoodListManager (props){
           .then(response => response.json())
           .then(body => {
             setFoodTypes(body)
-            // console.log(body)
+          
         })
         showAllFood(order)
     },[])
@@ -101,8 +101,7 @@ function FoodListManager (props){
             value={selectedOption}
             onChange={(e) => {
               setSelectedOption(e.target.value);
-              // selectByType(e.target.value, order)
-              console.log(e.target.value);
+             
             }}
           >
             <option value="">Select a type  </option>

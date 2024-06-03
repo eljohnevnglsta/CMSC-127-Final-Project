@@ -53,7 +53,7 @@ function ManagerAdd (){
                 <div className=' text-xl pb-4' >
                 <label className='font-bold mr-4'>Type: </label>
                 <br/>
-                <input className='bop-4 border-slate-300 rounded-lg border h-10 mb-4 focus:shadow-md border-sky-950 py-2 text-large ml-4 w-11/12 text-sky-950' type='text' required value={type} onChange={(e) => setType(e.target.value)}/>
+                <input className='p-4 border-slate-300 rounded-lg border h-10 mb-4 focus:shadow-md border-sky-950 py-2 text-large ml-4 w-11/12 text-sky-950' type='text' required value={type} onChange={(e) => setType(e.target.value)}/>
                 </div>
                 <br/>
                 <div className=' text-xl pb-4' >

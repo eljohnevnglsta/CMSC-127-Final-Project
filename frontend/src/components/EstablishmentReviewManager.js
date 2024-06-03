@@ -56,7 +56,7 @@ function EstablishmentReviewManager(props) {
 
   const handleDateChange = (date) => {
     setStartDate(date);
-    console.log(date);
+    
 
     // Adjusting the date to Philippine Standard Time (UTC+8)
     const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
@@ -66,7 +66,7 @@ function EstablishmentReviewManager(props) {
       .toISOString()
       .slice(0, 10)
       .replace("T", " ");
-    console.log(formattedDate);
+    
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };
