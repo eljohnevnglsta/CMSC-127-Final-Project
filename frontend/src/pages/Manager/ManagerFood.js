@@ -128,14 +128,14 @@ function ManagerFood() {
                   <h3 className="text-lg">
                     {" "}
                     <strong>From: </strong>
-                    {food.est}
+                    <Link className="underline" to={`/manager/food-establishment/${food.est}`}>{food.est}</Link>
                   </h3>
                   <div className="flex">
                     <h3 className="text-lg">
                       <strong>Type: </strong>
                     </h3>
                     {food.foodtype.map((element, index) => (
-                      <u>
+                      <u className="no-underline">
                         <h3 className="ml-2 text-lg" key={index}>
                           {" "}
                           {element}

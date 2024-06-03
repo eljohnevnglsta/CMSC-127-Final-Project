@@ -19,7 +19,7 @@ CREATE TABLE food_establishment(
 	name VARCHAR(30) NOT NULL,
 	type VARCHAR(15) NOT NULL,
 	averageRating DECIMAL(5,4),
-	street VARCHAR(20),
+	street VARCHAR(20) NOT NULL,
 	barangay VARCHAR(20) NOT NULL,
 	city VARCHAR(20) NOT NULL,
 	province VARCHAR(20) NOT NULL,
@@ -87,67 +87,67 @@ INSERT INTO user (username, firstname, lastname, usertype, accesskey) VALUES
 ('jameslee', 'James', 'Lee', 1, 'U8K9L0M1');
 
 -- Populate the food_establishment table
-INSERT INTO food_establishment (name, type, averageRating, street, barangay, city, province, username) VALUES
-('Deli Delight', 'Deli', 0, '10 Elm St', 'Barangay 5', 'City E', 'Province Y', 'mikewhite'),
-('Pasta Paradise', 'Italian', 0, '20 Oak Ave', 'Barangay 6', 'City F', 'Province Z', 'mikewhite'),
-('Grill Galore', 'BBQ', 0, '30 Maple St', 'Barangay 7', 'City G', 'Province X', 'sarablack'),
-('Noodle Nest', 'Chinese', 0, '40 Pine Ave', 'Barangay 8', 'City H', 'Province W', 'sarablack'),
-('Salad Stop', 'Healthy', 0, '50 Birch St', 'Barangay 9', 'City I', 'Province V', 'tinahill'),
-('Curry Corner', 'Indian', 0, '60 Cedar Ave', 'Barangay 10', 'City J', 'Province U', 'tinahill'),
-('Pizza Palace', 'Pizza', 0, '70 Spruce St', 'Barangay 11', 'City K', 'Province T', 'samparker'),
-('Burger Bistro', 'Burger', 0, '80 Walnut Ave', 'Barangay 12', 'City L', 'Province S', 'samparker'),
-('Sushi Spot', 'Sushi', 0, '90 Elm St', 'Barangay 13', 'City M', 'Province R', 'elizathompson'),
-('Taco Tavern', 'Mexican', 0, '100 Oak Ave', 'Barangay 14', 'City N', 'Province Q', 'elizathompson');
+INSERT INTO food_establishment (name, type, street, barangay, city, province, username) VALUES
+('Deli Delight', 'Deli', '10 Elm St', 'Barangay 5', 'City E', 'Province Y', 'mikewhite'),
+('Pasta Paradise', 'Italian', '20 Oak Ave', 'Barangay 6', 'City F', 'Province Z', 'mikewhite'),
+('Grill Galore', 'BBQ', '30 Maple St', 'Barangay 7', 'City G', 'Province X', 'sarablack'),
+('Noodle Nest', 'Chinese', '40 Pine Ave', 'Barangay 8', 'City H', 'Province W', 'sarablack'),
+('Salad Stop', 'Healthy', '50 Birch St', 'Barangay 9', 'City I', 'Province V', 'tinahill'),
+('Curry Corner', 'Indian', '60 Cedar Ave', 'Barangay 10', 'City J', 'Province U', 'tinahill'),
+('Pizza Palace', 'Pizza', '70 Spruce St', 'Barangay 11', 'City K', 'Province T', 'samparker'),
+('Burger Bistro', 'Burger', '80 Walnut Ave', 'Barangay 12', 'City L', 'Province S', 'samparker'),
+('Sushi Spot', 'Sushi', '90 Elm St', 'Barangay 13', 'City M', 'Province R', 'elizathompson'),
+('Taco Tavern', 'Mexican', '100 Oak Ave', 'Barangay 14', 'City N', 'Province Q', 'elizathompson');
 
-INSERT INTO food (name, price, isspecialty, isbestseller, averageRating, username, businessid)
+INSERT INTO food (name, price, isspecialty, isbestseller, username, businessid)
 VALUES
     -- Foods for 'mikewhite' (Mike White)
-    ('Ham and Cheese Sandwich', 8.50, TRUE, FALSE, 0, 'mikewhite', 1),
-    ('Spaghetti Carbonara', 12.99, FALSE, TRUE, 0, 'mikewhite', 1),
-    ('Grilled Chicken Salad', 9.75, TRUE, FALSE, 0, 'mikewhite', 1),
-    ('Mushroom Risotto', 14.50, FALSE, FALSE, 0, 'mikewhite', 1),
-    ('Chicken Alfredo Pizza', 10.99, FALSE, TRUE, 0, 'mikewhite', 2),
-    ('Bacon Cheeseburger', 11.25, TRUE, FALSE, 0, 'mikewhite', 2),
-    ('Caesar Salad', 7.99, TRUE, FALSE, 0, 'mikewhite', 2),
-    ('Margherita Pizza', 9.50, FALSE, TRUE, 0, 'mikewhite', 2),
-    ('Chicken Quesadilla', 8.75, FALSE, FALSE, 0, 'mikewhite', 2),
-    ('Caprese Salad', 6.99, TRUE, FALSE, 0, 'mikewhite', 2),
+    ('Ham and Cheese Sandwich', 8.50, TRUE, FALSE, 'mikewhite', 1),
+    ('Spaghetti Carbonara', 12.99, FALSE, TRUE, 'mikewhite', 1),
+    ('Grilled Chicken Salad', 9.75, TRUE, FALSE, 'mikewhite', 1),
+    ('Mushroom Risotto', 14.50, FALSE, FALSE, 'mikewhite', 1),
+    ('Chicken Alfredo Pizza', 10.99, FALSE, TRUE, 'mikewhite', 2),
+    ('Bacon Cheeseburger', 11.25, TRUE, FALSE, 'mikewhite', 2),
+    ('Caesar Salad', 7.99, TRUE, FALSE, 'mikewhite', 2),
+    ('Margherita Pizza', 9.50, FALSE, TRUE, 'mikewhite', 2),
+    ('Chicken Quesadilla', 8.75, FALSE, FALSE, 'mikewhite', 2),
+    ('Caprese Salad', 6.99, TRUE, FALSE, 'mikewhite', 2),
 
     -- Foods for 'sarablack' (Sara Black)
-    ('BBQ Pork Ribs', 16.99, TRUE, FALSE, 0, 'sarablack', 3),
-    ('Sweet and Sour Chicken', 12.50, FALSE, TRUE, 0, 'sarablack', 3),
-    ('Beef Chow Mein', 11.75, TRUE, FALSE, 0, 'sarablack', 3),
-    ('Shrimp Fried Rice', 13.25, FALSE, FALSE, 0, 'sarablack', 3),
-    ('Orange Chicken', 9.99, FALSE, TRUE, 0, 'sarablack', 4),
-    ('Vegetable Lo Mein', 8.50, TRUE, FALSE, 0, 'sarablack', 4),
-    ('General Tso''s Chicken', 10.75, TRUE, FALSE, 0, 'sarablack', 4),
-    ('Beef and Broccoli', 12.25, FALSE, TRUE, 0, 'sarablack', 4),
-    ('Egg Drop Soup', 5.99, FALSE, FALSE, 0, 'sarablack', 4),
-    ('Hot and Sour Soup', 5.99, TRUE, FALSE, 0, 'sarablack', 4),
+    ('BBQ Pork Ribs', 16.99, TRUE, FALSE, 'sarablack', 3),
+    ('Sweet and Sour Chicken', 12.50, FALSE, TRUE, 'sarablack', 3),
+    ('Beef Chow Mein', 11.75, TRUE, FALSE, 'sarablack', 3),
+    ('Shrimp Fried Rice', 13.25, FALSE, FALSE, 'sarablack', 3),
+    ('Orange Chicken', 9.99, FALSE, TRUE, 'sarablack', 4),
+    ('Vegetable Lo Mein', 8.50, TRUE, FALSE, 'sarablack', 4),
+    ('General Tso''s Chicken', 10.75, TRUE, FALSE, 'sarablack', 4),
+    ('Beef and Broccoli', 12.25, FALSE, TRUE, 'sarablack', 4),
+    ('Egg Drop Soup', 5.99, FALSE, FALSE, 'sarablack', 4),
+    ('Hot and Sour Soup', 5.99, TRUE, FALSE, 'sarablack', 4),
 
     -- Foods for 'tinahill' (Tina Hill)
-    ('Grilled Steak', 18.50, TRUE, FALSE, 0, 'tinahill', 5),
-    ('Grilled Salmon', 16.75, FALSE, TRUE, 0, 'tinahill', 5),
-    ('Chicken Caesar Wrap', 10.99, TRUE, FALSE, 0, 'tinahill', 5),
-    ('Vegetable Stir Fry', 12.25, FALSE, FALSE, 0, 'tinahill', 5),
-    ('Grilled Veggie Skewers', 9.99, TRUE, FALSE, 0, 'tinahill', 6),
-    ('Shrimp Scampi', 15.50, FALSE, TRUE, 0, 'tinahill', 6),
-    ('Lemon Herb Chicken', 13.75, TRUE, FALSE, 0, 'tinahill', 6),
-    ('Cajun Blackened Tilapia', 14.99, FALSE, TRUE, 0, 'tinahill', 6),
-    ('Classic Caesar Salad', 8.50, FALSE, FALSE, 0, 'tinahill', 6),
-    ('Greek Salad', 9.25, TRUE, FALSE, 0, 'tinahill', 6),
+    ('Grilled Steak', 18.50, TRUE, FALSE, 'tinahill', 5),
+    ('Grilled Salmon', 16.75, FALSE, TRUE, 'tinahill', 5),
+    ('Chicken Caesar Wrap', 10.99, TRUE, FALSE, 'tinahill', 5),
+    ('Vegetable Stir Fry', 12.25, FALSE, FALSE, 'tinahill', 5),
+    ('Grilled Veggie Skewers', 9.99, TRUE, FALSE, 'tinahill', 6),
+    ('Shrimp Scampi', 15.50, FALSE, TRUE, 'tinahill', 6),
+    ('Lemon Herb Chicken', 13.75, TRUE, FALSE, 'tinahill', 6),
+    ('Cajun Blackened Tilapia', 14.99, FALSE, TRUE, 'tinahill', 6),
+    ('Classic Caesar Salad', 8.50, FALSE, FALSE, 'tinahill', 6),
+    ('Greek Salad', 9.25, TRUE, FALSE, 'tinahill', 6),
 	
 	-- Foods for samparker
-	('Pepperoni Pizza', 11.99, TRUE, FALSE, 0, 'samparker', 7),
-    ('Cheeseburger', 9.50, FALSE, TRUE, 0, 'samparker', 7),
-    ('California Roll', 13.50, TRUE, FALSE, 0, 'samparker', 8),
-    ('Taco', 4.99, FALSE, TRUE, 0, 'samparker', 8),
+	('Pepperoni Pizza', 11.99, TRUE, FALSE, 'samparker', 7),
+    ('Cheeseburger', 9.50, FALSE, TRUE, 'samparker', 7),
+    ('California Roll', 13.50, TRUE, FALSE, 'samparker', 8),
+    ('Taco', 4.99, FALSE, TRUE, 'samparker', 8),
 
 	-- Foods for elizathompson
-    ('Margherita Pizza', 10.50, TRUE, FALSE, 0, 'elizathompson', 9),
-    ('Bacon Cheeseburger', 12.75, FALSE, TRUE, 0, 'elizathompson', 9),
-    ('Sashimi Platter', 18.99, TRUE, FALSE, 0, 'elizathompson', 10),
-    ('Beef Teriyaki', 15.50, FALSE, TRUE, 0, 'elizathompson', 10);
+    ('Margherita Pizza', 10.50, TRUE, FALSE, 'elizathompson', 9),
+    ('Bacon Cheeseburger', 12.75, FALSE, TRUE, 'elizathompson', 9),
+    ('Sashimi Platter', 18.99, TRUE, FALSE, 'elizathompson', 10),
+    ('Beef Teriyaki', 15.50, FALSE, TRUE, 'elizathompson', 10);
 
 -- Populate the food_type table
 INSERT INTO food_type (foodcode, foodtype)
@@ -243,25 +243,25 @@ VALUES
     ('Great ambiance and friendly staff!', 1, '2024-06-03 10:00:00', 5, 'johndoe', 1, NULL),
     ('Delicious food and cozy atmosphere.', 1, '2024-06-03 11:00:00', 4, 'janesmith', 2, NULL),
     ('Excellent service and clean environment.', 1, '2024-05-03 12:00:00', 5, 'alicejohnson', 3, NULL),
-    ('Amazing sushi and quick service!', 1, '2024-05-03 13:00:00', 5, 'bobbrown', 4, NULL),
-    ('The best tacos in town!', 1, '2024-04-03 14:00:00', 4, 'emilyclark', 5, NULL),
+    ('Amazing noodles and quick service!', 1, '2024-05-03 13:00:00', 5, 'bobbrown', 4, NULL),
+    ('The best salad in town!', 1, '2024-04-03 14:00:00', 4, 'emilyclark', 5, NULL),
     ('Lovely decor and friendly staff.', 1, '2024-04-03 15:00:00', 5, 'davidlewis', 6, NULL),
-    ('Great selection of noodles!', 1, '2024-03-03 16:00:00', 4, 'sophiamartinez', 7, NULL),
-    ('Tender BBQ ribs and great atmosphere.', 1, '2024-03-03 17:00:00', 5, 'danielgarcia', 8, NULL),
-    ('Authentic Italian pasta!', 1, '2024-05-03 18:00:00', 4, 'miarodriguez', 9, NULL),
-    ('Fresh salads and healthy options.', 1, '2024-05-03 19:00:00', 5, 'jameslee', 10, NULL),
+    ('Great selection of pizza!', 1, '2024-03-03 16:00:00', 4, 'sophiamartinez', 7, NULL),
+    ('Tender meat and great atmosphere.', 1, '2024-03-03 17:00:00', 5, 'danielgarcia', 8, NULL),
+    ('Authentic sushi pasta!', 1, '2024-05-03 18:00:00', 4, 'miarodriguez', 9, NULL),
+    ('Fresh Taco and healthy options.', 1, '2024-05-03 19:00:00', 5, 'jameslee', 10, NULL),
 
     -- Reviews for foods
     ('The ham sandwich was delicious!', 2, '2024-06-03 10:30:00', 5, 'johndoe', NULL, 1),
-    ('Perfectly cooked pepperoni pizza.', 2, '2024-06-03 11:30:00', 4, 'janesmith', NULL, 2),
-    ('Juicy cheeseburger, loved it!', 2, '2024-05-03 12:30:00', 4, 'alicejohnson', NULL, 3),
-    ('Fresh and tasty California roll.', 2, '2024-05-03 13:30:00', 5, 'bobbrown', NULL, 4),
-    ('Delicious taco with flavorful fillings.', 2, '2024-04-03 14:30:00', 4, 'emilyclark', NULL, 5),
-    ('The chicken curry was amazing!', 2, '2024-04-03 15:30:00', 5, 'davidlewis', NULL, 6),
-    ('Satisfying beef noodles dish.', 2, '2024-03-03 16:30:00', 4, 'sophiamartinez', NULL, 7),
-    ('The BBQ ribs were finger-licking good!', 2, '2024-03-03 17:30:00', 5, 'danielgarcia', NULL, 8),
-    ('Loved the spaghetti, very flavorful.', 2, '2024-02-03 18:30:00', 4, 'miarodriguez', NULL, 9),
-    ('Fresh and crisp Caesar salad.', 2, '2024-02-03 19:30:00', 5, 'jameslee', NULL, 10),
+    ('Perfectly cooked Chicken Alfredo Pizza.', 2, '2024-06-03 11:30:00', 4, 'janesmith', NULL, 5),
+    ('Juicy BBQ Pork Ribs, loved it!', 2, '2024-05-03 12:30:00', 4, 'alicejohnson', NULL, 11),
+    ('Fresh and tasty Orange Chicken.', 2, '2024-05-03 13:30:00', 5, 'bobbrown', NULL, 15),
+    ('Delicious Grilled Steak with sauce.', 2, '2024-04-03 14:30:00', 4, 'emilyclark', NULL, 21),
+    ('The GVS was amazing!', 2, '2024-04-03 15:30:00', 5, 'davidlewis', NULL, 25),
+    ('Satisfying beef pepperoni pizza.', 2, '2024-03-03 16:30:00', 4, 'sophiamartinez', NULL, 31),
+    ('The California Roll were finger-licking good!', 2, '2024-03-03 17:30:00', 5, 'danielgarcia', NULL, 33),
+    ('Loved the Margherita Pizza, very flavorful.', 2, '2024-02-03 18:30:00', 4, 'miarodriguez', NULL, 35),
+    ('Fresh and crisp Sashimi Platter.', 2, '2024-02-03 19:30:00', 5, 'jameslee', NULL, 37),
 
     -- Additional reviews for establishments
     ('Nice place to hang out with friends.', 1, '2024-06-04 10:00:00', 4, 'johndoe', 1, NULL),
@@ -269,7 +269,7 @@ VALUES
 
     -- Additional reviews for foods
     ('The sandwich was okay, nothing special.', 2, '2024-06-04 10:30:00', 3, 'alicejohnson', NULL, 1),
-    ('The pizza was a bit too greasy for my taste.', 2, '2024-06-04 11:30:00', 3, 'bobbrown', NULL, 2);
+    ('The pizza was a bit too greasy for my taste.', 2, '2024-06-04 11:30:00', 3, 'bobbrown', NULL, 5);
 
 
 UPDATE food f JOIN (
