@@ -264,11 +264,17 @@ VALUES
     ('Fresh and crisp Sashimi Platter.', 2, '2024-02-03 19:30:00', 5, 'jameslee', NULL, 37),
 
     -- Additional reviews for establishments
-    ('Nice place to hang out with friends.', 1, '2024-06-04 10:00:00', 4, 'johndoe', 1, NULL),
+    ('Nice place to hang out with friends.', 1, '2024-06-04 10:00:00', 4, 'jameslee', 1, NULL),
+    ('I did not like it much.', 1, '2024-03-04 10:00:00', 1, 'emilyclark', 1, NULL),
+    ('The service was not great but we were able to enjoy the food.', 1, '2023-01-04 10:00:00', 1, 'bobbrown', 1, NULL),
+    ('Crews need to be nicer', 2, '2023-03-24 10:00:00', 1, 'janesmith', 1, NULL),
     ('Good food, will definitely come back.', 1, '2024-06-04 11:00:00', 5, 'janesmith', 2, NULL),
 
     -- Additional reviews for foods
     ('The sandwich was okay, nothing special.', 2, '2024-06-04 10:30:00', 3, 'alicejohnson', NULL, 1),
+    ('The sandwich was great. It reminded of the one my mom used to make', 2, '2024-02-04 10:30:00', 5, 'emilyclark', NULL, 1),
+    ('The sandwich was awful. The lettuce was not fresh', 2, '2024-02-24 10:30:00', 2, 'johndoe', NULL, 1),
+    ('Parang maalat yung sandwich na binigay sa amin eh', 2, '2023-02-14 10:30:00', 1, 'bobbrown', NULL, 1),
     ('The pizza was a bit too greasy for my taste.', 2, '2024-06-04 11:30:00', 3, 'bobbrown', NULL, 5);
 
 
