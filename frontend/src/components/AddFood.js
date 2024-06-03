@@ -111,10 +111,10 @@ function AddFood(props) {
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
-              <div className=" text-lg pb-2">
+              <div className=" text-lg ">
                 <label className="font-bold mr-4">Food Types:</label>
                 <div className="pl-8">
-                  <div className="grid lg:grid-cols-3 md:grid-cols-2  pb-6 mx-4">
+                  <div className="grid lg:grid-cols-4 md:grid-cols-2 pb-2 mx-4">
                     {typeSelection.map((type, index) => (
                       <div key={index}>
                         <input
@@ -127,18 +127,19 @@ function AddFood(props) {
                         </label>
                       </div>
                     ))}
-                    <div className="flex flex-row">
+                    
+                  </div>
+                </div>
+              </div>
+              <div className="mb-4 pl-8">
                     <input
-                        className="border-slate-300 rounded-lg border w-30 pl-4 py-2 h-8 focus:shadow-md border-sky-950 text-base text-sky-950"
+                        className="border-slate-300 rounded-lg border w-30 pl-6 h-8 py-2 focus:shadow-md border-sky-950 text-base text-sky-950"
                         type="text"
                         placeholder="Insert other type here"
                         value={others}
                         onChange={(e) => setOthers(e.target.value)}
                       />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                </div>    
               <button
                 className="bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
                 type="submit"

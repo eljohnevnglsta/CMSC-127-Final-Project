@@ -6,8 +6,8 @@ function UpdateFood(props) {
   const [price, setPrice] = useState(0);
   const [foodtype, setFoodType] = useState([]);
   const [typeSelection, setFoodTypeSelection] = useState([]);
-  const [bestSeller, setIsBestSeller] = useState(0);
-  const [specialty, setIsSpecialty] = useState(0);
+  const [bestSeller, setIsBestSeller] = useState(false);
+  const [specialty, setIsSpecialty] = useState(false);
   const [others, setOthers] = useState('')
   useEffect(() => {
     let url = "http://localhost:3001/select-type";
@@ -21,8 +21,16 @@ function UpdateFood(props) {
     setName(foodDetails.name);
     setPrice(foodDetails.price);
     setFoodType(foodDetails.foodtype);
-    setIsBestSeller(foodDetails.isbestseller);
-    setIsSpecialty(foodDetails.isspecialty);
+
+    if (foodDetails.isbestseller === 1){
+      setIsBestSeller(true)
+    }
+
+    if (foodDetails.isspecialty === 1){
+      setIsSpecialty(true)
+    }
+    // setIsBestSeller(foodDetails.isbestseller);
+    // setIsSpecialty(foodDetails.isspecialty);
   }, [foodDetails]);
 
   const handleCheckboxChange = (event) => {
@@ -75,8 +83,8 @@ function UpdateFood(props) {
       setName("");
       setPrice(0);
       setFoodType([]);
-      setIsBestSeller(0);
-      setIsSpecialty(0);
+      setIsBestSeller(false);
+      setIsSpecialty(false);
       show(false); // Update state with the parsed data
       window.location.reload();
     });
@@ -87,11 +95,11 @@ function UpdateFood(props) {
   };
 
   const handleSpecialtyChange = (event) => {
-    setIsSpecialty(event.target.checked ? 1 : 0);
+    setIsSpecialty(event.target.checked ? true : false);
   };
 
   const handleSellerChange = (event) => {
-    setIsBestSeller(event.target.checked ? 1 : 0);
+    setIsBestSeller(event.target.checked ? true : false);
   };
 
   return (
@@ -127,7 +135,7 @@ function UpdateFood(props) {
                   <input
                     className="border-sky-950 h-4 w-4 text-sky-950"
                     type="checkbox"
-                    checked={specialty === 1}
+                    checked={specialty}
                     onChange={handleSpecialtyChange}
                   />
                   <label
@@ -141,7 +149,7 @@ function UpdateFood(props) {
                   <input
                     className="border-sky-950 h-4 w-4 text-sky-950"
                     type="checkbox"
-                    checked={bestSeller === 1}
+                    checked={bestSeller}
                     onChange={handleSellerChange}
                   />
                   <label
@@ -154,8 +162,8 @@ function UpdateFood(props) {
               </div>
               <div className=" text-lg pb-2">
                 <label className="font-bold mr-4">Food Types:</label>
-                <div className="pl-8 mb-4">
-                  <div className="grid lg:grid-cols-3 md:grid-cols-2 mt-2 mx-4">
+                <div className="pl-8 ">
+                  <div className="grid lg:grid-cols-4 md:grid-cols-2 mt-2 mx-4">
                     {typeSelection.map((type, index) => (
                       <div key={index}>
                         <input
@@ -170,18 +178,19 @@ function UpdateFood(props) {
                       </div>
                     ))}
 
-                      <div className="flex flex-row">
+                      
+                  </div>
+                </div>
+              </div>
+              <div className="mb-4 pl-8">
                     <input
-                        className="border-slate-300 rounded-lg border w-30 pl-4 py-2 h-8 focus:shadow-md border-sky-950 text-base text-sky-950"
+                        className="border-slate-300 rounded-lg border w-30 pl-6 h-8 py-2 focus:shadow-md border-sky-950 text-base text-sky-950"
                         type="text"
                         placeholder="Insert other type here"
                         value={others}
                         onChange={(e) => setOthers(e.target.value)}
                       />
                     </div>
-                  </div>
-                </div>
-              </div>
               <button
                 className="bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
                 type="submit"

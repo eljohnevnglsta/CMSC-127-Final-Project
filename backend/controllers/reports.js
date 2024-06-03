@@ -217,7 +217,7 @@ export const searchFoodItemsByType = async (req, res) => {
 export const searchFoodItemsByFilters = async (req, res) => {
   const { minprice, maxprice, foodtype } = req.body;
 
-  let SQLQuery = `SELECT f.* FROM food f JOIN food_type ft ON f.foodcode = ft.foodcode WHERE `;
+  let SQLQuery = `SELECT DISTINCT f.* FROM food f JOIN food_type ft ON f.foodcode = ft.foodcode WHERE `;
   let queryParams = [];
 
   if (foodtype) {

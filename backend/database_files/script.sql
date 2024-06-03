@@ -233,33 +233,8 @@ VALUES
     (37, 'Sushi'),
     (37, 'Japanese'),
     (38, 'Beef'),
-    (38, 'Japanese'),
-    (39, 'Pasta'),
-    (39, 'Italian'),
-    (40, 'Pizza'),
-    (40, 'Vegetarian'),
-
-	-- Food types for 'elizathompson' foods
-	(41, 'Sushi'),
-    (41, 'Japanese'),
-    (42, 'Sushi'),
-    (42, 'Japanese'),
-    (43, 'Indian'),
-    (43, 'Curry'),
-    (44, 'Indian'),
-    (44, 'Vegetarian'),
-    (45, 'BBQ'),
-    (45, 'Pork'),
-    (46, 'Sandwich'),
-    (46, 'Chicken'),
-    (47, 'Pasta'),
-    (47, 'Italian'),
-    (48, 'Seafood'),
-    (48, 'Creamy'),
-    (49, 'Sandwich'),
-    (49, 'American'),
-    (50, 'Italian'),
-    (50, 'Chicken');
+    (38, 'Japanese');
+   
 
 -- Populate the review table
 INSERT INTO review (content, reviewtype, date_added, rating, username, businessid, foodcode)
