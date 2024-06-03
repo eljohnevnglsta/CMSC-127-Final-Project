@@ -219,7 +219,7 @@ function Food() {
                     {" "}
                     <strong>From: </strong>
                     <Link className="underline" to={`/food-establishment/${food.est}`}>{food.est}</Link>
-                  </h3>
+                  </h3> 
                   <div className="flex">
                     <h3 className="text-lg">
                       <strong>Type: </strong>
