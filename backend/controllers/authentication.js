@@ -1,4 +1,8 @@
 import pool from "./pool.js";
+
+//finds the user with the username entered
+//gets the accessey of that user
+//compares the accesskey if it is equal with the accesskey parameter
 export const logIn = async (req, res) => {
   const { username, accesskey } = req.body;
 

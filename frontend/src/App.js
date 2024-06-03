@@ -18,7 +18,10 @@ import Unauthorized from "./pages/Unauthorized";
 const isAdmin = !!localStorage.getItem("admin");
 const isManager = !!localStorage.getItem("manager");
 const isUser = !!localStorage.getItem("user");
-
+//sets defined routes for user
+//sets defined routes for manager
+//sets defined routes for admin
+//goes back to login page if not user,admin,or manager
 const App = () => {
   return (
     <div className="App">

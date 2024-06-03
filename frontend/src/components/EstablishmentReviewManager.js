@@ -7,6 +7,7 @@ function EstablishmentReviewManager(props) {
   const [error, setError] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
 
+  //automatically fetches the reviews
   useEffect(() => {
     getReviews();
   }, [name]);
@@ -31,7 +32,7 @@ function EstablishmentReviewManager(props) {
         // setReviews([])
       });
   }
-
+  //gets the review for the month given the date
   function getMonthReviews(passDate) {
     fetch("http://localhost:3001/view-all-reviews-for-month", {
       method: "POST",
@@ -54,9 +55,9 @@ function EstablishmentReviewManager(props) {
       });
   }
 
+  //changes the date that will be passed to getMonthReviews
   const handleDateChange = (date) => {
     setStartDate(date);
-    
 
     // Adjusting the date to Philippine Standard Time (UTC+8)
     const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
@@ -66,7 +67,7 @@ function EstablishmentReviewManager(props) {
       .toISOString()
       .slice(0, 10)
       .replace("T", " ");
-    
+
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };
@@ -78,7 +79,6 @@ function EstablishmentReviewManager(props) {
     return <span title={tooltipText}>{shortMonth}</span>;
   };
 
-  const DateConverter = (date) => {};
   return (
     <div className="reviews-container">
       <div className="border-sky-950 border-b mb-8 flex items-center pb-2">
@@ -157,7 +157,6 @@ function EstablishmentReviewManager(props) {
                   ) : (
                     <div className="p-4 my-4"></div>
                   )}
-                  {/* format date dapat */}
                 </div>
               );
             })}{" "}

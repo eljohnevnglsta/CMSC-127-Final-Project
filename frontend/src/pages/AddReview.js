@@ -35,12 +35,8 @@ const getFoodsByEstablishment = async (establishment) => {
     return [];
   }
 };
-
-// app.post("/get-businessid", checkUserType(1), getBusinessId);
-// app.post("/get-foodcode", checkUserType(1), getFoodCode);
-
+//adds the review based on the type of review added by the user
 const handleSubmit = async (e, reviewType, navigate) => {
-  // { content, reviewtype, rating, username, businessid, foodcode }
   e.preventDefault();
   if (e.target.businessid.value == "") {
     alert("Please choose establishment first!");
@@ -88,7 +84,7 @@ const handleSubmit = async (e, reviewType, navigate) => {
   }
 
   const data = {
-    content: (e.target.content.value).trim(),
+    content: e.target.content.value.trim(),
     rating: e.target.rating.value,
     reviewtype: reviewType === "food" ? 2 : 1,
     username: localStorage.getItem("user"),

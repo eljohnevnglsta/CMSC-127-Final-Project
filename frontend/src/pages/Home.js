@@ -8,7 +8,7 @@ function Home() {
   const manager = localStorage.getItem("manager");
   const [userRole, setUserRole] = useState(null);
   const [username, setUsername] = useState(null);
-
+  //gets the role and the username of the current user
   useEffect(() => {
     if (admin) {
       setUserRole("admin");
@@ -21,7 +21,7 @@ function Home() {
       setUsername(manager);
     }
   }, []);
-
+  //automatically loads the establishments
   useEffect(() => {
     handleAll();
   }, []);
@@ -34,7 +34,7 @@ function Home() {
         setEstablishment(body);
       });
   }
-
+  //deletes the establishment (only creator and admin can delete)
   function handleDelete(establishment) {
     const userToDelete =
       userRole === "admin" ? establishment.username : username;
@@ -75,6 +75,7 @@ function Home() {
         console.error("Error deleting establishment:", error);
       });
   }
+  //shows the highly rated establishments (from 4 to 5)
   function handleFilter() {
     let url = "http://localhost:3001/view-highly-rated-establishments";
     fetch(url)

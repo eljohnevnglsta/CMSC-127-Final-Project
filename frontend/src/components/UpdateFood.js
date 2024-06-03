@@ -8,31 +8,31 @@ function UpdateFood(props) {
   const [typeSelection, setFoodTypeSelection] = useState([]);
   const [bestSeller, setIsBestSeller] = useState(false);
   const [specialty, setIsSpecialty] = useState(false);
-  const [others, setOthers] = useState('')
+  const [others, setOthers] = useState("");
+
+  //automatically called when foodDetails is changed and gets all the food types
   useEffect(() => {
     let url = "http://localhost:3001/select-type";
     fetch(url)
       .then((response) => response.json())
       .then((body) => {
         setFoodTypeSelection(body);
-       
       });
 
     setName(foodDetails.name);
     setPrice(foodDetails.price);
     setFoodType(foodDetails.foodtype);
 
-    if (foodDetails.isbestseller === 1){
-      setIsBestSeller(true)
+    if (foodDetails.isbestseller === 1) {
+      setIsBestSeller(true);
     }
 
-    if (foodDetails.isspecialty === 1){
-      setIsSpecialty(true)
+    if (foodDetails.isspecialty === 1) {
+      setIsSpecialty(true);
     }
-    // setIsBestSeller(foodDetails.isbestseller);
-    // setIsSpecialty(foodDetails.isspecialty);
   }, [foodDetails]);
 
+  //for handling checked foodtypes
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     setFoodType((prevFoodType) =>
@@ -41,30 +41,37 @@ function UpdateFood(props) {
         : [...prevFoodType, value]
     );
   };
+
+  //if the foodtype manulla added is the same with one of the foodtype in the chheckboxes
   const checkIfExists = (foodTypeToCheck) => {
-    return Object.values(typeSelection).some(foodObj => foodObj.foodtype.toLowerCase() === foodTypeToCheck.toLowerCase());
+    return Object.values(typeSelection).some(
+      (foodObj) =>
+        foodObj.foodtype.toLowerCase() === foodTypeToCheck.toLowerCase()
+    );
   };
 
+  //calls the update food backend by passing the newly edited values
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const exists = checkIfExists(others);
-    if (exists){
-      
-      alert("The food type you're entering is already in the system. Please select the appropriate checkbox.")
-      setOthers('')
+    if (exists) {
+      alert(
+        "The food type you're entering is already in the system. Please select the appropriate checkbox."
+      );
+      setOthers("");
       return;
     }
 
-    if(others.length !== 0){
-      foodtype.push(others) 
-      
+    if (others.length !== 0) {
+      foodtype.push(others);
     }
     if (foodtype.length === 0) {
+      //if food type chosen is empty
       alert("Please select at least one food type.");
       return;
     }
-    
+
     fetch("http://localhost:3001/food-item/update", {
       method: "POST",
       headers: {
@@ -177,20 +184,18 @@ function UpdateFood(props) {
                         </label>
                       </div>
                     ))}
-
-                      
                   </div>
                 </div>
               </div>
               <div className="mb-4 pl-8">
-                    <input
-                        className="border-slate-300 rounded-lg border w-30 pl-6 h-8 py-2 focus:shadow-md border-sky-950 text-base text-sky-950"
-                        type="text"
-                        placeholder="Insert other type here"
-                        value={others}
-                        onChange={(e) => setOthers(e.target.value)}
-                      />
-                    </div>
+                <input
+                  className="border-slate-300 rounded-lg border w-30 pl-6 h-8 py-2 focus:shadow-md border-sky-950 text-base text-sky-950"
+                  type="text"
+                  placeholder="Insert other type here"
+                  value={others}
+                  onChange={(e) => setOthers(e.target.value)}
+                />
+              </div>
               <button
                 className="bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
                 type="submit"

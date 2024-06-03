@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 //using this component needs to pass (reviewid) as a prop
-
+//this gets the specific review identified by the reviewid
 const getReview = async (reviewid) => {
   try {
     const response = await fetch("http://localhost:3001/get-review", {
@@ -18,6 +18,7 @@ const getReview = async (reviewid) => {
   }
 };
 
+//gets the specific establishment identified by its business id
 const getEstablishment = async (businessid) => {
   try {
     const response = await fetch("http://localhost:3001/get-business", {
@@ -37,6 +38,7 @@ const getEstablishment = async (businessid) => {
   }
 };
 
+//gets the specific food item identified by its foodcode
 const getFood = async (foodcode) => {
   try {
     const response = await fetch("http://localhost:3001/get-food", {
@@ -53,12 +55,13 @@ const getFood = async (foodcode) => {
   }
 };
 
+//updates the review based on the reviewid and the newly edited details passed
 const handleSubmit = async (e, review, closeEdit) => {
   e.preventDefault();
 
   const data = {
     reviewid: review.reviewid,
-    content: (e.target.review.value).trim(),
+    content: e.target.review.value.trim(),
     rating: e.target.rating.value,
     username: localStorage.getItem("user"),
   };
@@ -73,7 +76,7 @@ const handleSubmit = async (e, review, closeEdit) => {
     });
     console.log("Review edited:", response);
     closeEdit();
-    window.location.reload(); //hindi tama toh pero di ko alam kung pano tatawagin yung call kasi galing sya sa magkaibang render
+    window.location.reload();
   } catch (error) {
     console.error("Error editing review:", error);
   }
@@ -84,6 +87,7 @@ export default function EditReview({ reviewid, closeEdit }) {
   const [establishment, setEstablishment] = useState(null);
   const [food, setFood] = useState(null);
 
+  //invokes when there are changes in the review id
   useEffect(() => {
     const fetchData = async () => {
       const reviewData = await getReview(reviewid);

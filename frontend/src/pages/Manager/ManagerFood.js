@@ -14,6 +14,7 @@ function ManagerFood() {
   const [startDate, setStartDate] = useState(new Date());
   const [activeDelete, setActiveDelete] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
+  //immediately gets the specific details of the food by passing the foodcode as an argument
   useEffect(() => {
     fetch("http://localhost:3001/select-food", {
       method: "POST",
@@ -26,15 +27,16 @@ function ManagerFood() {
     })
       .then((response) => response.json()) // Parse JSON response
       .then((data) => {
-        
         setFoodData([data]); // Update state with the parsed data
       });
   }, []);
 
+  //gets the foodr reviews rhen there is change in food code
   useEffect(() => {
     getFoodReviews();
   }, [code]);
 
+  //fetches all the food reviews of the food
   function getFoodReviews() {
     fetch("http://localhost:3001/view-all-reviews-for-food-item", {
       method: "POST",
@@ -54,7 +56,7 @@ function ManagerFood() {
         setError(true);
       });
   }
-
+  //gets the reviews of the food based on the month given
   function getMonthReviews(passDate) {
     fetch("http://localhost:3001/select-food-review-month", {
       method: "POST",
@@ -76,9 +78,9 @@ function ManagerFood() {
         // setReviews([])
       });
   }
+  //date change
   const handleDateChange = (date) => {
     setStartDate(date);
-    
 
     // Adjusting the date to Philippine Standard Time (UTC+8)
     const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
@@ -88,7 +90,7 @@ function ManagerFood() {
       .toISOString()
       .slice(0, 10)
       .replace("T", " ");
-   
+
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };
@@ -128,7 +130,12 @@ function ManagerFood() {
                   <h3 className="text-lg">
                     {" "}
                     <strong>From: </strong>
-                    <Link className="underline" to={`/manager/food-establishment/${food.est}`}>{food.est}</Link>
+                    <Link
+                      className="underline"
+                      to={`/manager/food-establishment/${food.est}`}
+                    >
+                      {food.est}
+                    </Link>
                   </h3>
                   <div className="flex">
                     <h3 className="text-lg">

@@ -11,7 +11,7 @@ const LoginPage = () => {
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
-
+  //assigns the role and username(stored in local storage) based on the usertype
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

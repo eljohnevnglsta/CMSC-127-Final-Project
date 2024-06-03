@@ -8,14 +8,13 @@ function AddFood(props) {
   const [price, setPrice] = useState("");
   const [foodtype, setFoodType] = useState([]);
   const [typeSelection, setFoodTypeSelection] = useState([]);
-  const [others, setOthers] = useState('')
+  const [others, setOthers] = useState("");
   useEffect(() => {
     let url = "http://localhost:3001/select-type";
     fetch(url)
       .then((response) => response.json())
       .then((body) => {
         setFoodTypeSelection(body);
-       
       });
   }, []);
 
@@ -28,10 +27,15 @@ function AddFood(props) {
     );
   };
 
+  //compares the written foodtype to the already existing food types if they already exists
   const checkIfExists = (foodTypeToCheck) => {
-    return Object.values(typeSelection).some(foodObj => foodObj.foodtype.toLowerCase() === foodTypeToCheck.toLowerCase());
+    return Object.values(typeSelection).some(
+      (foodObj) =>
+        foodObj.foodtype.toLowerCase() === foodTypeToCheck.toLowerCase()
+    );
   };
 
+  //this is where the food is added, it will alert once the details inputted are incomplete
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!name || !price) {
@@ -40,16 +44,16 @@ function AddFood(props) {
     }
 
     const exists = checkIfExists(others);
-    if (exists){
-      
-      alert("The food type you're entering is already in the system. Please select the appropriate checkbox.")
-      setOthers('')
+    if (exists) {
+      alert(
+        "The food type you're entering is already in the system. Please select the appropriate checkbox."
+      );
+      setOthers("");
       return;
     }
-
-    if(others.length !== 0){
-      foodtype.push(others) 
-      
+    //adds the manually added foodtype to the array of chosen foodtypes
+    if (others.length !== 0) {
+      foodtype.push(others);
     }
 
     if (foodtype.length === 0) {
@@ -57,7 +61,6 @@ function AddFood(props) {
       return;
     }
 
-    
     fetch("http://localhost:3001/food-item/add", {
       method: "POST",
       headers: {
@@ -81,7 +84,6 @@ function AddFood(props) {
 
   function handleCancel() {
     show(false);
-    // showReview(false)
   }
 
   return (
@@ -127,19 +129,18 @@ function AddFood(props) {
                         </label>
                       </div>
                     ))}
-                    
                   </div>
                 </div>
               </div>
               <div className="mb-4 pl-8">
-                    <input
-                        className="border-slate-300 rounded-lg border w-30 pl-6 h-8 py-2 focus:shadow-md border-sky-950 text-base text-sky-950"
-                        type="text"
-                        placeholder="Insert other type here"
-                        value={others}
-                        onChange={(e) => setOthers(e.target.value)}
-                      />
-                </div>    
+                <input
+                  className="border-slate-300 rounded-lg border w-30 pl-6 h-8 py-2 focus:shadow-md border-sky-950 text-base text-sky-950"
+                  type="text"
+                  placeholder="Insert other type here"
+                  value={others}
+                  onChange={(e) => setOthers(e.target.value)} //manually added foodtype
+                />
+              </div>
               <button
                 className="bg-sky-950 py-3 px-6 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
                 type="submit"

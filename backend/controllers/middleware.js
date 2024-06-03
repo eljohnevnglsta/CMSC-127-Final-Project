@@ -1,5 +1,6 @@
 import pool from "./pool.js";
 
+//this acts as middleware/restrictor so that any invalid/unauthorized usertype cannot access the routes/backend features
 export const checkUserType = (requiredUserType) => {
   return async (req, res, next) => {
     const { username } = req.body;

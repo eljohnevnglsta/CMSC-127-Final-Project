@@ -32,7 +32,7 @@ function FoodEstablishment() {
       setUsername(user);
     }
   }, []);
-
+  //deletes the establishment (only the creator and admin can delete)
   function handleDelete(establishment) {
     const userToDelete =
       userRole === "admin" ? establishment.username : username;
@@ -100,7 +100,10 @@ function FoodEstablishment() {
             </p>
           </div>
           {admin && (
-            <button className='bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150' onClick={() => handleDelete(businessDetails)}>
+            <button
+              className="bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
+              onClick={() => handleDelete(businessDetails)}
+            >
               Delete This Establishment
             </button>
           )}
@@ -122,36 +125,35 @@ function FoodEstablishment() {
             </Link>
           )}
         </div>
-        
+
         <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 my-7 pl-8">
-            <div className="flex flex-wrap -mb-px"> 
-        <button
-        className="inline-block p-4 border-b-2 border-transparent rounded-t-lg font-semibold hover:text-gray-600 hover:border-b-sky-950 text-sky-950 px-6"
-          onClick={() => {
-            setShowReview(false);
-          }}
-        >
-          Foods
-        </button>
-        <button
-          className="inline-block p-4 border-b-2 border-transparent font-semibold rounded-t-lg hover:text-gray-600 hover:border-b-sky-950 text-sky-950 px-6"
-          onClick={() => {
-            setShowReview(true);
-          }}
-        >
-          Reviews
-        </button>
+          <div className="flex flex-wrap -mb-px">
+            <button
+              className="inline-block p-4 border-b-2 border-transparent rounded-t-lg font-semibold hover:text-gray-600 hover:border-b-sky-950 text-sky-950 px-6"
+              onClick={() => {
+                setShowReview(false);
+              }}
+            >
+              Foods
+            </button>
+            <button
+              className="inline-block p-4 border-b-2 border-transparent font-semibold rounded-t-lg hover:text-gray-600 hover:border-b-sky-950 text-sky-950 px-6"
+              onClick={() => {
+                setShowReview(true);
+              }}
+            >
+              Reviews
+            </button>
+          </div>
         </div>
-        </div>
-        
+
         {showReview ? (
           <EstablishmentReview name={name} />
         ) : (
           <FoodList name={name} />
         )}
       </div>
-      </div>
-    
+    </div>
   );
 }
 

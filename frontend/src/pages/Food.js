@@ -12,8 +12,9 @@ function Food() {
   const [startDate, setStartDate] = useState(new Date());
   const [userRole, setUserRole] = useState(null);
   const [username, setUsername] = useState(null);
-  // const [showUpdate, setShowUpdate] = useState(false)
   const [activeEdit, setActiveEdit] = useState(null);
+
+  //gets the details of the specific food
   useEffect(() => {
     fetch("http://localhost:3001/select-food", {
       method: "POST",
@@ -26,7 +27,6 @@ function Food() {
     })
       .then((response) => response.json()) // Parse JSON response
       .then((data) => {
-      
         setFoodData([data]); // Update state with the parsed data
       });
   }, []);
@@ -34,7 +34,7 @@ function Food() {
   useEffect(() => {
     getFoodReviews();
   }, [code]);
-
+  //gets the username and the role of the current user
   useEffect(() => {
     const admin = localStorage.getItem("admin");
     const manager = localStorage.getItem("manager");
@@ -54,6 +54,7 @@ function Food() {
     }
   }, []);
 
+  //deletes the review (only the creator and admin can delete)
   function handleDelete(review) {
     const userToDelete = userRole === "admin" ? review.username : username;
     fetch("http://localhost:3001/review/delete", {
@@ -88,7 +89,7 @@ function Food() {
         console.error("Error deleting review:", error);
       });
   }
-
+  //deletes the food (only the creator and admin can delete)
   function handleDeleteFood(food) {
     const userToDelete = userRole === "admin" ? food.username : username;
     fetch("http://localhost:3001/food-item/delete", {
@@ -175,7 +176,6 @@ function Food() {
 
   const handleDateChange = (date) => {
     setStartDate(date);
-   
 
     // Adjusting the date to Philippine Standard Time (UTC+8)
     const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
@@ -185,7 +185,7 @@ function Food() {
       .toISOString()
       .slice(0, 10)
       .replace("T", " ");
-  
+
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };
@@ -218,7 +218,12 @@ function Food() {
                   <h3 className="text-lg">
                     {" "}
                     <strong>From: </strong>
-                    <Link className="underline" to={`/food-establishment/${food.est}`}>{food.est}</Link>
+                    <Link
+                      className="underline"
+                      to={`/food-establishment/${food.est}`}
+                    >
+                      {food.est}
+                    </Link>
                   </h3>
                   <div className="flex">
                     <h3 className="text-lg">

@@ -11,11 +11,13 @@ function EstablishmentReview(props) {
   const [userRole, setUserRole] = useState(null);
   const [username, setUsername] = useState(null);
   const [activeEdit, setActiveEdit] = useState(null);
-  // const [passDate, setPassDate] = useState([]);
+
+  //fetch the reviews
   useEffect(() => {
     getReviews();
   }, [name]);
 
+  //automatically determines the role and the username of the user
   useEffect(() => {
     const admin = localStorage.getItem("admin");
     const manager = localStorage.getItem("manager");
@@ -33,6 +35,7 @@ function EstablishmentReview(props) {
     }
   }, []);
 
+  //gets all the review for the establishment
   function getReviews() {
     fetch("http://localhost:3001/view-establishment-review", {
       method: "POST",
@@ -53,8 +56,9 @@ function EstablishmentReview(props) {
         // setReviews([])
       });
   }
+  //delete the specific review by passing the review id and the username of the one who made the review
   function handleDelete(review) {
-    const userToDelete = userRole === "admin" ? review.username : username;
+    const userToDelete = userRole === "admin" ? review.username : username; //if the user is admin, the usename will become the
     fetch("http://localhost:3001/review/delete", {
       method: "POST",
       headers: {
@@ -87,6 +91,8 @@ function EstablishmentReview(props) {
         console.error("Error deleting review:", error);
       });
   }
+
+  //gets the review for the month given the date
   function getMonthReviews(passDate) {
     fetch("http://localhost:3001/view-all-reviews-for-month", {
       method: "POST",
@@ -108,10 +114,9 @@ function EstablishmentReview(props) {
         // setReviews([])
       });
   }
-
+  //changes the date that will be passed to getMonthReviews
   const handleDateChange = (date) => {
     setStartDate(date);
-    
 
     // Adjusting the date to Philippine Standard Time (UTC+8)
     const localDate = new Date(date.getTime() + 8 * 60 * 60 * 1000);
@@ -121,7 +126,7 @@ function EstablishmentReview(props) {
       .toISOString()
       .slice(0, 10)
       .replace("T", " ");
-    
+
     getMonthReviews(formattedDate);
     // setPassDate(formattedDate);
   };
