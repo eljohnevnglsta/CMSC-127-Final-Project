@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useOutletContext } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import EditReview from "../components/EditReview";
+import DeleteFood from "../../components/DeleteFood";
+import UpdateFood from "../../components/UpdateFood";
+
 import "react-datepicker/dist/react-datepicker.css";
-function Food() {
+function ManagerFood() {
   let { code } = useParams();
-  const [foodList, setFoodList] = useState([]);
+  const username = useOutletContext();
   const [fooddata, setFoodData] = useState([]);
   const [review, setReviews] = useState([]);
   const [error, setError] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [userRole, setUserRole] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [activeEdit, setActiveEdit] = useState(null);
-
-  //gets the details of the specific food
+  const [activeDelete, setActiveDelete] = useState(null);
+  const [showUpdate, setShowUpdate] = useState(false);
+  //immediately gets the specific details of the food by passing the foodcode as an argument
   useEffect(() => {
     fetch("http://localhost:3001/select-food", {
       method: "POST",
@@ -31,99 +31,12 @@ function Food() {
       });
   }, []);
 
+  //gets the foodr reviews rhen there is change in food code
   useEffect(() => {
     getFoodReviews();
   }, [code]);
-  //gets the username and the role of the current user
-  useEffect(() => {
-    const admin = localStorage.getItem("admin");
-    const manager = localStorage.getItem("manager");
-    const user = localStorage.getItem("user");
 
-    if (admin) {
-      setUserRole("admin");
-      setUsername(admin);
-    } else if (manager) {
-      setUserRole("manager");
-      setUsername(manager);
-    } else if (user) {
-      setUserRole("user");
-      setUsername(user);
-    } else {
-      setUserRole("guest");
-    }
-  }, []);
-
-  //deletes the review (only the creator and admin can delete)
-  function handleDelete(review) {
-    const userToDelete = userRole === "admin" ? review.username : username;
-    fetch("http://localhost:3001/review/delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        reviewid: review.reviewid,
-        username: userToDelete,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response);
-          throw new Error(response.statusText);
-        }
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        if (data.affectedRows > 0) {
-          setReviews((prevReviews) =>
-            prevReviews.filter((rev) => rev.reviewid !== review.reviewid)
-          );
-        } else {
-          console.error("Error deleting review:", data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting review:", error);
-      });
-  }
-  //deletes the food (only the creator and admin can delete)
-  function handleDeleteFood(food) {
-    const userToDelete = userRole === "admin" ? food.username : username;
-    fetch("http://localhost:3001/food-item/delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        foodcode: food.foodcode,
-        username: userToDelete,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response);
-          throw new Error(response.statusText);
-        }
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        if (data.affectedRows > 0) {
-          alert("Food deleted!");
-          window.history.back();
-        } else {
-          console.error("Error deleting food:", data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting food:", error);
-      });
-  }
-
+  //fetches all the food reviews of the food
   function getFoodReviews() {
     fetch("http://localhost:3001/view-all-reviews-for-food-item", {
       method: "POST",
@@ -143,7 +56,7 @@ function Food() {
         setError(true);
       });
   }
-
+  //gets the reviews of the food based on the month given
   function getMonthReviews(passDate) {
     fetch("http://localhost:3001/select-food-review-month", {
       method: "POST",
@@ -165,15 +78,7 @@ function Food() {
         // setReviews([])
       });
   }
-
-  const handleEdit = (productId) => {
-    setActiveEdit(productId);
-  };
-
-  const handleCloseEdit = () => {
-    setActiveEdit(null);
-  };
-
+  //date change
   const handleDateChange = (date) => {
     setStartDate(date);
 
@@ -190,13 +95,20 @@ function Food() {
     // setPassDate(formattedDate);
   };
 
+  const handleDelete = (productId) => {
+    setActiveDelete(productId);
+  };
+
+  const handleCloseDelete = () => {
+    setActiveDelete(null);
+  };
+
   const renderMonthContent = (month, shortMonth, longMonth, day) => {
     const fullYear = new Date(day).getFullYear();
     const tooltipText = `Tooltip for month: ${longMonth} ${fullYear}`;
 
     return <span title={tooltipText}>{shortMonth}</span>;
   };
-
   return (
     <div className="my-10 overflow-hidden mx-20 min-h-screen round shadow-lg ">
       <img
@@ -207,7 +119,7 @@ function Food() {
       <div className="py-10 px-20 ">
         {fooddata.map((food) => {
           return (
-            <>
+            <div className="food-details">
               <h1 className="font-bold text-4xl  text-sky-950">{food.name}</h1>
               <h3 className="text-lg py-2">
                 {" "}
@@ -220,7 +132,7 @@ function Food() {
                     <strong>From: </strong>
                     <Link
                       className="underline"
-                      to={`/food-establishment/${food.est}`}
+                      to={`/manager/food-establishment/${food.est}`}
                     >
                       {food.est}
                     </Link>
@@ -254,46 +166,40 @@ function Food() {
                     <p className="text-lg font-semibold">Best Seller!</p>
                   ) : null}
                 </div>
-
-                {userRole === "user" && (
-                  <Link
-                    to={`/write/?reviewType=food&establishment=${food.est}&food=${food.name}`}
+                <div className="flex flex-col w-6/12">
+                  <button
+                    className="bg-sky-950 py-3 px-6 mb-4 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
+                    onClick={() => handleDelete(food.foodcode)}
                   >
-                    <button className="bg-sky-950 py-3 px-6 ml-4 mr-12 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150">
-                      Write a review
-                      <svg
-                        className="inline-block stroke-white ml-2 w-6"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12 6L12 18"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                        <path
-                          d="M18 12L6 12"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </button>
-                  </Link>
+                    Delete Food{" "}
+                  </button>
+                  <button
+                    className="bg-sky-950 py-3 px-6 mb-4 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
+                    onClick={() => setShowUpdate(true)}
+                  >
+                    Update details
+                  </button>
+                </div>
+                {activeDelete === food.foodcode && (
+                  <DeleteFood
+                    setShow={handleCloseDelete}
+                    foodcode={food.foodcode}
+                    // refresh = {showAllFood}
+                    // order = {order}
+                    username={username}
+                    name={food.est}
+                  />
                 )}
 
-                {userRole === "admin" && (
-                  <div>
-                    <button
-                      className="bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
-                      onClick={() => handleDeleteFood(food)}
-                    >
-                      Delete This Food
-                    </button>
-                  </div>
+                {showUpdate && (
+                  <UpdateFood
+                    show={setShowUpdate}
+                    username={username}
+                    food={food}
+                  />
                 )}
               </div>
-            </>
+            </div>
           );
         })}
 
@@ -369,7 +275,7 @@ function Food() {
                           </p>
                         )}
                         {rev.content ? (
-                          <div className="p-4 my-4 border-s-4 border-gray-600 ">
+                          <div className="p-4 my-4 border-s-4 border-gray-600  ">
                             <p className="text-base italic text-sky-950">
                               {rev.content}
                             </p>
@@ -377,31 +283,7 @@ function Food() {
                         ) : (
                           <div className="p-4 my-4"></div>
                         )}
-                        {(userRole == "admin" || username == rev.username) && (
-                          <button
-                            className="bg-red-500 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
-                            onClick={() => handleDelete(rev)}
-                          >
-                            Delete
-                          </button>
-                        )}
 
-                        {username == rev.username && (
-                          <button
-                            className="bg-sky-950 py-3 px-4 mx-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
-                            onClick={() => handleEdit(rev.reviewid)}
-                          >
-                            Edit
-                          </button>
-                        )}
-
-                        {activeEdit === rev.reviewid && (
-                          <EditReview
-                            closeEdit={handleCloseEdit}
-                            resetEstablishment={getFoodReviews}
-                            reviewid={rev.reviewid}
-                          />
-                        )}
                         {/* <p>{rev.date_added}</p> */}
                         {/* format date dapat */}
                       </div>
@@ -419,4 +301,4 @@ function Food() {
   );
 }
 
-export default Food;
+export default ManagerFood;

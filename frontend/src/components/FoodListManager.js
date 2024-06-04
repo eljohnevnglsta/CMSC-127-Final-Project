@@ -1,34 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-function FoodList(props) {
+import DeleteFood from "./DeleteFood";
+function FoodListManager(props) {
+  const username = props.username;
   const name = props.name;
   const [foodList, setFoodList] = useState([]);
   const [foodTypes, setFoodTypes] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [error, setError] = useState(false);
   const [order, setOrder] = useState("ASC");
-  const admin = localStorage.getItem("admin");
-  const user = localStorage.getItem("user");
-  const manager = localStorage.getItem("manager");
-  const [userRole, setUserRole] = useState(null);
-  const [username, setUsername] = useState(null);
-
-  //automatically determines the role and the username of the user
-  useEffect(() => {
-    if (admin) {
-      setUserRole("admin");
-      setUsername(admin);
-    } else if (user) {
-      setUserRole("user");
-      setUsername(user);
-    } else if (manager) {
-      setUserRole("manager");
-      setUsername(manager);
-    }
-  }, []);
-
-  //gets the food type and parses the result into the foodTypes array
+  const [activeDelete, setActiveDelete] = useState(null);
   useEffect(() => {
     let url = "http://localhost:3001/select-type";
     fetch(url)
@@ -39,18 +20,17 @@ function FoodList(props) {
     showAllFood(order);
   }, []);
 
-  //automatically gets all the food when there is changes in the name and order
+  //shows all food immediately and rebuilds when name and order is changed
   useEffect(() => {
     showAllFood(order);
   }, [name, order]);
-
+  //shows all the food items by the type and order specified, rebuilds when there are changes in type and order
   useEffect(() => {
     if (selectedOption) {
-      selectByType(selectedOption, order); //automatically invokes when the selected option and order is changed
+      selectByType(selectedOption, order);
     }
   }, [selectedOption, order]);
 
-  //automatically gets the food items by passing the type
   function selectByType(type, orderby) {
     fetch(
       "http://localhost:3001/view-all-food-items-for-establishment-by-type",
@@ -76,45 +56,7 @@ function FoodList(props) {
       });
   }
 
-  //deletes the food by passing the foodcode and the username of the one that added the food
-  function handleDelete(food) {
-    const userToDelete = userRole === "admin" ? food.username : username; //if the user role is admin, the username to pass is the username of the one who added the food
-    fetch("http://localhost:3001/food-item/delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        foodcode: food.foodcode,
-        username: userToDelete,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response);
-          throw new Error(response.statusText);
-        }
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        if (data.affectedRows > 0) {
-          setFoodList(
-            (prevfoods) =>
-              prevfoods.filter((est) => est.foodcode !== food.foodcode) //removes the food from the foodlist array
-          );
-          alert("Food deleted!");
-          window.scrollTo({ top: 0 });
-        } else {
-          console.error("Error deleting food:", data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting food:", error);
-      });
-  }
-  //shows all the food owned by the establishment
+  //shows all the foods owned by the establishment
   function showAllFood(orderby) {
     fetch(
       "http://localhost:3001/view-all-food-items-for-establishment-by-price",
@@ -125,7 +67,7 @@ function FoodList(props) {
         },
         body: JSON.stringify({
           name: name,
-          order: orderby, //whether it is ascending or descending
+          order: orderby,
         }),
       }
     )
@@ -134,13 +76,24 @@ function FoodList(props) {
         setError(false);
         setFoodList(data); // Update state with the parsed data
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => {
+        setError(true);
+        setFoodList([]);
+      });
   }
 
+  //this will call the delete food class and will handle the deletion of the food identified by its productID
+  const handleDelete = (productId) => {
+    setActiveDelete(productId);
+  };
+
+  const handleCloseDelete = () => {
+    setActiveDelete(null);
+  };
   return (
     <div className="food-list">
       <div className="border-sky-950 border-b mb-8 flex items-center pb-2">
-        <div className="flex justify-end items-center w-full mx-2 px-4 ">
+        <div className="flex justify-end items-center w-full px-4 ">
           <button
             className="border mr-1 ml-2 py-3 px-4 font-medium border-sky-950 rounded-full "
             onClick={() => showAllFood(order)}
@@ -210,7 +163,7 @@ function FoodList(props) {
                     alt="Sunset in the mountains"
                   ></img>
                   <div className="px-8 py-6 ">
-                    <Link to={`/food/${food.foodcode}`}>
+                    <Link to={`/manager/food/${food.foodcode}`}>
                       <h3 className="font-bold text-xl mb-2 text-sky-950">
                         {food.name}
                       </h3>
@@ -223,7 +176,7 @@ function FoodList(props) {
                         <strong>Rating: </strong> {food.averageRating}
                       </h5>
                     ) : (
-                      <p className="text-sm">Newly added food!</p>
+                      <p className="text-sm mb-6">Newly added food!</p>
                     )}
                     {food.isspecialty === 1 ? (
                       <p className="text-sm">Specialty!</p>
@@ -231,15 +184,25 @@ function FoodList(props) {
                     {food.isbestseller === 1 ? (
                       <p className="text-sm"> Best Seller!</p>
                     ) : null}
-                    {(userRole == "admin" || username == food.username) && (
-                      <button
-                        className="bg-red-500 py-3 px-4 my-3 rounded-lg text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
-                        onClick={() => handleDelete(food)}
-                      >
-                        Delete
-                      </button>
-                    )}
                   </div>
+
+                  <button
+                    className="float-end bg-sky-950 py-3 px-2 ml-12 mr-2 mb-2 rounded-full text-white transition hover:scale-105 hover:bg-blue-950 ease-out duration-150"
+                    onClick={() => handleDelete(food.foodcode)}
+                  >
+                    Delete Food{" "}
+                  </button>
+
+                  {activeDelete === food.foodcode && (
+                    <DeleteFood
+                      setShow={handleCloseDelete}
+                      foodcode={food.foodcode}
+                      refresh={showAllFood}
+                      order={order}
+                      username={username}
+                      name={name}
+                    />
+                  )}
                 </div>
               );
             })}{" "}
@@ -252,4 +215,4 @@ function FoodList(props) {
   );
 }
 
-export default FoodList;
+export default FoodListManager;

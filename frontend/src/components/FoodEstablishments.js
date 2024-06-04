@@ -17,7 +17,7 @@ const FoodEstablishments = () => {
   }, []);
 
   return (
-    <div>
+    <div> 
       <h1>Food Establishments</h1>
       <ul>
         {establishments.map((establishment) => (

@@ -16,10 +16,10 @@ CREATE TABLE user (
 
 CREATE TABLE food_establishment(
 	businessid INT(5) AUTO_INCREMENT,
-	name VARCHAR(15) NOT NULL,
+	name VARCHAR(30) NOT NULL,
 	type VARCHAR(15) NOT NULL,
 	averageRating DECIMAL(5,4),
-	street VARCHAR(20),
+	street VARCHAR(20) NOT NULL,
 	barangay VARCHAR(20) NOT NULL,
 	city VARCHAR(20) NOT NULL,
 	province VARCHAR(20) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE food_establishment(
 -- Food Table:
 CREATE TABLE food(
 	foodcode INT(5) AUTO_INCREMENT,
-	name VARCHAR(15) NOT NULL,
+	name VARCHAR(30) NOT NULL,
 	price DECIMAL(6,2) NOT NULL,
 	isspecialty BOOLEAN DEFAULT FALSE,
 	isbestseller BOOLEAN DEFAULT FALSE,
@@ -67,77 +67,242 @@ CREATE TABLE review(
 	CONSTRAINT review_foodcode_fk FOREIGN KEY(foodcode) REFERENCES food(foodcode)
 );
 
+-- Populate the user table
 INSERT INTO user (username, firstname, lastname, usertype, accesskey) VALUES
-('user1', 'John', 'Doe', 1, 'ABCD1234'),
-('user2', 'Jane', 'Smith', 1, 'EFGH5678'),
-('user3', 'Alice', 'Johnson', 1, 'IJKL9101'),
-('user4', 'Bob', 'Brown', 1, 'MNOP1121'),
-('user5', 'Charlie', 'Davis', 1, 'QRST3141'),
-('user6', 'Diana', 'Miller', 1, 'UVWX5161'),
-('user7', 'Edward', 'Wilson', 1, 'YZAB7181'),
-('user8', 'Fiona', 'Taylor', 1, 'CDEF9202'),
-('user9', 'George', 'Anderson', 1, 'GHIJ1223'),
-('user10', 'Hannah', 'Thomas', 1, 'KLMN3243'),
-('manager1', 'Eljohn', 'Evangelista', 2, '00000000'),
-('manager2', 'Cazhia', 'Lleva', 2, '00000001'),
-('admin1', 'Dave', 'Elcarte', 2, '11111111');
+('lauraking', 'Laura', 'King', 0, 'A6Z7A8B9'),  -- admin user
+('mikewhite', 'Mike', 'White', 2, 'M8R9S0T1'),  -- manager users
+('sarablack', 'Sara', 'Black', 2, 'M2V3W4X5'),
+('tinahill', 'Tina', 'Hill', 2, 'M1A2B3C4'),
+('samparker', 'Sam', 'Parker', 2, 'M5E6F7G8'),
+('elizathompson', 'Eliza', 'Thompson', 2, 'M9I0J1K2'),
+('johndoe', 'John', 'Doe', 1, 'U1B2C3D4'),  -- regular users
+('janesmith', 'Jane', 'Smith', 1, 'U5F6G7H8'),
+('alicejohnson', 'Alice', 'Johnson', 1, 'U9J1K2L3'),
+('bobbrown', 'Bob', 'Brown', 1, 'U4N5O6P7'),
+('emilyclark', 'Emily', 'Clark', 1, 'U8Q9R0S1'),
+('davidlewis', 'David', 'Lewis', 1, 'U2U3V4W5'),
+('sophiamartinez', 'Sophia', 'Martinez', 1, 'U6Y7Z8A9'),
+('danielgarcia', 'Daniel', 'Garcia', 1, 'U0C1D2E3'),
+('miarodriguez', 'Mia', 'Rodriguez', 1, 'U4G5H6I7'),
+('jameslee', 'James', 'Lee', 1, 'U8K9L0M1');
 
-INSERT INTO food_establishment (businessid, name, type, averageRating, street, barangay, city, province, username) VALUES
-(1, 'Deli Delight', 'Deli', 4.5678, 'Main St', 'Barangay 1', 'City A', 'Province X', 'manager1'),
-(2, 'Pizza Place', 'Pizza', 4.3456, '1st Ave', 'Barangay 2', 'City B', 'Province Y', 'manager1'),
-(3, 'Burger Bonanza', 'Burger', 4.1234, '2nd St', 'Barangay 3', 'City C', 'Province Z', 'manager1'),
-(4, 'Sushi Spot', 'Sushi', 4.5678, '3rd Ave', 'Barangay 4', 'City D', 'Province X', 'manager1'),
-(5, 'Taco Town', 'Mexican', 4.3456, '4th St', 'Barangay 5', 'City E', 'Province Y', 'manager1'),
-(6, 'Curry Corner', 'Indian', 4.1234, '5th Ave', 'Barangay 6', 'City F', 'Province Z', 'manager1'),
-(7, 'Noodle Nest', 'Chinese', 4.5678, '6th St', 'Barangay 7', 'City G', 'Province X', 'manager1'),
-(8, 'Grill Galore', 'BBQ', 4.3456, '7th Ave', 'Barangay 8', 'City H', 'Province Y', 'manager1'),
-(9, 'Pasta Paradise', 'Italian', 4.1234, '8th St', 'Barangay 9', 'City I', 'Province Z', 'manager1'),
-(10, 'Salad Stop', 'Healthy', 4.5678, '9th Ave', 'Barangay 10', 'City J', 'Province X', 'manager1');
+-- Populate the food_establishment table
+INSERT INTO food_establishment (name, type, street, barangay, city, province, username) VALUES
+('Deli Delight', 'Deli', '10 Elm St', 'Barangay 5', 'City E', 'Province Y', 'mikewhite'),
+('Pasta Paradise', 'Italian', '20 Oak Ave', 'Barangay 6', 'City F', 'Province Z', 'mikewhite'),
+('Grill Galore', 'BBQ', '30 Maple St', 'Barangay 7', 'City G', 'Province X', 'sarablack'),
+('Noodle Nest', 'Chinese', '40 Pine Ave', 'Barangay 8', 'City H', 'Province W', 'sarablack'),
+('Salad Stop', 'Healthy', '50 Birch St', 'Barangay 9', 'City I', 'Province V', 'tinahill'),
+('Curry Corner', 'Indian', '60 Cedar Ave', 'Barangay 10', 'City J', 'Province U', 'tinahill'),
+('Pizza Palace', 'Pizza', '70 Spruce St', 'Barangay 11', 'City K', 'Province T', 'samparker'),
+('Burger Bistro', 'Burger', '80 Walnut Ave', 'Barangay 12', 'City L', 'Province S', 'samparker'),
+('Sushi Spot', 'Sushi', '90 Elm St', 'Barangay 13', 'City M', 'Province R', 'elizathompson'),
+('Taco Tavern', 'Mexican', '100 Oak Ave', 'Barangay 14', 'City N', 'Province Q', 'elizathompson');
 
-INSERT INTO food (foodcode, name, price, isspecialty, isbestseller, averageRating, username, businessid) VALUES
-(1, 'Ham Sandwich', 5.50, TRUE, FALSE, 4.5, 'manager2', 1),
-(2, 'Pepperoni Pizza', 8.99, FALSE, TRUE, 4.3, 'manager2', 2),
-(3, 'Cheeseburger', 7.25, TRUE, FALSE, 4.1, 'manager2', 3),
-(4, 'California Roll', 12.00, FALSE, TRUE, 4.6, 'manager2', 4),
-(5, 'Taco', 3.75, TRUE, FALSE, 4.3, 'manager2', 5),
-(6, 'Chicken Curry', 9.50, FALSE, TRUE, 4.1, 'manager2', 6),
-(7, 'Beef Noodles', 8.00, TRUE, FALSE, 4.6, 'manager2', 7),
-(8, 'BBQ Ribs', 15.00, FALSE, TRUE, 4.3, 'manager2', 8),
-(9, 'Spaghetti', 7.50, TRUE, FALSE, 4.1, 'manager2', 9),
-(10, 'Caesar Salad', 6.50, FALSE, TRUE, 4.6, 'manager2', 10);
+INSERT INTO food (name, price, isspecialty, isbestseller, username, businessid)
+VALUES
+    -- Foods for 'mikewhite' (Mike White)
+    ('Ham and Cheese Sandwich', 8.50, TRUE, FALSE, 'mikewhite', 1),
+    ('Spaghetti Carbonara', 12.99, FALSE, TRUE, 'mikewhite', 1),
+    ('Grilled Chicken Salad', 9.75, TRUE, FALSE, 'mikewhite', 1),
+    ('Mushroom Risotto', 14.50, FALSE, FALSE, 'mikewhite', 1),
+    ('Chicken Alfredo Pizza', 10.99, FALSE, TRUE, 'mikewhite', 2),
+    ('Bacon Cheeseburger', 11.25, TRUE, FALSE, 'mikewhite', 2),
+    ('Caesar Salad', 7.99, TRUE, FALSE, 'mikewhite', 2),
+    ('Margherita Pizza', 9.50, FALSE, TRUE, 'mikewhite', 2),
+    ('Chicken Quesadilla', 8.75, FALSE, FALSE, 'mikewhite', 2),
+    ('Caprese Salad', 6.99, TRUE, FALSE, 'mikewhite', 2),
 
-INSERT INTO food_type (foodcode, foodtype) VALUES
-(1, 'Sandwich'),
-(2, 'Pizza'),
-(3, 'Burger'),
-(4, 'Sushi'),
-(5, 'Mexican'),
-(6, 'Indian'),
-(7, 'Chinese'),
-(8, 'BBQ'),
-(9, 'Pasta'),
-(10, 'Salad');
+    -- Foods for 'sarablack' (Sara Black)
+    ('BBQ Pork Ribs', 16.99, TRUE, FALSE, 'sarablack', 3),
+    ('Sweet and Sour Chicken', 12.50, FALSE, TRUE, 'sarablack', 3),
+    ('Beef Chow Mein', 11.75, TRUE, FALSE, 'sarablack', 3),
+    ('Shrimp Fried Rice', 13.25, FALSE, FALSE, 'sarablack', 3),
+    ('Orange Chicken', 9.99, FALSE, TRUE, 'sarablack', 4),
+    ('Vegetable Lo Mein', 8.50, TRUE, FALSE, 'sarablack', 4),
+    ('General Tso''s Chicken', 10.75, TRUE, FALSE, 'sarablack', 4),
+    ('Beef and Broccoli', 12.25, FALSE, TRUE, 'sarablack', 4),
+    ('Egg Drop Soup', 5.99, FALSE, FALSE, 'sarablack', 4),
+    ('Hot and Sour Soup', 5.99, TRUE, FALSE, 'sarablack', 4),
 
-INSERT INTO review (reviewid, content, reviewtype, date_added, date_updated, rating, username, businessid, foodcode) VALUES
-(1, 'Delicious ham sandwich!', 2, '2023-01-01 10:00:00', NULL, 5, 'user2', NULL, 1),
-(2, 'Best pepperoni pizza ever!', 2, '2023-02-01 11:00:00', NULL, 4, 'user3', NULL, 2),
-(3, 'Great cheeseburger!', 2, '2023-03-01 12:00:00', NULL, 4, 'user4', NULL, 3),
-(4, 'Loved the California roll!', 2, '2023-04-01 13:00:00', NULL, 5, 'user5', NULL, 4),
-(5, 'Tasty taco!', 2, '2023-05-01 14:00:00', NULL, 4, 'user6', NULL, 5),
-(6, 'Amazing chicken curry!', 2, '2023-06-01 15:00:00', NULL, 5, 'user7', NULL, 6),
-(7, 'Delicious beef noodles!', 2, '2023-07-01 16:00:00', NULL, 4, 'user8', NULL, 7),
-(8, 'BBQ ribs were great!', 2, '2023-08-01 17:00:00', NULL, 5, 'user9', NULL, 8),
-(9, 'Loved the spaghetti!', 2, '2023-09-01 18:00:00', NULL, 4, 'user10', NULL, 9),
-(10, 'Caesar salad was fresh!', 2, '2023-10-01 19:00:00', NULL, 5, 'user1', NULL, 10);
+    -- Foods for 'tinahill' (Tina Hill)
+    ('Grilled Steak', 18.50, TRUE, FALSE, 'tinahill', 5),
+    ('Grilled Salmon', 16.75, FALSE, TRUE, 'tinahill', 5),
+    ('Chicken Caesar Wrap', 10.99, TRUE, FALSE, 'tinahill', 5),
+    ('Vegetable Stir Fry', 12.25, FALSE, FALSE, 'tinahill', 5),
+    ('Grilled Veggie Skewers', 9.99, TRUE, FALSE, 'tinahill', 6),
+    ('Shrimp Scampi', 15.50, FALSE, TRUE, 'tinahill', 6),
+    ('Lemon Herb Chicken', 13.75, TRUE, FALSE, 'tinahill', 6),
+    ('Cajun Blackened Tilapia', 14.99, FALSE, TRUE, 'tinahill', 6),
+    ('Classic Caesar Salad', 8.50, FALSE, FALSE, 'tinahill', 6),
+    ('Greek Salad', 9.25, TRUE, FALSE, 'tinahill', 6),
+	
+	-- Foods for samparker
+	('Pepperoni Pizza', 11.99, TRUE, FALSE, 'samparker', 7),
+    ('Cheeseburger', 9.50, FALSE, TRUE, 'samparker', 7),
+    ('California Roll', 13.50, TRUE, FALSE, 'samparker', 8),
+    ('Taco', 4.99, FALSE, TRUE, 'samparker', 8),
 
-INSERT INTO review (reviewid, content, reviewtype, date_added, date_updated, rating, username, businessid, foodcode) VALUES
-(11, 'Place is nice', 1, '2023-01-01 10:00:00', NULL, 5, 'user2', 1, NULL),
-(12, 'Good ambience!', 1, '2023-02-01 11:00:00', NULL, 4, 'user3', 2, NULL),
-(13, 'Peaceful!', 1, '2023-03-01 12:00:00', NULL, 4, 'user4', 3, NULL),
-(14, 'Ganda', 1, '2023-04-01 13:00:00', NULL, 5, 'user5', 4, NULL),
-(15, 'People are nice', 1, '2023-05-01 14:00:00', NULL, 4, 'user6', 5, NULL),
-(16, 'Amazing facilities', 1, '2023-06-01 15:00:00', NULL, 5, 'user7', 6, NULL),
-(17, 'Good', 1, '2023-07-01 16:00:00', NULL, 4, 'user8', 7, NULL),
-(18, 'Great', 1, '2023-08-01 17:00:00', NULL, 5, 'user9', 8, NULL),
-(19, 'Love it', 1, '2023-09-01 18:00:00', NULL, 4, 'user10', 9, NULL),
-(20, 'Relaxing', 1, '2023-10-01 19:00:00', NULL, 5, 'user1', 10, NULL);
+	-- Foods for elizathompson
+    ('Margherita Pizza', 10.50, TRUE, FALSE, 'elizathompson', 9),
+    ('Bacon Cheeseburger', 12.75, FALSE, TRUE, 'elizathompson', 9),
+    ('Sashimi Platter', 18.99, TRUE, FALSE, 'elizathompson', 10),
+    ('Beef Teriyaki', 15.50, FALSE, TRUE, 'elizathompson', 10);
+
+-- Populate the food_type table
+INSERT INTO food_type (foodcode, foodtype)
+VALUES
+    -- Food types for 'mikewhite' foods
+    (1, 'Sandwich'),
+    (1, 'Deli'),
+    (2, 'Pasta'),
+    (2, 'Italian'),
+    (3, 'Salad'),
+    (3, 'Grilled'),
+    (4, 'Risotto'),
+    (5, 'Pizza'),
+    (5, 'Italian'),
+    (6, 'Burger'),
+    (6, 'American'),
+    (7, 'Salad'),
+    (7, 'Italian'),
+    (8, 'Pizza'),
+    (8, 'Italian'),
+    (9, 'Mexican'),
+    (9, 'Chicken'),
+    (10, 'Salad'),
+    (10, 'Italian'),
+
+    -- Food types for 'sarablack' foods
+    (11, 'BBQ'),
+    (11, 'Pork'),
+    (12, 'Chicken'),
+    (12, 'Asian'),
+    (13, 'Beef'),
+    (13, 'Chinese'),
+    (14, 'Seafood'),
+    (14, 'Rice'),
+    (15, 'Chicken'),
+    (15, 'Asian'),
+    (16, 'Vegetable'),
+    (16, 'Healthy'),
+    (17, 'Grilled'),
+    (17, 'Steak'),
+    (18, 'Grilled'),
+    (18, 'Seafood'),
+    (19, 'Wrap'),
+    (19, 'Chicken'),
+    (20, 'Stir Fry'),
+    (20, 'Vegetable'),
+
+    -- Food types for 'tinahill' foods
+    (21, 'Grilled'),
+    (21, 'Steak'),
+    (22, 'Grilled'),
+    (22, 'Seafood'),
+    (23, 'Wrap'),
+    (23, 'Chicken'),
+    (24, 'Stir Fry'),
+    (24, 'Vegetable'),
+    (25, 'Grilled'),
+    (25, 'Vegetable'),
+    (26, 'Seafood'),
+    (26, 'Shrimp'),
+    (27, 'Chicken'),
+    (27, 'Herb'),
+    (28, 'Fish'),
+    (28, 'Cajun'),
+    (29, 'Salad'),
+    (29, 'Caesar'),
+    (30, 'Salad'),
+    (30, 'Greek'),
+	
+	-- Food types for 'samparker' foods
+	(31, 'Pizza'),
+    (31, 'Italian'),
+    (32, 'Burger'),
+    (32, 'American'),
+    (33, 'Sushi'),
+    (33, 'Japanese'),
+    (34, 'Mexican'),
+    (34, 'Taco'),
+    (35, 'Pizza'),
+    (35, 'Italian'),
+    (36, 'Burger'),
+    (36, 'Bacon'),
+    (37, 'Sushi'),
+    (37, 'Japanese'),
+    (38, 'Beef'),
+    (38, 'Japanese');
+   
+
+-- Populate the review table
+INSERT INTO review (content, reviewtype, date_added, rating, username, businessid, foodcode)
+VALUES
+    -- Reviews for establishments
+    ('Great ambiance and friendly staff!', 1, '2024-06-03 10:00:00', 5, 'johndoe', 1, NULL),
+    ('Delicious food and cozy atmosphere.', 1, '2024-06-03 11:00:00', 4, 'janesmith', 2, NULL),
+    ('Excellent service and clean environment.', 1, '2024-05-03 12:00:00', 5, 'alicejohnson', 3, NULL),
+    ('Amazing noodles and quick service!', 1, '2024-05-03 13:00:00', 5, 'bobbrown', 4, NULL),
+    ('The best salad in town!', 1, '2024-04-03 14:00:00', 4, 'emilyclark', 5, NULL),
+    ('Lovely decor and friendly staff.', 1, '2024-04-03 15:00:00', 5, 'davidlewis', 6, NULL),
+    ('Great selection of pizza!', 1, '2024-03-03 16:00:00', 4, 'sophiamartinez', 7, NULL),
+    ('Tender meat and great atmosphere.', 1, '2024-03-03 17:00:00', 5, 'danielgarcia', 8, NULL),
+    ('Authentic sushi pasta!', 1, '2024-05-03 18:00:00', 4, 'miarodriguez', 9, NULL),
+    ('Fresh Taco and healthy options.', 1, '2024-05-03 19:00:00', 5, 'jameslee', 10, NULL),
+
+    -- Reviews for foods
+    ('The ham sandwich was delicious!', 2, '2024-06-03 10:30:00', 5, 'johndoe', NULL, 1),
+    ('Perfectly cooked Chicken Alfredo Pizza.', 2, '2024-06-03 11:30:00', 4, 'janesmith', NULL, 5),
+    ('Juicy BBQ Pork Ribs, loved it!', 2, '2024-05-03 12:30:00', 4, 'alicejohnson', NULL, 11),
+    ('Fresh and tasty Orange Chicken.', 2, '2024-05-03 13:30:00', 5, 'bobbrown', NULL, 15),
+    ('Delicious Grilled Steak with sauce.', 2, '2024-04-03 14:30:00', 4, 'emilyclark', NULL, 21),
+    ('The GVS was amazing!', 2, '2024-04-03 15:30:00', 5, 'davidlewis', NULL, 25),
+    ('Satisfying beef pepperoni pizza.', 2, '2024-03-03 16:30:00', 4, 'sophiamartinez', NULL, 31),
+    ('The California Roll were finger-licking good!', 2, '2024-03-03 17:30:00', 5, 'danielgarcia', NULL, 33),
+    ('Loved the Margherita Pizza, very flavorful.', 2, '2024-02-03 18:30:00', 4, 'miarodriguez', NULL, 35),
+    ('Fresh and crisp Sashimi Platter.', 2, '2024-02-03 19:30:00', 5, 'jameslee', NULL, 37),
+
+    -- Additional reviews for establishments
+    ('Nice place to hang out with friends.', 1, '2024-06-04 10:00:00', 4, 'jameslee', 1, NULL),
+    ('I did not like it much.', 1, '2024-03-04 10:00:00', 1, 'emilyclark', 1, NULL),
+    ('The service was not great but we were able to enjoy the food.', 1, '2023-01-04 10:00:00', 1, 'bobbrown', 1, NULL),
+    ('Crews need to be nicer', 2, '2023-03-24 10:00:00', 1, 'janesmith', 1, NULL),
+    ('Good food, will definitely come back.', 1, '2024-06-04 11:00:00', 5, 'janesmith', 2, NULL),
+
+    -- Additional reviews for foods
+    ('The sandwich was okay, nothing special.', 2, '2024-06-04 10:30:00', 3, 'alicejohnson', NULL, 1),
+    ('The sandwich was great. It reminded of the one my mom used to make', 2, '2024-02-04 10:30:00', 5, 'emilyclark', NULL, 1),
+    ('The sandwich was awful. The lettuce was not fresh', 2, '2024-02-24 10:30:00', 2, 'johndoe', NULL, 1),
+    ('Parang maalat yung sandwich na binigay sa amin eh', 2, '2023-02-14 10:30:00', 1, 'bobbrown', NULL, 1),
+    ('The pizza was a bit too greasy for my taste.', 2, '2024-06-04 11:30:00', 3, 'bobbrown', NULL, 5);
+
+
+UPDATE food f JOIN (
+	SELECT 
+        foodcode, 
+        AVG(rating) AS avg_rating
+    FROM 
+        review
+    WHERE 
+        foodcode IS NOT NULL
+    GROUP BY 
+        foodcode
+) r ON f.foodcode = r.foodcode
+SET 
+    f.averageRating = r.avg_rating;
+
+UPDATE food_establishment fe
+JOIN (
+    SELECT 
+        businessid, 
+        AVG(rating) AS avg_rating
+    FROM 
+        review
+    WHERE 
+        businessid IS NOT NULL
+    GROUP BY 
+        businessid
+) r ON fe.businessid = r.businessid
+SET 
+    fe.averageRating = r.avg_rating;
